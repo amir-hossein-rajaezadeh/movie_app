@@ -1,106 +1,53 @@
-import 'package:bloc_getit_practice/cubit/app_state.dart';
+import 'package:bloc_getit_practice/cubit/app_cubit.dart';
+import 'package:bloc_getit_practice/repository/api_repository.dart';
+import 'package:bloc_getit_practice/screens/counter_page.dart';
+import 'package:bloc_getit_practice/screens/main_page.dart';
+import 'package:bloc_getit_practice/screens/post_list_page.dart';
+import 'package:bloc_getit_practice/service/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'cubit/app_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MyApp(
+      apiService: ApiService(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  final GoRouter _router = GoRouter(
+    routes: [
+      GoRoute(
+        path: "/",
+        builder: (context, state) => const MainPage(),
+      ),
+      GoRoute(
+        path: "/postList",
+        builder: (context, state) => const PostListPage(),
+      ),
+      GoRoute(
+        path: "/counter",
+        builder: (context, state) => const CounterPage(),
+      )
+    ],
+  );
+  MyApp({required this.apiService, super.key});
+  final ApiService apiService;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => AppCubit(
+        ApiRepository(apiService),
       ),
-      home: BlocProvider(
-        create: (context) => AppCubit(),
-        child: const MyHomePage(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routerConfig: _router,
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Practice'),
-          ),
-          body: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      state.text != ""
-                          ? state.text
-                          : 'You have pushed the button this many times:',
-                    ),
-                  ),
-                  TextButton(
-                      onPressed: () => context.read<AppCubit>().changeText(),
-                      child: Text(
-                        state.counter.toString(),
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      )),
-                ],
-              ),
-              if (state.isLoading)
-                Center(
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                )
-            ],
-          ),
-          floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                width: 30,
-              ),
-              FloatingActionButton(
-                backgroundColor: const Color.fromARGB(255, 218, 19, 19),
-                onPressed: () {
-                  context.read<AppCubit>().increaseNumber(false);
-                },
-                tooltip: 'Decreasement',
-                child: const Icon(Icons.remove),
-              ),
-              const SizedBox(
-                width: 30,
-              ),
-              FloatingActionButton(
-                backgroundColor: const Color.fromARGB(255, 13, 182, 19),
-                onPressed: () {
-                  context.read<AppCubit>().increaseNumber(true);
-                },
-                tooltip: 'Increment',
-                child: const Icon(Icons.add),
-              )
-            ],
-          ),
-        );
-      },
     );
   }
 }
