@@ -1,11 +1,18 @@
+import 'package:bloc_getit_practice/models/post_model.dart';
+import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
-  AppCubit()
+  AppCubit(this.apiRepository)
       : super(
-          const AppState(counter: 0, isLoading: false, text: ''),
+          const AppState(
+              counter: 0,
+              isLoading: false,
+              text: '',
+              hasError: false,
+              postList: []),
         );
 
   Future<void> increaseNumber(bool isIncreasing) async {
@@ -32,5 +39,20 @@ class AppCubit extends Cubit<AppState> {
     emit(
       state.copyWith(text: "Hello, How is it going?!"),
     );
+  }
+
+  final ApiRepository apiRepository;
+  Future<void> fetchPostApi() async {
+    emit(
+      state.copyWith(isLoading: true),
+    );
+    try {
+      final List<Posts> postList = await apiRepository.getPostList();
+      emit(
+        state.copyWith(postList: postList, isLoading: false),
+      );
+    } catch (e) {
+      print('Error is $e');
+    }
   }
 }
