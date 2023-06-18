@@ -68,7 +68,7 @@ class AppCubit extends Cubit<AppState> {
       state.copyWith(isLoading: true),
     );
     try {
-      final   movieList = await apiRepository.getMovieList();
+      final movieList = await apiRepository.getMovieList();
       emit(
         state.copyWith(movieModel: movieList, isLoading: false),
       );

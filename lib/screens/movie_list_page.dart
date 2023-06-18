@@ -9,6 +9,7 @@ class MovieListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: BlocBuilder<AppCubit, AppState>(
@@ -16,7 +17,7 @@ class MovieListPage extends StatelessWidget {
             final movie = state.movieModel;
             return Stack(
               children: [
-                if (movie.movie.isEmpty && !state.isLoading)
+                if (movie.movie!.isEmpty && !state.isLoading)
                   Center(
                     child: TextButton(
                       onPressed: () {
@@ -30,7 +31,7 @@ class MovieListPage extends StatelessWidget {
                   )
                 else
                   ListView.separated(
-                    itemCount: movie.movie.length,
+                    itemCount: movie.movie?.length ?? 0,
                     separatorBuilder: (context, index) {
                       return Container(
                         margin: const EdgeInsets.symmetric(vertical: 3),
@@ -39,12 +40,86 @@ class MovieListPage extends StatelessWidget {
                       );
                     },
                     itemBuilder: (context, index) {
-                      final movieItem = movie.movie[index];
+                      final movieItem = movie.movie![index];
                       return Container(
                         margin: const EdgeInsets.only(left: 15),
-                        child: Text(
-                          movieItem.title,
-                          style: const TextStyle(fontSize: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: width * .6,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    movieItem.title ?? "",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text(
+                                    movieItem.country ?? "",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                    width: width * .5,
+                                    child: ListView.separated(
+                                      separatorBuilder: (context, index) {
+                                        return Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          width: 2,
+                                          height: 20,
+                                          color: Colors.grey,
+                                        );
+                                      },
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: movieItem.genres?.length ?? 0,
+                                      itemBuilder: (context, index) {
+                                        return Text(
+                                          movieItem.genres?[index] ?? "",
+                                          style: const TextStyle(fontSize: 18),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 15, top: 6, bottom: 4),
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      movie.movie?[index].poster ?? "",
+                                      width: width * .15,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Text(
+                                    movieItem.year ?? "",
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       );
                     },
