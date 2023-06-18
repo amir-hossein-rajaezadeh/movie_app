@@ -5,7 +5,20 @@ class ApiService {
   final Dio _dio = Dio();
   Future<Response?> getPostData() async {
     try {
-      final Response response = await _dio.get('$baseUrl$posts');
+      print('URL is $postBaseUrl$posts');
+      final Response response = await _dio.get('$postBaseUrl$posts');
+
+      return response;
+    } catch (e) {
+      print('Error $e');
+      return null;
+    }
+  }
+
+  Future<Response?> getMovieList() async {
+    try {
+      print('URL is $movieBaseUrl$movies');
+      final Response response = await _dio.get('$movieBaseUrl$movies');
       return response;
     } catch (e) {
       print('Error $e');
