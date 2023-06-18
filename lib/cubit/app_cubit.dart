@@ -6,19 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
+  List<MovieItem> movieList = [];
+
   AppCubit(this.apiRepository)
       : super(
-          AppState(
+          const AppState(
             counter: 0,
             isLoading: false,
             text: '',
             hasError: false,
-            postList: const [],
-            movieModel: MovieModel(
-              movie: [],
-              metadata: Metadata(
-                  currentPage: '0', perPage: 0, pageCount: 0, totalCount: 0),
-            ),
+            postList: [],
+            movieList: [],
+            page: 0,
           ),
         );
 
@@ -68,9 +67,25 @@ class AppCubit extends Cubit<AppState> {
       state.copyWith(isLoading: true),
     );
     try {
-      final movieList = await apiRepository.getMovieList();
+      final movieListServer = await apiRepository.getMovieList(0);
+      movieList = movieListServer.movie ?? [];
       emit(
-        state.copyWith(movieModel: movieList, isLoading: false),
+        state.copyWith(movieList: movieListServer.movie, isLoading: false),
+      );
+    } catch (e) {
+      print('Error is $e');
+    }
+  }
+
+  Future<void> updatePage() async {
+    emit(state.copyWith(page: state.page + 1, isLoading: true));
+
+    try {
+      final movieListServer = await apiRepository.getMovieList(state.page);
+
+      movieList.addAll(movieListServer.movie?.toList() ?? []);
+      emit(
+        state.copyWith(movieList: movieList, isLoading: false),
       );
     } catch (e) {
       print('Error is $e');

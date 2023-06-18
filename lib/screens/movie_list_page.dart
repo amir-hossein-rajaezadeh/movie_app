@@ -5,19 +5,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/app_state.dart';
 
 class MovieListPage extends StatelessWidget {
-  const MovieListPage({super.key});
+  MovieListPage({super.key});
+  final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          print('worasask');
+          context.read<AppCubit>().updatePage();
+        }
+      }
+    });
+
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
-            final movie = state.movieModel;
+            final movie = state.movieList;
             return Stack(
               children: [
-                if (movie.movie!.isEmpty && !state.isLoading)
+                if (movie.isEmpty && !state.isLoading)
                   Center(
                     child: TextButton(
                       onPressed: () {
@@ -31,7 +41,8 @@ class MovieListPage extends StatelessWidget {
                   )
                 else
                   ListView.separated(
-                    itemCount: movie.movie?.length ?? 0,
+                    controller: scrollController,
+                    itemCount: movie.length,
                     separatorBuilder: (context, index) {
                       return Container(
                         margin: const EdgeInsets.symmetric(vertical: 3),
@@ -40,7 +51,7 @@ class MovieListPage extends StatelessWidget {
                       );
                     },
                     itemBuilder: (context, index) {
-                      final movieItem = movie.movie![index];
+                      final movieItem = movie[index];
                       return Container(
                         margin: const EdgeInsets.only(left: 15),
                         child: Row(
@@ -52,7 +63,7 @@ class MovieListPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    movieItem.title ?? "",
+                                    movieItem.title ?? '',
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
@@ -104,7 +115,7 @@ class MovieListPage extends StatelessWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.network(
-                                      movie.movie?[index].poster ?? "",
+                                      movie[index].poster ?? "",
                                       width: width * .15,
                                     ),
                                   ),

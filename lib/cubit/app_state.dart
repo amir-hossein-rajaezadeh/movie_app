@@ -6,15 +6,16 @@ import '../models/post_model.dart';
 class AppState extends Equatable {
   final bool hasError;
   final List<PostModel> postList;
-  final MovieModel movieModel;
-
+  final List<MovieItem> movieList;
+  final int page;
   final int counter;
   final bool isLoading;
   final String text;
   const AppState(
-      {required this.hasError,
+      {required this.page,
+      required this.hasError,
       required this.postList,
-      required this.movieModel,
+      required this.movieList,
       required this.counter,
       required this.isLoading,
       required this.text});
@@ -22,19 +23,22 @@ class AppState extends Equatable {
   AppState copyWith(
       {bool? hasError,
       List<PostModel>? postList,
-      MovieModel? movieModel,
+      List<MovieItem>? movieList,
       int? counter,
+      int? page,
       bool? isLoading,
       String? text}) {
     return AppState(
-        movieModel: movieModel ?? this.movieModel,
+        movieList: movieList ?? this.movieList,
         postList: postList ?? this.postList,
         hasError: hasError ?? this.hasError,
+        page: page ?? this.page,
         counter: counter ?? this.counter,
         isLoading: isLoading ?? this.isLoading,
         text: text ?? this.text);
   }
 
   @override
-  List<Object?> get props => [counter, isLoading, text, postList, hasError];
+  List<Object?> get props =>
+      [counter, isLoading, text, postList, hasError, movieList, page];
 }

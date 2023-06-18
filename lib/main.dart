@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
         path: "/",
         builder: (context, state) => const MainPage(),
       ),
-       GoRoute(
+      GoRoute(
         path: "/movieList",
-        builder: (context, state) => const MovieListPage(),
+        builder: (context, state) => MovieListPage(),
       ),
       GoRoute(
         path: "/postList",
