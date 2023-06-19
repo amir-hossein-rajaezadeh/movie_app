@@ -117,6 +117,7 @@ class MovieItem {
     String? year,
     String? country,
     String? imdbRating,
+    String? imdbVotes,
     List<String>? genres,
     List<String>? images,
   }) {
@@ -126,6 +127,8 @@ class MovieItem {
     _year = year;
     _country = country;
     _imdbRating = imdbRating;
+    _imdbVotes = imdbVotes;
+
     _genres = genres;
     _images = images;
   }
@@ -137,6 +140,8 @@ class MovieItem {
     _year = json['year'];
     _country = json['country'];
     _imdbRating = json['imdb_rating'];
+    _imdbVotes = json['imdb_votes'];
+
     _genres = json['genres'] != null ? json['genres'].cast<String>() : [];
     _images = json['images'] != null ? json['images'].cast<String>() : [];
   }
@@ -146,6 +151,8 @@ class MovieItem {
   String? _year;
   String? _country;
   String? _imdbRating;
+  String? _imdbVotes;
+
   List<String>? _genres;
   List<String>? _images;
   MovieItem copyWith({
@@ -155,6 +162,7 @@ class MovieItem {
     String? year,
     String? country,
     String? imdbRating,
+    String? imdbVotes,
     List<String>? genres,
     List<String>? images,
   }) =>
@@ -165,6 +173,7 @@ class MovieItem {
         year: year ?? _year,
         country: country ?? _country,
         imdbRating: imdbRating ?? _imdbRating,
+        imdbVotes: imdbVotes ?? _imdbVotes,
         genres: genres ?? _genres,
         images: images ?? _images,
       );
@@ -174,6 +183,8 @@ class MovieItem {
   String? get year => _year;
   String? get country => _country;
   String? get imdbRating => _imdbRating;
+  String? get imdbVotes => _imdbVotes;
+
   List<String>? get genres => _genres;
   List<String>? get images => _images;
 
@@ -185,6 +196,8 @@ class MovieItem {
     map['year'] = _year;
     map['country'] = _country;
     map['imdb_rating'] = _imdbRating;
+    map['imdb_votes'] = _imdbVotes;
+
     map['genres'] = _genres;
     map['images'] = _images;
     return map;

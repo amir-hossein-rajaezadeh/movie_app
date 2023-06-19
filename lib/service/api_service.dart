@@ -30,4 +30,17 @@ class ApiService {
       return null;
     }
   }
+
+  Future<Response?> addMovie(FormData data) async {
+    try {
+      final Response response =
+          await _dio.post('$movieBaseUrl$movies/multi', data: data);
+      print('response is ${response.data}');
+
+      return response;
+    } catch (e) {
+      print('Error $e');
+      return null;
+    }
+  }
 }

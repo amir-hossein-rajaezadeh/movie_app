@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:bloc_getit_practice/models/movie_model.dart';
 import 'package:bloc_getit_practice/models/post_model.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'app_state.dart';
 
@@ -134,5 +139,58 @@ class AppCubit extends Cubit<AppState> {
         print('seatcField value is ${searchTextFieldController.value.text}');
       }
     });
+  }
+
+  Future<void> addMovie() async {
+    croopImage();
+  }
+
+  Future<void> croopImage() async {
+    final File? imageFile;
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    imageFile = File(image!.path);
+
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+
+    uploadSelectedImage(croppedFile!.path);
+  }
+
+  Future<void> uploadSelectedImage(
+    String file,
+  ) async {
+    FormData formData = FormData.fromMap({
+      "title": "FastAndFeriousInUSA5",
+      'imdb_id': 'tt0232500',
+      'country': 'USA',
+      'year': '2001',
+      "poster": await MultipartFile.fromFile(
+        file,
+        filename: file,
+      ),
+      "type": "image/png"
+    });
+
+    final addedMovie = await apiRepository.addMovie(formData);
   }
 }

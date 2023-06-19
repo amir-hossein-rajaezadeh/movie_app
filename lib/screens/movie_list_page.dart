@@ -26,6 +26,12 @@ class MovieListPage extends HookWidget {
 
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            context.read<AppCubit>().addMovie();
+          },
+          child: const Icon(Icons.add),
+        ),
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             final movie = state.movieList;
@@ -161,6 +167,8 @@ class MovieListPage extends HookWidget {
                                           child: Image.network(
                                             movie[index].poster ?? "",
                                             width: width * .15,
+                                            height: 80,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
                                         const SizedBox(
