@@ -17,8 +17,8 @@ class ApiRepository {
     }
   }
 
-  Future<MovieModel> getMovieList(int page) async {
-    final response = await apiService.getMovieList(page);
+  Future<MovieModel> getMovieList(int page,String searchValue,) async {
+    final response = await apiService.getMovieList(page,searchValue);
     if (response != null) {
       final data = response.data;
       return MovieModel.fromJson(data);

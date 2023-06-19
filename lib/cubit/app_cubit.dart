@@ -1,6 +1,7 @@
 import 'package:bloc_getit_practice/models/movie_model.dart';
 import 'package:bloc_getit_practice/models/post_model.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'app_state.dart';
@@ -67,8 +68,48 @@ class AppCubit extends Cubit<AppState> {
       state.copyWith(isLoading: true),
     );
     try {
-      final movieListServer = await apiRepository.getMovieList(0);
+      final movieListServer = await apiRepository.getMovieList(0, '');
       movieList = movieListServer.movie ?? [];
+      emit(
+        state.copyWith(
+            movieList: movieListServer.movie, isLoading: false, page: 0),
+      );
+    } catch (e) {
+      print('Error is $e');
+    }
+  }
+
+  Future<void> updatePage(String searchValue) async {
+    emit(state.copyWith(page: state.page + 1, isLoading: true));
+
+    try {
+      /* Need to add Movie model in State */
+      final movieListServer =
+          await apiRepository.getMovieList(state.page, searchValue);
+
+      if (movieListServer.metadata!.pageCount! >
+          int.parse(movieListServer.metadata?.currentPage ?? '0')) {
+        movieList.addAll(movieListServer.movie?.toList() ?? []);
+
+        emit(
+          state.copyWith(movieList: movieList, isLoading: false),
+        );
+      } else {
+        emit(
+          state.copyWith(isLoading: false),
+        );
+      }
+    } catch (e) {
+      print('Error is $e');
+    }
+  }
+
+  Future<void> searchMovie(String searchValue) async {
+    emit(state.copyWith(isLoading: true));
+
+    try {
+      final movieListServer = await apiRepository.getMovieList(0, searchValue);
+
       emit(
         state.copyWith(movieList: movieListServer.movie, isLoading: false),
       );
@@ -77,18 +118,21 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  Future<void> updatePage() async {
-    emit(state.copyWith(page: state.page + 1, isLoading: true));
+  void onSearch(TextEditingController searchTextFieldController) {
+    searchTextFieldController.addListener(() async {
+      String searchValue = searchTextFieldController.value.text;
 
-    try {
-      final movieListServer = await apiRepository.getMovieList(state.page);
+      if (searchValue != searchValue) {
+        emit(state.copyWith(isLoading: true));
 
-      movieList.addAll(movieListServer.movie?.toList() ?? []);
-      emit(
-        state.copyWith(movieList: movieList, isLoading: false),
-      );
-    } catch (e) {
-      print('Error is $e');
-    }
+        final movieListServer = await apiRepository.getMovieList(
+            0, searchTextFieldController.value.text);
+
+        emit(state.copyWith(
+            page: 0, movieList: movieListServer.movie, isLoading: false));
+
+        print('seatcField value is ${searchTextFieldController.value.text}');
+      }
+    });
   }
 }

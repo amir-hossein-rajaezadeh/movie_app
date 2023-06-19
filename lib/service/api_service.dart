@@ -15,11 +15,15 @@ class ApiService {
     }
   }
 
-  Future<Response?> getMovieList(int page) async {
+  Future<Response?> getMovieList(int page, String searchValue) async {
     try {
       print('URL is $movieBaseUrl$movies');
-      final Response response = await _dio
-          .get('$movieBaseUrl$movies', queryParameters: {'page': page});
+      print('q is $searchValue, page is $page');
+
+      final Response response = await _dio.get('$movieBaseUrl$movies',
+          queryParameters: {'q': searchValue, 'page': page});
+      print('response is ${response.data}');
+
       return response;
     } catch (e) {
       print('Error $e');

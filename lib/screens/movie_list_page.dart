@@ -1,25 +1,28 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../cubit/app_state.dart';
 
-class MovieListPage extends StatelessWidget {
+class MovieListPage extends HookWidget {
   MovieListPage({super.key});
   final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    final searchTextFieldController = useTextEditingController();
+    double width = MediaQuery.of(context).size.width;
+
+    context.read<AppCubit>().onSearch(searchTextFieldController);
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          print('worasask');
-          context.read<AppCubit>().updatePage();
+          print('reach end of the list');
+          context.read<AppCubit>().updatePage(searchTextFieldController.text);
         }
       }
     });
-
-    double width = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
@@ -36,11 +39,17 @@ class MovieListPage extends StatelessWidget {
                     child: Container(
                       margin: const EdgeInsets.only(top: 12),
                       child: TextField(
+                        controller: searchTextFieldController,
                         textInputAction: TextInputAction.search,
                         decoration: InputDecoration(
                           hintText: 'Search movie',
                           suffixIcon: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              String searchValue =
+                                  searchTextFieldController.text;
+
+                              context.read<AppCubit>().searchMovie(searchValue);
+                            },
                             child: const Icon(Icons.search),
                           ),
                           border: OutlineInputBorder(
