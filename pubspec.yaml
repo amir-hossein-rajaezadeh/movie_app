@@ -43,7 +43,9 @@ dependencies:
   go_router: ^8.0.5
   image_picker: ^0.8.9
   image_cropper: ^4.0.1
-
+  bottom_picker: ^2.0.4
+  flutter_rating_bar: ^4.0.1
+   
 dev_dependencies:
   flutter_test:
     sdk: flutter

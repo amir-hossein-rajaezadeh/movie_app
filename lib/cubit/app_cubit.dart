@@ -191,6 +191,18 @@ class AppCubit extends Cubit<AppState> {
       "type": "image/png"
     });
 
-    final addedMovie = await apiRepository.addMovie(formData);
+    // final addedMovie = await apiRepository.addMovie(formData);
+  }
+
+  Future<void> showLoadong() async {
+    emit(
+      state.copyWith(isLoading: true),
+    );
+    await Future.delayed(
+      const Duration(seconds: 2),
+    );
+    emit(
+      state.copyWith(isLoading: false),
+    );
   }
 }

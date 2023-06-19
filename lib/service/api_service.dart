@@ -5,8 +5,9 @@ class ApiService {
   final Dio _dio = Dio();
   Future<Response?> getPostData() async {
     try {
-      print('URL is $postBaseUrl$posts');
-      final Response response = await _dio.get('$postBaseUrl$posts');
+      print('URL is ${AppConstants.postBaseUrl}${AppConstants.posts}');
+      final Response response =
+          await _dio.get('${AppConstants.postBaseUrl}${AppConstants.posts}');
 
       return response;
     } catch (e) {
@@ -17,10 +18,10 @@ class ApiService {
 
   Future<Response?> getMovieList(int page, String searchValue) async {
     try {
-      print('URL is $movieBaseUrl$movies');
       print('q is $searchValue, page is $page');
 
-      final Response response = await _dio.get('$movieBaseUrl$movies',
+      final Response response = await _dio.get(
+          '${AppConstants.movieBaseUrl}${AppConstants.movies}',
           queryParameters: {'q': searchValue, 'page': page});
       print('response is ${response.data}');
 
@@ -33,8 +34,9 @@ class ApiService {
 
   Future<Response?> addMovie(FormData data) async {
     try {
-      final Response response =
-          await _dio.post('$movieBaseUrl$movies/multi', data: data);
+      final Response response = await _dio.post(
+          '${AppConstants.movieBaseUrl}${AppConstants.movies}/multi',
+          data: data);
       print('response is ${response.data}');
 
       return response;
