@@ -4,7 +4,7 @@ class AppConstants {
   static const postBaseUrl = 'https://jsonplaceholder.typicode.com/';
   static const posts = 'posts/';
   static const movieBaseUrl = 'http://moviesapi.ir/api/v1/';
-  static const movies = 'movies';
+  static const movies = 'movies/';
   static var countryItem = const Text('');
   static const countryList = [
     "🇦🇫 Afghanistan",

@@ -1,12 +1,13 @@
 import 'package:bloc_getit_practice/models/movie_model.dart';
 import 'package:equatable/equatable.dart';
 
+import '../models/movie_rm.dart';
 import '../models/post_model.dart';
 
 class AppState extends Equatable {
   final bool hasError;
   final List<PostModel> postList;
-  final List<MovieItem> movieList;
+  final List<MovieRM> movieList;
   final int page;
   final int counter;
   final bool isLoading;
@@ -32,7 +33,7 @@ class AppState extends Equatable {
   AppState copyWith(
       {bool? hasError,
       List<PostModel>? postList,
-      List<MovieItem>? movieList,
+      List<MovieRM>? movieList,
       int? counter,
       int? page,
       bool? isLoading,

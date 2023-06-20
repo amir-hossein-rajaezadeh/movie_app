@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bloc_getit_practice/models/movie_model.dart';
 import 'package:bloc_getit_practice/models/post_model.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:dio/dio.dart';
@@ -10,10 +9,15 @@ import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/movie_rm.dart';
+import '../service/rest_client.dart';
 import 'app_state.dart';
 
+final dio = Dio();
+final client = MovieClient(dio);
+
 class AppCubit extends Cubit<AppState> {
-  List<MovieItem> movieList = [];
+  List<MovieRM> movieList = [];
 
   AppCubit(this.apiRepository)
       : super(
@@ -74,7 +78,8 @@ class AppCubit extends Cubit<AppState> {
       state.copyWith(isLoading: true),
     );
     try {
-      final movieListServer = await apiRepository.getMovieList(0, '');
+      final movieListServer = await client.getMovieList(0, '');
+
       movieList = movieListServer.movie ?? [];
       emit(
         state.copyWith(
@@ -91,7 +96,7 @@ class AppCubit extends Cubit<AppState> {
     try {
       /* Need to add Movie model in State */
       final movieListServer =
-          await apiRepository.getMovieList(state.page, searchValue);
+          await client.getMovieList(state.page, searchValue);
 
       if (movieListServer.metadata!.pageCount! >
           int.parse(movieListServer.metadata?.currentPage ?? '0')) {
@@ -114,7 +119,7 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      final movieListServer = await apiRepository.getMovieList(0, searchValue);
+      final movieListServer = await client.getMovieList(0, searchValue);
 
       emit(
         state.copyWith(movieList: movieListServer.movie, isLoading: false),
@@ -130,9 +135,8 @@ class AppCubit extends Cubit<AppState> {
 
       if (searchValue != searchValue) {
         emit(state.copyWith(isLoading: true));
-
-        final movieListServer = await apiRepository.getMovieList(
-            0, searchTextFieldController.value.text);
+        final movieListServer = await client.getMovieList(
+            state.page, searchTextFieldController.value.text);
 
         emit(state.copyWith(
             page: 0, movieList: movieListServer.movie, isLoading: false));
@@ -223,15 +227,26 @@ class AppCubit extends Cubit<AppState> {
       'country': state.selectedCountryName!.split(' ')[1],
       'imdb_rating': state.movieRate,
       'year': state.selectedMovieDate!.split("-")[0],
-      if (state.selectedImage != '')
-        "poster": await MultipartFile.fromFile(
-          state.selectedImage!,
-          filename: state.selectedImage!,
-        ),
-      "type": "image/png"
+      // if (state.selectedImage != '')
+      //   "poster": await MultipartFile.fromFile(
+      //     state.selectedImage!,
+      //     filename: state.selectedImage!,
+      //   ),
     });
+
+    Map<String, dynamic> param = {};
+    // param = {
+    //   "title": movieName,
+    //   'imdb_id': 'tt0232500',
+    //   'director': movieDirector,
+    //   'country': state.selectedCountryName!.split(' ')[1],
+    //   'imdb_rating': state.movieRate.toString(),
+    //   'year': state.selectedMovieDate!.split("-")[0],
+    // };
+
     try {
-      await apiRepository.addMovie(formData);
+      await client.postNewMovie(formData);
+
       context.pop();
       emit(
         state.copyWith(
@@ -240,6 +255,11 @@ class AppCubit extends Cubit<AppState> {
       );
     } catch (e) {
       print(e);
+      emit(
+        state.copyWith(
+          isLoading: false,
+        ),
+      );
     }
   }
 

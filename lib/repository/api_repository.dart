@@ -3,6 +3,8 @@ import 'package:bloc_getit_practice/models/post_model.dart';
 import 'package:bloc_getit_practice/service/api_service.dart';
 import 'package:dio/dio.dart';
 
+import '../models/movie_rm.dart';
+
 class ApiRepository {
   ApiRepository(this.apiService);
   final ApiService apiService;
@@ -35,13 +37,33 @@ class ApiRepository {
     }
   }
 
-  Future<MovieItem> addMovie(FormData data) async {
+  Future<MovieRM> addMovie(FormData data) async {
     final response = await apiService.addMovie(data);
     if (response != null) {
       final data = response.data;
-      return MovieItem.fromJson(data);
+      return MovieRM.fromJson(data);
     } else {
-      return MovieItem();
+      return MovieRM(
+          id: 0,
+          title: '',
+          poster: '',
+          year: '',
+          rated: '',
+          released: '',
+          runtime: '',
+          director: '',
+          writer: '',
+          actors: '',
+          plot: '',
+          country: '',
+          awards: '',
+          metascore: '',
+          imdbRating: '',
+          imdbVotes: '',
+          imdbId: '',
+          type: '',
+          genres: [],
+          images: []);
     }
   }
 }

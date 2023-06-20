@@ -98,94 +98,98 @@ class MovieListPage extends HookWidget {
                             final movieItem = movie[index];
                             return Container(
                               margin: const EdgeInsets.only(left: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width * .6,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          movieItem.id.toString() ?? '',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          movieItem.country ?? "",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                          width: width * .5,
-                                          child: ListView.separated(
-                                            separatorBuilder: (context, index) {
-                                              return Container(
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 5),
-                                                width: 2,
-                                                height: 20,
-                                                color: Colors.grey,
-                                              );
-                                            },
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount:
-                                                movieItem.genres?.length ?? 0,
-                                            itemBuilder: (context, index) {
-                                              return Text(
-                                                movieItem.genres?[index] ?? "",
-                                                style: const TextStyle(
-                                                    fontSize: 18),
-                                              );
-                                            },
+                              child: InkWell(
+                                onTap: () {},
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: width * .6,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            movieItem.id.toString(),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.black),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        right: 15, top: 6, bottom: 4),
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          child: Image.network(
-                                            movie[index].poster ?? "",
-                                            width: width * .15,
-                                            height: 80,
-                                            fit: BoxFit.cover,
+                                          const SizedBox(
+                                            height: 15,
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 6,
-                                        ),
-                                        Text(
-                                          movieItem.year ?? "",
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                        ),
-                                      ],
+                                          Text(
+                                            movieItem.country!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                            width: width * .5,
+                                            child: ListView.separated(
+                                              separatorBuilder:
+                                                  (context, index) {
+                                                return Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  width: 2,
+                                                  height: 20,
+                                                  color: Colors.grey,
+                                                );
+                                              },
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount:
+                                                  movieItem.genres?.length ?? 0,
+                                              itemBuilder: (context, index) {
+                                                return Text(
+                                                  movieItem.genres?[index] ??
+                                                      "",
+                                                  style: const TextStyle(
+                                                      fontSize: 18),
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  )
-                                ],
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          right: 15, top: 6, bottom: 4),
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.network(
+                                              movie[index].poster!,
+                                              width: width * .15,
+                                              height: 80,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          Text(
+                                            movieItem.year!,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             );
                           },
