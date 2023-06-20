@@ -14,6 +14,20 @@ class MainPage extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () {
+                  context.push('/movieList');
+                },
+                child: const Text(
+                  'Go to movie list page',
+                  style: TextStyle(fontSize: 22),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Center(
+              child: TextButton(
+                onPressed: () {
                   context.push('/postList');
                 },
                 child: const Text(
@@ -21,6 +35,9 @@ class MainPage extends StatelessWidget {
                   style: TextStyle(fontSize: 22),
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 40,
             ),
             Center(
               child: TextButton(

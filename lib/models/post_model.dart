@@ -1,5 +1,5 @@
-class Posts {
-  Posts({
+class PostModel {
+  PostModel({
     required this.userId,
     required this.id,
     required this.title,
@@ -10,7 +10,7 @@ class Posts {
   late final String title;
   late final String body;
 
-  Posts.fromJson(Map<String, dynamic> json) {
+  PostModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     id = json['id'];
     title = json['title'];

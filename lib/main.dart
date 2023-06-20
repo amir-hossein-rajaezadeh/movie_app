@@ -1,7 +1,9 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
+import 'package:bloc_getit_practice/screens/add_movie_page.dart';
 import 'package:bloc_getit_practice/screens/counter_page.dart';
 import 'package:bloc_getit_practice/screens/main_page.dart';
+import 'package:bloc_getit_practice/screens/movie_list_page.dart';
 import 'package:bloc_getit_practice/screens/post_list_page.dart';
 import 'package:bloc_getit_practice/service/api_service.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,14 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: "/",
         builder: (context, state) => const MainPage(),
+      ),
+      GoRoute(
+        path: "/addMovie",
+        builder: (context, state) => AddMoviePage(),
+      ),
+      GoRoute(
+        path: "/movieList",
+        builder: (context, state) => MovieListPage(),
       ),
       GoRoute(
         path: "/postList",
