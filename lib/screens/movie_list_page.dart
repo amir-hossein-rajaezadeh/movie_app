@@ -109,7 +109,7 @@ class MovieListPage extends HookWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          movieItem.title ?? '',
+                                          movieItem.id.toString() ?? '',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(

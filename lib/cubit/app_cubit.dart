@@ -6,6 +6,7 @@ import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -141,11 +142,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  Future<void> addMovie() async {
-    croopImage();
-  }
-
-  Future<void> croopImage() async {
+  Future<void> selectImage() async {
     final File? imageFile;
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -172,26 +169,9 @@ class AppCubit extends Cubit<AppState> {
         ),
       ],
     );
-
-    uploadSelectedImage(croppedFile!.path);
-  }
-
-  Future<void> uploadSelectedImage(
-    String file,
-  ) async {
-    FormData formData = FormData.fromMap({
-      "title": "FastAndFeriousInUSA5",
-      'imdb_id': 'tt0232500',
-      'country': 'USA',
-      'year': '2001',
-      "poster": await MultipartFile.fromFile(
-        file,
-        filename: file,
-      ),
-      "type": "image/png"
-    });
-
-    // final addedMovie = await apiRepository.addMovie(formData);
+    emit(
+      state.copyWith(selectedImage: croppedFile!.path),
+    );
   }
 
   Future<void> showLoadong() async {
@@ -204,5 +184,100 @@ class AppCubit extends Cubit<AppState> {
     emit(
       state.copyWith(isLoading: false),
     );
+  }
+
+  void setSelectedCountryName(int index, List<String> countryList) {
+    String selectedCountry = countryList[index];
+    emit(
+      state.copyWith(selectedCountryName: selectedCountry),
+    );
+  }
+
+  void setSelectedMovieDate(String date) {
+    emit(
+      state.copyWith(
+        selectedMovieTime: date.splitDate(),
+      ),
+    );
+  }
+
+  void setMovieRate(int rate) {
+    emit(
+      state.copyWith(movieRate: rate),
+    );
+  }
+
+  Future<void> addMovie(
+      String movieName, String movieDirector, BuildContext context) async {
+    emit(
+      state.copyWith(
+        isLoading: true,
+      ),
+    );
+    print(
+        'title is $movieName  country is ${state.selectedCountryName!.split(' ')[1]},  year is ${state.selectedMovieDate}');
+    FormData formData = FormData.fromMap({
+      "title": movieName,
+      'imdb_id': 'tt0232500',
+      'director': movieDirector,
+      'country': state.selectedCountryName!.split(' ')[1],
+      'imdb_rating': state.movieRate,
+      'year': state.selectedMovieDate!.split("-")[0],
+      if (state.selectedImage != '')
+        "poster": await MultipartFile.fromFile(
+          state.selectedImage!,
+          filename: state.selectedImage!,
+        ),
+      "type": "image/png"
+    });
+    try {
+      await apiRepository.addMovie(formData);
+      context.pop();
+      emit(
+        state.copyWith(
+          isLoading: false,
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  int returnYear() {
+    String date = state.selectedMovieDate ?? DateTime.now().year.toString();
+    int selectedYear = int.parse(date.splitDate().splitDateToYear());
+    return selectedYear;
+  }
+
+  int returnMonth() {
+    String date =
+        state.selectedMovieDate ?? DateTime.now().toString().splitDate();
+    int selectedMonth = int.parse(date.splitDateToMonth());
+    return selectedMonth;
+  }
+
+  int returnDay() {
+    String date =
+        state.selectedMovieDate ?? DateTime.now().toString().splitDate();
+    int selectedDay = int.parse(date.splitDateToDay());
+    return selectedDay;
+  }
+}
+
+extension SplitDate on String {
+  String splitDate() {
+    return split(' ')[0].toString();
+  }
+
+  String splitDateToYear() {
+    return split('-')[0].toString();
+  }
+
+  String splitDateToMonth() {
+    return split('-')[1].toString();
+  }
+
+  String splitDateToDay() {
+    return split('-')[2].toString();
   }
 }

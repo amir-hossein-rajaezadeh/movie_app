@@ -11,6 +11,11 @@ class AppState extends Equatable {
   final int counter;
   final bool isLoading;
   final String text;
+  final String? selectedCountryName;
+  final String? selectedMovieDate;
+  final String? selectedImage;
+  final int? movieRate;
+
   const AppState(
       {required this.page,
       required this.hasError,
@@ -18,7 +23,11 @@ class AppState extends Equatable {
       required this.movieList,
       required this.counter,
       required this.isLoading,
-      required this.text});
+      required this.text,
+      this.selectedCountryName,
+      this.selectedMovieDate,
+      this.selectedImage,
+      this.movieRate});
 
   AppState copyWith(
       {bool? hasError,
@@ -27,7 +36,11 @@ class AppState extends Equatable {
       int? counter,
       int? page,
       bool? isLoading,
-      String? text}) {
+      String? text,
+      String? selectedCountryName,
+      String? selectedMovieTime,
+      String? selectedImage,
+      int? movieRate}) {
     return AppState(
         movieList: movieList ?? this.movieList,
         postList: postList ?? this.postList,
@@ -35,10 +48,25 @@ class AppState extends Equatable {
         page: page ?? this.page,
         counter: counter ?? this.counter,
         isLoading: isLoading ?? this.isLoading,
-        text: text ?? this.text);
+        text: text ?? this.text,
+        selectedCountryName: selectedCountryName ?? this.selectedCountryName,
+        selectedMovieDate: selectedMovieTime ?? selectedMovieDate,
+        selectedImage: selectedImage ?? this.selectedImage,
+        movieRate: movieRate ?? this.movieRate);
   }
 
   @override
-  List<Object?> get props =>
-      [counter, isLoading, text, postList, hasError, movieList, page];
+  List<Object?> get props => [
+        counter,
+        isLoading,
+        text,
+        postList,
+        hasError,
+        movieList,
+        page,
+        selectedCountryName,
+        selectedMovieDate,
+        selectedImage,
+        movieRate
+      ];
 }

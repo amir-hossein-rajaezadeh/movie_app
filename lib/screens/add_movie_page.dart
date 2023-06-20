@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:bottom_picker/bottom_picker.dart';
@@ -12,11 +14,10 @@ import '../cubit/app_state.dart';
 
 class AddMoviePage extends HookWidget {
   const AddMoviePage({super.key});
-
-  final buttonWidth = 200.0;
   @override
   Widget build(BuildContext context) {
     final movieName = useTextEditingController();
+    final movieDirector = useTextEditingController();
 
     return SafeArea(
       child: Scaffold(
@@ -26,149 +27,170 @@ class AddMoviePage extends HookWidget {
               children: [
                 Column(
                   children: [
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 20, right: 20, left: 20),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Movie name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 20, right: 20, left: 20),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Director name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Expanded(
+                      child: ListView(
+                        shrinkWrap: true,
                         children: [
-                          const Text(
-                            'Country:',
-                            style: TextStyle(fontSize: 19),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                countryPicker(context);
-                              },
-                              child: const Text(
-                                'Select',
-                                style: TextStyle(fontSize: 17),
-                              ))
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Date:',
-                            style: TextStyle(fontSize: 19),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                movieDatePicker(context);
-                              },
-                              child: const Text(
-                                'Select',
-                                style: TextStyle(fontSize: 17),
-                              ))
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Movie Image:',
-                            style: TextStyle(fontSize: 19),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                context.read<AppCubit>().addMovie();
-                              },
-                              child: const Text(
-                                'Select',
-                                style: TextStyle(fontSize: 17),
-                              ))
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 20, top: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Movie rate:',
-                            style: TextStyle(fontSize: 19),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 40, right: 20, left: 20),
+                            child: TextField(
+                              controller: movieName,
+                              decoration: InputDecoration(
+                                labelText: 'Movie name',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            width: 140,
-                            child: RatingBar.builder(
-                              initialRating: 3,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemSize: 25,
-                              itemCount: 5,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 1.0),
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
+                            margin: const EdgeInsets.only(
+                                top: 20, right: 20, left: 20),
+                            child: TextField(
+                              controller: movieDirector,
+                              decoration: InputDecoration(
+                                labelText: 'Director name',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 20, left: 20, right: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Country:',
+                                  style: TextStyle(fontSize: 19),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      countryPicker(
+                                        context,
+                                      );
+                                    },
+                                    child: Text(
+                                      state.selectedCountryName ?? 'Select',
+                                      style: const TextStyle(fontSize: 17),
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 20, left: 20, right: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Date:',
+                                  style: TextStyle(fontSize: 19),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      movieDatePicker(context);
+                                    },
+                                    child: Text(
+                                      state.selectedMovieDate ?? 'Select',
+                                      style: const TextStyle(fontSize: 17),
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 20, left: 20, right: 18),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Movie Image:',
+                                  style: TextStyle(fontSize: 19),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      context.read<AppCubit>().selectImage();
+                                    },
+                                    child: state.selectedImage != null
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.file(
+                                              File(state.selectedImage!),
+                                              height: 80,
+                                              width: 70,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                        : const Text(
+                                            'Select',
+                                            style: TextStyle(fontSize: 17),
+                                          ))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 20, top: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Movie rate:',
+                                  style: TextStyle(fontSize: 19),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 140,
+                                  child: RatingBar.builder(
+                                    initialRating: 3,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemSize: 25,
+                                    itemCount: 5,
+                                    itemPadding: const EdgeInsets.symmetric(
+                                        horizontal: 1.0),
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      context
+                                          .read<AppCubit>()
+                                          .setMovieRate(rating.toInt());
+
+                                      print(rating);
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                          onTap: () {
-                            context.read<AppCubit>().showLoadong();
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 45,
-                            decoration: BoxDecoration(
-                              color: Colors.blueAccent,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            margin: const EdgeInsets.only(
-                                bottom: 30, right: 20, left: 20),
-                            child: const Center(
-                              child: Text(
-                                'Submit',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
-                              ),
-                            ),
+                    InkWell(
+                      onTap: () {
+                        context.read<AppCubit>().addMovie(
+                            movieName.text, movieDirector.text, context);
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        margin: const EdgeInsets.only(
+                            bottom: 30, right: 20, left: 20),
+                        child: const Center(
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ),
                       ),
@@ -187,9 +209,7 @@ class AddMoviePage extends HookWidget {
     );
   }
 
-  void countryPicker(
-    BuildContext context,
-  ) {
+  void countryPicker(BuildContext context) {
     List<Text> countryTextWidgetList = [];
     for (var element in AppConstants.countryList) {
       countryTextWidgetList.add(Text(element));
@@ -202,7 +222,9 @@ class AddMoviePage extends HookWidget {
       title: 'Choose movier country',
       bottomPickerTheme: BottomPickerTheme.morningSalad,
       onSubmit: (index) {
-        print(index);
+        context
+            .read<AppCubit>()
+            .setSelectedCountryName(index, AppConstants.countryList);
       },
       titleStyle: const TextStyle(
         fontWeight: FontWeight.bold,
@@ -236,11 +258,14 @@ class AddMoviePage extends HookWidget {
         fontSize: 20,
         color: Colors.blue,
       ),
-      onChange: (index) {
-        print(index);
-      },
-      onSubmit: (index) {
-        print(index);
+      initialDateTime: DateTime(
+          context.read<AppCubit>().returnYear(),
+          context.read<AppCubit>().returnMonth(),
+          context.read<AppCubit>().returnDay()),
+      onSubmit: (date) {
+        context.read<AppCubit>().setSelectedMovieDate(
+              date.toString(),
+            );
       },
       maxDateTime: DateTime.now(),
       minDateTime: DateTime(1895),
