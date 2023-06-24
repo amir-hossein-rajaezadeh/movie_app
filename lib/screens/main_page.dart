@@ -1,4 +1,6 @@
+import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class MainPage extends StatelessWidget {
@@ -13,7 +15,8 @@ class MainPage extends StatelessWidget {
           children: [
             Center(
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await context.read<AppCubit>().fetchMovieApi();
                   context.push('/movieList');
                 },
                 child: const Text(

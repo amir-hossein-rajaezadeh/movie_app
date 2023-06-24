@@ -8,6 +8,8 @@ class AppConstants {
   static var countryItem = const Text('');
   static const liveNow = 'Live now';
   static const watchNow = 'Watch now';
+  static const seeAll = 'See all';
+  static const latesetMovies = 'Lateset movies';
 
   static const countryList = [
     "🇦🇫 Afghanistan",

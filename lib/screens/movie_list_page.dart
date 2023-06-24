@@ -13,7 +13,7 @@ import '../utils/colors.dart';
 class MovieListPage extends HookWidget {
   MovieListPage({super.key});
   final ScrollController scrollController = ScrollController();
-
+  final PageController pageController = PageController();
   @override
   Widget build(BuildContext context) {
     final searchTextFieldController = useTextEditingController();
@@ -33,147 +33,61 @@ class MovieListPage extends HookWidget {
       child: Scaffold(
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
-            return Stack(
-              children: [
-                SizedBox(
-                  height: 325,
-                  width: size.width,
-                  child: Image.network(
-                    'http://moviesapi.ir/images/tt0041959_poster.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  
-                  child: Container(
-
-                    height: 325,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 325),
-                  height: 50,
-                  color: const Color(0xFF1a1a1a),
-                ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 20, left: 18),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Welcome back,',
-                                style: AppTheme.getTextTheme(null)
-                                    .bodyMedium!
-                                    .copyWith(color: Colors.white),
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              Text(
-                                'Amirhosein',
-                                style: AppTheme.getTextTheme(null)
-                                    .displaySmall!
-                                    .copyWith(color: Colors.white),
-                              )
-                            ],
-                          ),
+            return Container(
+              color: grey,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 20, left: 18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Welcome back,',
+                              style: AppTheme.getTextTheme(null)
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              'Amirhosein',
+                              style: AppTheme.getTextTheme(null)
+                                  .displaySmall!
+                                  .copyWith(color: Colors.white),
+                            )
+                          ],
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 20, bottom: 15),
-                          child: Row(
-                            children: const [
-                              Icon(
-                                CupertinoIcons.bell,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              SizedBox(
-                                width: 18,
-                              ),
-                              Icon(
-                                CupertinoIcons.search,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    AnimatedContainer(
-                      margin: const EdgeInsets.only(top: 20),
-                      duration: const Duration(milliseconds: 200),
-                      height: 200,
-                      child: PageView.builder(
-                        itemCount: 10,
-                        physics: const BouncingScrollPhysics(),
-                        onPageChanged:
-                            context.read<AppCubit>().onPageViewChange,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 0),
-                            width: size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          'http://moviesapi.ir/images/tt0041959_poster.jpg',
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18),
-                                        bottomLeft: Radius.circular(18),
-                                      ),
-                                    ),
-                                    width: size.width * .50,
-                                    margin: const EdgeInsets.only(left: 20),
-                                    child: BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                          sigmaX: 15.0, sigmaY: 15.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          liveNowWidget(),
-                                          movieInfo()
-                                        ],
-                                      ),
-                                    )),
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topRight: Radius.circular(18),
-                                      bottomRight: Radius.circular(18),
-                                    ),
-                                    child: Image.network(
-                                      fit: BoxFit.cover,
-                                      'http://moviesapi.ir/images/tt0041959_poster.jpg',
-                                      height: size.height,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
                       ),
-                    )
-                  ],
-                ),
-              ],
+                      Container(
+                        margin: const EdgeInsets.only(right: 20, bottom: 15),
+                        child: Row(
+                          children: const [
+                            Icon(
+                              CupertinoIcons.bell,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            SizedBox(
+                              width: 18,
+                            ),
+                            Icon(
+                              CupertinoIcons.search,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  movieBannerWidget(context, size, state)
+                ],
+              ),
             );
           },
         ),
@@ -181,29 +95,162 @@ class MovieListPage extends HookWidget {
     );
   }
 
-  Widget movieInfo() {
+  Widget movieBannerWidget(BuildContext context, Size size, AppState state) {
     return Column(
       children: [
+        AnimatedContainer(
+          margin: const EdgeInsets.only(top: 15),
+          duration: const Duration(milliseconds: 200),
+          height: 200,
+          child: PageView.builder(
+            controller: pageController,
+            itemCount: state.movieList.length,
+            physics: const BouncingScrollPhysics(),
+            onPageChanged: context.read<AppCubit>().onPageViewChange,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, page) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                width: size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            state.movieList[page].poster!,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(18),
+                          bottomLeft: Radius.circular(18),
+                        ),
+                      ),
+                      width: size.width * .50,
+                      margin: const EdgeInsets.only(left: 20),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            liveNowWidget(),
+                            movieInfoWidget(state, page)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(18),
+                          bottomRight: Radius.circular(18),
+                        ),
+                        child: Image.network(
+                          fit: BoxFit.cover,
+                          state.movieList[page].poster!,
+                          height: 200,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        Container(
+          alignment: Alignment.topLeft,
+          margin: const EdgeInsets.only(top: 10, left: 22, bottom: 10),
+          height: 10,
+          child: ListView.separated(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                    color: state.bannerPage == index
+                        ? blue
+                        : Colors.grey.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(100)),
+                width: 10,
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Container(
+                width: 5,
+              );
+            },
+            itemCount: state.movieList.length,
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppConstants.latesetMovies,
+                style: AppTheme.getTextTheme(null)
+                    .bodyLarge!
+                    .copyWith(color: Colors.white),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  AppConstants.seeAll,
+                  style: AppTheme.getTextTheme(null).bodyMedium!,
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget movieInfoWidget(AppState state, int bannerItemIndex) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         const SizedBox(
-          height: 20,
+          height: 15,
         ),
         Text(
-          'MovieName',
+          state.movieList[bannerItemIndex].title ?? '',
+          textAlign: TextAlign.start,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
           style: AppTheme.getTextTheme(null)
               .labelLarge!
               .copyWith(color: Colors.white),
         ),
         const SizedBox(
-          height: 20,
+          height: 15,
         ),
-        Text(
-          'MovieDesc',
-          style: AppTheme.getTextTheme(null)
-              .bodyLarge!
-              .copyWith(color: Colors.white, fontWeight: FontWeight.w300),
+        SizedBox(
+          height: 20,
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Container(
+              width: 10,
+            ),
+            itemCount: state.movieList[bannerItemIndex].genres!.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Text(
+                state.movieList[bannerItemIndex].genres![index],
+                style: AppTheme.getTextTheme(null)
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              );
+            },
+          ),
         ),
         const SizedBox(
-          height: 20,
+          height: 15,
         ),
         Container(
           height: 30,
@@ -227,7 +274,7 @@ class MovieListPage extends HookWidget {
 
   Widget liveNowWidget() {
     return Container(
-      margin: const EdgeInsets.only(top: 10, left: 0),
+      margin: const EdgeInsets.only(top: 18, left: 5),
       height: 18,
       width: 90,
       decoration: BoxDecoration(

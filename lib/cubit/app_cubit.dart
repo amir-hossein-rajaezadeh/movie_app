@@ -31,11 +31,13 @@ class AppCubit extends Cubit<AppState> {
               postList: [],
               movieList: [],
               page: 0,
-             ),
+              bannerPage: 0),
         );
 
   onPageViewChange(int page) {
-   
+    emit(
+      state.copyWith(bannerPage: page),
+    );
   }
 
   double getSelectedBannerHeight() => selectedBannerItemHeight;
