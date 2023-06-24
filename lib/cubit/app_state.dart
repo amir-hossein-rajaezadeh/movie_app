@@ -1,4 +1,3 @@
-import 'package:bloc_getit_practice/models/movie_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../models/movie_rm.dart';

@@ -6,6 +6,9 @@ class AppConstants {
   static const movieBaseUrl = 'http://moviesapi.ir/api/v1/';
   static const movies = 'movies/';
   static var countryItem = const Text('');
+  static const liveNow = 'Live now';
+  static const watchNow = 'Watch now';
+
   static const countryList = [
     "🇦🇫 Afghanistan",
     "🇦🇽 Åland Islands",

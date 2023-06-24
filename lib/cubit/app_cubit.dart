@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc_getit_practice/models/post_model.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
+import 'package:bloc_getit_practice/utils/extensions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'app_state.dart';
 
 final dio = Dio();
 final client = MovieClient(dio);
+double selectedBannerItemHeight = 100;
 
 class AppCubit extends Cubit<AppState> {
   List<MovieRM> movieList = [];
@@ -22,15 +24,21 @@ class AppCubit extends Cubit<AppState> {
   AppCubit(this.apiRepository)
       : super(
           const AppState(
-            counter: 0,
-            isLoading: false,
-            text: '',
-            hasError: false,
-            postList: [],
-            movieList: [],
-            page: 0,
-          ),
+              counter: 0,
+              isLoading: false,
+              text: '',
+              hasError: false,
+              postList: [],
+              movieList: [],
+              page: 0,
+             ),
         );
+
+  onPageViewChange(int page) {
+   
+  }
+
+  double getSelectedBannerHeight() => selectedBannerItemHeight;
 
   Future<void> increaseNumber(bool isIncreasing) async {
     emit(
@@ -281,23 +289,5 @@ class AppCubit extends Cubit<AppState> {
         state.selectedMovieDate ?? DateTime.now().toString().splitDate();
     int selectedDay = int.parse(date.splitDateToDay());
     return selectedDay;
-  }
-}
-
-extension SplitDate on String {
-  String splitDate() {
-    return split(' ')[0].toString();
-  }
-
-  String splitDateToYear() {
-    return split('-')[0].toString();
-  }
-
-  String splitDateToMonth() {
-    return split('-')[1].toString();
-  }
-
-  String splitDateToDay() {
-    return split('-')[2].toString();
   }
 }
