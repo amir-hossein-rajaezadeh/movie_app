@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc_getit_practice/models/post_model.dart';
@@ -6,6 +7,7 @@ import 'package:bloc_getit_practice/utils/extensions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -271,6 +273,25 @@ class AppCubit extends Cubit<AppState> {
         ),
       );
     }
+  }
+
+  Timer? _debounce;
+
+  Timer? getdebounce() => _debounce;
+
+  onSearchTextChanged(String searchValue) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 700), () {
+      searchValue.isEmpty ? fetchMovieApi() : searchMovie(searchValue);
+    });
+  }
+
+  void test(TextEditingController searchController) {
+    useEffect(() => () {
+          searchController.addListener(() {
+            onSearchTextChanged(searchController.value.text);
+          });
+        });
   }
 
   int returnYear() {

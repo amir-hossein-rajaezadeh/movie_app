@@ -1,9 +1,11 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
+import 'package:bloc_getit_practice/models/movie_rm.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:bloc_getit_practice/screens/add_movie_page.dart';
 import 'package:bloc_getit_practice/screens/all_movies_page.dart';
 import 'package:bloc_getit_practice/screens/counter_page.dart';
 import 'package:bloc_getit_practice/screens/main_page.dart';
+import 'package:bloc_getit_practice/screens/movie_detail_page.dart';
 import 'package:bloc_getit_practice/screens/movie_list_page.dart';
 import 'package:bloc_getit_practice/screens/post_list_page.dart';
 import 'package:bloc_getit_practice/service/api_service.dart';
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: "/addMovie",
-        builder: (context, state) => AddMoviePage(),
+        builder: (context, state) => const AddMoviePage(),
       ),
       GoRoute(
         path: "/movieList",
@@ -44,7 +46,14 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: "/allMoviesPage",
-        builder: (context, state) =>   AllMoviesPage(),
+        builder: (context, state) => const AllMoviesPage(),
+      ),
+      GoRoute(
+        path: '/movieDetailPage',
+        builder: (context, state) {
+          MovieRM selectedMovieItem = state.extra as MovieRM;
+          return MovieDetailPage(selectedMovieItem: selectedMovieItem);
+        },
       )
     ],
   );

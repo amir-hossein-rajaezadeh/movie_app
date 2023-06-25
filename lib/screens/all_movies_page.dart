@@ -7,14 +7,29 @@ import 'package:go_router/go_router.dart';
 import '../cubit/app_cubit.dart';
 import '../cubit/app_state.dart';
 
-class AllMoviesPage extends HookWidget {
-  AllMoviesPage({super.key});
+class AllMoviesPage extends StatefulHookWidget {
+  const AllMoviesPage({super.key});
+
+  @override
+  State<AllMoviesPage> createState() => _AllMoviesPageState();
+}
+
+class _AllMoviesPageState extends State<AllMoviesPage> {
   final ScrollController scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    if (context.read<AppCubit>().getdebounce() != null) {
+      context.read<AppCubit>().getdebounce()!.cancel();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final searchTextFieldController = useTextEditingController();
     final size = MediaQuery.of(context).size;
-
+    context.read<AppCubit>().test(searchTextFieldController);
     context.read<AppCubit>().onSearch(searchTextFieldController);
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
@@ -217,12 +232,10 @@ class AllMoviesPage extends HookWidget {
                                         const SizedBox(
                                           height: 6,
                                         ),
-                                        Text(
-                                          movieItem.year!,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                        ),
+                                        Text(movieItem.year!,
+                                            style: AppTheme.getTextTheme(null)
+                                                .titleMedium!
+                                                .copyWith(color: Colors.white)),
                                       ],
                                     ),
                                   )

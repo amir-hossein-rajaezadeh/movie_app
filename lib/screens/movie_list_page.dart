@@ -60,19 +60,24 @@ class MovieListPage extends HookWidget {
                             margin:
                                 const EdgeInsets.only(right: 20, bottom: 20),
                             child: Row(
-                              children: const [
-                                Icon(
+                              children: [
+                                const Icon(
                                   CupertinoIcons.bell,
                                   color: Colors.white,
                                   size: 28,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 18,
                                 ),
-                                Icon(
-                                  CupertinoIcons.search,
-                                  color: Colors.white,
-                                  size: 28,
+                                InkWell(
+                                  onTap: () {
+                                    context.push('/allMoviesPage');
+                                  },
+                                  child: const Icon(
+                                    CupertinoIcons.search,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
                                 ),
                               ],
                             ),
@@ -93,7 +98,7 @@ class MovieListPage extends HookWidget {
     );
   }
 
-  Column bluredBackgroundWidget(AppState state, Size size) {
+  Widget bluredBackgroundWidget(AppState state, Size size) {
     return Column(
       children: [
         Container(
@@ -101,14 +106,12 @@ class MovieListPage extends HookWidget {
           child: Image.network(
             state.movieList[state.bannerPage!].poster!,
             fit: BoxFit.cover,
-            height: 320,
+            height: 300,
             width: size.width,
           ),
         ),
         Expanded(
-          child: Container(
-            color: const Color(0xFF1d1c1c),
-          ),
+          child: Container(color: greyBackground),
         ),
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 10),
@@ -120,7 +123,7 @@ class MovieListPage extends HookWidget {
     );
   }
 
-  Column topRatedWidget(AppState state) {
+  Widget topRatedWidget(AppState state) {
     return Column(
       children: [
         Container(
@@ -148,6 +151,7 @@ class MovieListPage extends HookWidget {
           height: 150,
           margin: const EdgeInsets.only(bottom: 15),
           child: ListView.separated(
+              shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -223,72 +227,80 @@ class MovieListPage extends HookWidget {
             onPageChanged: context.read<AppCubit>().onPageViewChange,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, page) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                width: size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            state.movieList[page].poster!,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(18),
-                          bottomLeft: Radius.circular(18),
-                        ),
-                      ),
-                      width: size.width * .50,
-                      margin: const EdgeInsets.only(left: 0),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(18),
-                              bottomLeft: Radius.circular(18),
+              return InkWell(
+                onTap: () {
+                  context.push(
+                    '/movieDetailPage',
+                    extra: state.movieList[page],
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              state.movieList[page].poster!,
                             ),
-                            child: BackdropFilter(
-                              filter:
-                                  ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
-                              child: const SizedBox(
-                                width: 300,
-                                height: 300,
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(18),
+                            bottomLeft: Radius.circular(18),
+                          ),
+                        ),
+                        width: size.width * .50,
+                        margin: const EdgeInsets.only(left: 0),
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(18),
+                                bottomLeft: Radius.circular(18),
+                              ),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                    sigmaX: 15.0, sigmaY: 15.0),
+                                child: const SizedBox(
+                                  width: 300,
+                                  height: 300,
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                liveNowWidget(),
-                                movieInfoWidget(state, page)
-                              ],
+                            Container(
+                              margin: const EdgeInsets.only(left: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  liveNowWidget(),
+                                  movieInfoWidget(state, page)
+                                ],
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(18),
+                            bottomRight: Radius.circular(18),
                           ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(18),
-                          bottomRight: Radius.circular(18),
+                          child: Image.network(
+                            fit: BoxFit.cover,
+                            state.movieList[page].poster!,
+                            height: 200,
+                          ),
                         ),
-                        child: Image.network(
-                          fit: BoxFit.cover,
-                          state.movieList[page].poster!,
-                          height: 200,
-                        ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               );
             },
@@ -296,19 +308,26 @@ class MovieListPage extends HookWidget {
         ),
         Container(
           alignment: Alignment.topLeft,
-          margin: const EdgeInsets.only(top: 10, left: 22, bottom: 10),
+          margin: const EdgeInsets.only(top: 20, left: 22, bottom: 10),
           height: 10,
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return Container(
-                decoration: BoxDecoration(
-                    color: state.bannerPage == index
-                        ? blue
-                        : Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(100)),
-                width: 10,
+              return InkWell(
+                onTap: () {
+                  pageController.animateToPage(index,
+                      duration: const Duration(milliseconds: 600),
+                      curve: Curves.easeInOut);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: state.bannerPage == index
+                          ? blue
+                          : Colors.grey.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(100)),
+                  width: 10,
+                ),
               );
             },
             separatorBuilder: (context, index) {
@@ -352,47 +371,56 @@ class MovieListPage extends HookWidget {
         SizedBox(
           height: 190,
           child: ListView.separated(
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          state.movieList[index].poster!,
-                          width: 90,
-                          height: 120,
-                          fit: BoxFit.cover,
+                return InkWell(
+                  onTap: () {
+                    context.push(
+                      '/movieDetailPage',
+                      extra: state.movieList[index],
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            state.movieList[index].poster!,
+                            width: 90,
+                            height: 120,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        width: 90,
-                        child: Text(
-                          state.movieList[index].title!,
+                        Container(
+                          margin: const EdgeInsets.only(top: 8),
+                          width: 90,
+                          child: Text(
+                            state.movieList[index].title!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.getTextTheme(null)
+                                .bodyMedium!
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          state.movieList[index].year!,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: AppTheme.getTextTheme(null)
-                              .bodyMedium!
-                              .copyWith(color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        state.movieList[index].year!,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.getTextTheme(null)
-                            .bodySmall!
-                            .copyWith(color: Colors.grey),
-                      )
-                    ],
+                              .bodySmall!
+                              .copyWith(color: Colors.grey),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },
@@ -429,6 +457,7 @@ class MovieListPage extends HookWidget {
         SizedBox(
           height: 20,
           child: ListView.separated(
+            shrinkWrap: true,
             separatorBuilder: (context, index) => Container(
               width: 10,
             ),
