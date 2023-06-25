@@ -250,6 +250,7 @@ class AppTheme {
       ),
       hintStyle: const TextStyle(
         fontSize: 14.0,
+        color: Colors.white,
         fontWeight: FontWeight.w400,
       ),
       errorStyle: const TextStyle(

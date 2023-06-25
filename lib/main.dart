@@ -1,6 +1,7 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:bloc_getit_practice/screens/add_movie_page.dart';
+import 'package:bloc_getit_practice/screens/all_movies_page.dart';
 import 'package:bloc_getit_practice/screens/counter_page.dart';
 import 'package:bloc_getit_practice/screens/main_page.dart';
 import 'package:bloc_getit_practice/screens/movie_list_page.dart';
@@ -40,6 +41,10 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: "/counter",
         builder: (context, state) => const CounterPage(),
+      ),
+      GoRoute(
+        path: "/allMoviesPage",
+        builder: (context, state) =>   AllMoviesPage(),
       )
     ],
   );
