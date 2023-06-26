@@ -11,6 +11,10 @@ class AppConstants {
   static const seeAll = 'See all';
   static const latesetMovies = 'Lateset movies';
   static const topRated = 'Top rated';
+  static const playNow = 'Play now';
+  static const download = 'Download';
+  static const actors = 'Actors';
+  static const writer = 'Writer';
 
   static const countryList = [
     "🇦🇫 Afghanistan",

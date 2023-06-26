@@ -33,7 +33,8 @@ class AppCubit extends Cubit<AppState> {
               postList: [],
               movieList: [],
               page: 0,
-              bannerPage: 0),
+              bannerPage: 0,
+              actiorTabSelected: true),
         );
 
   onPageViewChange(int page) {
@@ -301,11 +302,21 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void onTextChange(TextEditingController searchController) {
-    useEffect(() => () {
-          searchController.addListener(() {
+    useEffect(
+      () => () {
+        searchController.addListener(
+          () {
             onSearchTextChanged(searchController.value.text);
-          });
-        });
+          },
+        );
+      },
+    );
+  }
+
+  void onActorTapClicked() {
+    emit(
+      state.copyWith(actiorTabSelected: state.actiorTabSelected?false:true),
+    );
   }
 
   int returnYear() {
