@@ -18,6 +18,8 @@ abstract class MovieClient {
   @POST(AppConstants.movies)
   Future<MovieRM> postNewMovie(@Body() FormData body);
 
+  @GET('${AppConstants.movies}/{id}')
+  Future<MovieRM> getMovieDetail(@Path("id") id);
   // @MultiPart()
   // Future<double> uploadDocument(
   //     @Part(name: "id") int id, @Part(name: "document") File document);

@@ -275,6 +275,20 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+  Future<void> getMovieDetailById(int id) async {
+    emit(
+      state.copyWith(isLoading: true),
+    );
+    try {
+      final movieItemServer = await client.getMovieDetail(id);
+      emit(
+        state.copyWith(movieItem: movieItemServer, isLoading: false),
+      );
+    } catch (e) {
+      print('Error is $e');
+    }
+  }
+
   Timer? _debounce;
 
   Timer? getdebounce() => _debounce;
@@ -286,7 +300,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  void test(TextEditingController searchController) {
+  void onTextChange(TextEditingController searchController) {
     useEffect(() => () {
           searchController.addListener(() {
             onSearchTextChanged(searchController.value.text);
@@ -312,5 +326,17 @@ class AppCubit extends Cubit<AppState> {
         state.selectedMovieDate ?? DateTime.now().toString().splitDate();
     int selectedDay = int.parse(date.splitDateToDay());
     return selectedDay;
+  }
+
+  String movieTimeInHoure() {
+    String movieTimeInMinute = state.movieItem!.runtime!.split(' ')[0];
+
+    String movieTimeDevidedToHoure =
+        movieTimeInMinute.devideMinuteToHour(movieTimeInMinute);
+
+    String finalMovieTimeInHourAndMinute = movieTimeInMinute
+        .devideHoureAndMinute(movieTimeDevidedToHoure, movieTimeInMinute);
+
+    return finalMovieTimeInHourAndMinute;
   }
 }

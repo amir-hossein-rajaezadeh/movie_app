@@ -228,11 +228,16 @@ class MovieListPage extends HookWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, page) {
               return InkWell(
-                onTap: () {
-                  context.push(
-                    '/movieDetailPage',
-                    extra: state.movieList[page],
-                  );
+                onTap: () async {
+                  await context
+                      .read<AppCubit>()
+                      .getMovieDetailById(state.movieList[page].id!);
+                  if (context.mounted) {
+                    context.push(
+                      '/movieDetailPage',
+                      extra: state.movieList[page],
+                    );
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),

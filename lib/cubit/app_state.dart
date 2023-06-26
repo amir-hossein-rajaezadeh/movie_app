@@ -16,7 +16,7 @@ class AppState extends Equatable {
   final String? selectedImage;
   final int? movieRate;
   final int? bannerPage;
-
+  final MovieRM? movieItem;
   const AppState(
       {required this.page,
       required this.hasError,
@@ -29,7 +29,8 @@ class AppState extends Equatable {
       this.selectedMovieDate,
       this.selectedImage,
       this.movieRate,
-      this.bannerPage});
+      this.bannerPage,
+      this.movieItem});
 
   AppState copyWith(
       {bool? hasError,
@@ -43,7 +44,8 @@ class AppState extends Equatable {
       String? selectedMovieTime,
       String? selectedImage,
       int? movieRate,
-      int? bannerPage}) {
+      int? bannerPage,
+      MovieRM? movieItem}) {
     return AppState(
         movieList: movieList ?? this.movieList,
         postList: postList ?? this.postList,
@@ -56,7 +58,8 @@ class AppState extends Equatable {
         selectedMovieDate: selectedMovieTime ?? selectedMovieDate,
         selectedImage: selectedImage ?? this.selectedImage,
         movieRate: movieRate ?? this.movieRate,
-        bannerPage: bannerPage ?? this.bannerPage);
+        bannerPage: bannerPage ?? this.bannerPage,
+        movieItem: movieItem ?? this.movieItem);
   }
 
   @override
@@ -72,6 +75,7 @@ class AppState extends Equatable {
         selectedMovieDate,
         selectedImage,
         movieRate,
-        bannerPage
+        bannerPage,
+        movieItem
       ];
 }

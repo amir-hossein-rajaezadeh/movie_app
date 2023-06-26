@@ -29,7 +29,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
   Widget build(BuildContext context) {
     final searchTextFieldController = useTextEditingController();
     final size = MediaQuery.of(context).size;
-    context.read<AppCubit>().test(searchTextFieldController);
+    context.read<AppCubit>().onTextChange(searchTextFieldController);
     context.read<AppCubit>().onSearch(searchTextFieldController);
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
