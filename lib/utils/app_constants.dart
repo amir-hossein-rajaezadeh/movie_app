@@ -15,6 +15,7 @@ class AppConstants {
   static const download = 'Download';
   static const actors = 'Actors';
   static const writer = 'Writer';
+  static const photoes = 'Photes';
 
   static const countryList = [
     "🇦🇫 Afghanistan",

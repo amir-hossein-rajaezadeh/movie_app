@@ -41,7 +41,7 @@ extension AppExtensions on String {
   }
 
   List<String> devideWritersIntoList(String allListInString) {
-    final split = allListInString.split(',');
+    final split = allListInString.split(', ');
     final Map<int, String> writer = {
       for (int i = 0; i < split.length; i++) i: split[i]
     };
@@ -49,7 +49,7 @@ extension AppExtensions on String {
     writer.forEach((key, value) {
       writerList.add(value);
     });
-
+    print('writer list is ${writerList.length}');
     return writerList;
   }
 }

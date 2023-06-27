@@ -315,9 +315,13 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void onActorTapClicked() {
-    emit(
-      state.copyWith(actiorTabSelected: state.actiorTabSelected ? false : true),
-    );
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () {
+      emit(
+        state.copyWith(
+            actiorTabSelected: state.actiorTabSelected ? false : true),
+      );
+    });
   }
 
   void changeBottomSheetHeight(double deviceHeight) {

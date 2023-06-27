@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import '../utils/app_constants.dart';
 import '../utils/app_theme.dart';
 import '../utils/colors.dart';
+import '../utils/image_list.dart';
 
 class MovieDetailPage extends StatelessWidget {
   MovieRM? selectedMovieItem;
@@ -90,12 +91,19 @@ class MovieDetailPage extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
-                        onVerticalDragStart: (details) {
-                          print('local postion is ${details.localPosition}');
-
-                          context
-                              .read<AppCubit>()
-                              .changeBottomSheetHeight(size.height);
+                        onVerticalDragUpdate: (details) {
+                          int sensitivity = 8;
+                          if (details.delta.dy > sensitivity) {
+                            context
+                                .read<AppCubit>()
+                                .changeBottomSheetHeight(size.height);
+                            // Down Swipe
+                          } else if (details.delta.dy < -sensitivity) {
+                            context
+                                .read<AppCubit>()
+                                .changeBottomSheetHeight(size.height);
+                            // Up Swipe
+                          }
                         },
                         child: AnimatedContainer(
                           height: state.movieDetailBottomSheetHeight,
@@ -256,7 +264,7 @@ class MovieDetailPage extends StatelessWidget {
                                     top: 22, right: 12, left: 12),
                                 child: Text(
                                   state.movieItem?.plot ?? '',
-                                  maxLines: 8,
+                                  maxLines: 5,
                                   overflow: TextOverflow.ellipsis,
                                   style: AppTheme.getTextTheme(null)
                                       .bodyMedium!
@@ -265,7 +273,7 @@ class MovieDetailPage extends StatelessWidget {
                               ),
                               Container(
                                 margin:
-                                    const EdgeInsets.only(top: 20, left: 20),
+                                    const EdgeInsets.only(top: 10, left: 20),
                                 child: Row(
                                   children: [
                                     InkWell(
@@ -345,75 +353,183 @@ class MovieDetailPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 15),
-                                height: 130,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    final actorName = AppExtensions('')
-                                        .devideActorsIntoList(
-                                            state.movieItem!.actors!)[index];
-
-                                    String writerName = AppExtensions('')
-                                        .devideWritersIntoList(
-                                            state.movieItem!.writer!)[index];
-
-                                    return Container(
-                                      margin: EdgeInsets.only(
-                                          left: index == 0 ? 20 : 0),
-                                      width: 100,
-                                      height: 60,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.network(
-                                              'http://moviesapi.ir/images/tt0111161_screenshot1.jpg',
-                                              fit: BoxFit.cover,
-                                              height: 100,
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 5),
-                                            child: Text(
-                                              state.actiorTabSelected
-                                                  ? actorName
-                                                  : writerName,
-                                              textAlign: TextAlign.center,
-                                              style: AppTheme.getTextTheme(null)
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  itemCount: state.actiorTabSelected
-                                      ? AppExtensions('')
+                              if (state.actiorTabSelected)
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  height: 150,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      final actorName = AppExtensions('')
                                           .devideActorsIntoList(
-                                              state.movieItem!.actors!)
-                                          .length
-                                      : AppExtensions('')
+                                              state.movieItem!.actors!)[index];
+
+                                      return Container(
+                                        margin: EdgeInsets.only(
+                                            left: index == 0 ? 20 : 0),
+                                        width: 100,
+                                        height: 60,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.network(
+                                                imageList[index],
+                                                fit: BoxFit.cover,
+                                                height: 100,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 5),
+                                              child: Text(
+                                                actorName,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    AppTheme.getTextTheme(null)
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    itemCount: AppExtensions('')
+                                        .devideActorsIntoList(
+                                            state.movieItem?.actors ?? '')
+                                        .length,
+                                    separatorBuilder: (context, index) {
+                                      return Container(
+                                        width: 10,
+                                      );
+                                    },
+                                  ),
+                                )
+                              else
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  height: 150,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      String writerName = AppExtensions('')
                                           .devideWritersIntoList(
-                                              state.movieItem!.actors!)
-                                          .length,
-                                  separatorBuilder: (context, index) {
-                                    return Container(
-                                      width: 10,
-                                    );
-                                  },
+                                              state.movieItem?.writer ??
+                                                  '')[index];
+
+                                      return Container(
+                                        margin: EdgeInsets.only(
+                                            left: index == 0 ? 20 : 0),
+                                        width: 100,
+                                        height: 60,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.network(
+                                                imageList[index],
+                                                fit: BoxFit.cover,
+                                                height: 100,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 5),
+                                              child: Text(
+                                                writerName,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    AppTheme.getTextTheme(null)
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    itemCount: AppExtensions('')
+                                        .devideWritersIntoList(
+                                            state.movieItem?.writer ?? '')
+                                        .length,
+                                    separatorBuilder: (context, index) {
+                                      return Container(
+                                        width: 10,
+                                      );
+                                    },
+                                  ),
                                 ),
-                              )
+                              if (state.movieDetailBottomSheetHeight ==
+                                  size.height * .85)
+                                SizedBox(
+                                  height: 230,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 15, left: 20),
+                                        child: Text(
+                                          AppConstants.photoes,
+                                          style: AppTheme.getTextTheme(null)
+                                              .titleLarge!
+                                              .copyWith(color: Colors.white),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 165,
+                                        margin: const EdgeInsets.only(top: 20),
+                                        child: ListView.separated(
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return Container(
+                                                margin: EdgeInsets.only(
+                                                    left: index == 0 ? 20 : 0),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child: Image.network(state
+                                                          .movieItem
+                                                          ?.images?[index] ??
+                                                      ''),
+                                                ),
+                                              );
+                                            },
+                                            separatorBuilder: (context, index) {
+                                              return Container(
+                                                width: 15,
+                                              );
+                                            },
+                                            itemCount: state.movieItem?.images
+                                                    ?.length ??
+                                                0),
+                                      ),
+                                    ],
+                                  ),
+                                )
                             ],
                           ),
                         ),

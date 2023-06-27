@@ -283,7 +283,7 @@ class MovieListPage extends HookWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  liveNowWidget(),
+                                  if (page == 0) liveNowWidget(),
                                   movieInfoWidget(state, page)
                                 ],
                               ),
@@ -362,7 +362,7 @@ class MovieListPage extends HookWidget {
                     .copyWith(color: Colors.white),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   context.push('/allMoviesPage');
                 },
                 child: Text(
@@ -381,7 +381,12 @@ class MovieListPage extends HookWidget {
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    await context
+                        .read<AppCubit>()
+                        .getMovieDetailById(state.movieList[index].id ?? 0);
+
+                    // ignore: use_build_context_synchronously
                     context.push(
                       '/movieDetailPage',
                       extra: state.movieList[index],
@@ -395,7 +400,7 @@ class MovieListPage extends HookWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.network(
-                            state.movieList[index].poster!,
+                            state.movieList[index].poster ?? '',
                             width: 90,
                             height: 120,
                             fit: BoxFit.cover,
