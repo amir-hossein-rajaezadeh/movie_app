@@ -34,7 +34,8 @@ class AppCubit extends Cubit<AppState> {
               movieList: [],
               page: 0,
               bannerPage: 0,
-              actiorTabSelected: true),
+              actiorTabSelected: true,
+              movieDetailBottomSheetHeight: 470),
         );
 
   onPageViewChange(int page) {
@@ -315,8 +316,15 @@ class AppCubit extends Cubit<AppState> {
 
   void onActorTapClicked() {
     emit(
-      state.copyWith(actiorTabSelected: state.actiorTabSelected?false:true),
+      state.copyWith(actiorTabSelected: state.actiorTabSelected ? false : true),
     );
+  }
+
+  void changeBottomSheetHeight(double deviceHeight) {
+    emit(state.copyWith(
+        movieDetailBottomSheetHeight: state.movieDetailBottomSheetHeight == 470
+            ? deviceHeight * .85
+            : 470));
   }
 
   int returnYear() {

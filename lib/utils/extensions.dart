@@ -27,4 +27,29 @@ extension AppExtensions on String {
     String finalDevided = '${houre}h ${minute}m';
     return finalDevided;
   }
+
+  List<String> devideActorsIntoList(String allListInString) {
+    final split = allListInString.split(',');
+    final Map<int, String> actor = {
+      for (int i = 0; i < split.length; i++) i: split[i]
+    };
+    List<String> actorList = [];
+    actor.forEach((key, value) {
+      actorList.add(value);
+    });
+    return actorList;
+  }
+
+  List<String> devideWritersIntoList(String allListInString) {
+    final split = allListInString.split(',');
+    final Map<int, String> writer = {
+      for (int i = 0; i < split.length; i++) i: split[i]
+    };
+    List<String> writerList = [];
+    writer.forEach((key, value) {
+      writerList.add(value);
+    });
+
+    return writerList;
+  }
 }

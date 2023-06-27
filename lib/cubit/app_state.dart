@@ -17,6 +17,7 @@ class AppState extends Equatable {
   final int? movieRate;
   final int? bannerPage;
   final bool actiorTabSelected;
+  final double? movieDetailBottomSheetHeight;
 
   final MovieRM? movieItem;
   const AppState(
@@ -33,7 +34,8 @@ class AppState extends Equatable {
       this.movieRate,
       this.bannerPage,
       this.movieItem,
-      required this.actiorTabSelected});
+      required this.actiorTabSelected,
+      this.movieDetailBottomSheetHeight});
 
   AppState copyWith(
       {bool? hasError,
@@ -49,8 +51,11 @@ class AppState extends Equatable {
       int? movieRate,
       int? bannerPage,
       MovieRM? movieItem,
-      bool? actiorTabSelected}) {
+      bool? actiorTabSelected,
+      double? movieDetailBottomSheetHeight}) {
     return AppState(
+        movieDetailBottomSheetHeight:
+            movieDetailBottomSheetHeight ?? this.movieDetailBottomSheetHeight,
         movieList: movieList ?? this.movieList,
         postList: postList ?? this.postList,
         hasError: hasError ?? this.hasError,
@@ -82,6 +87,7 @@ class AppState extends Equatable {
         movieRate,
         bannerPage,
         movieItem,
-        actiorTabSelected
+        actiorTabSelected,
+        movieDetailBottomSheetHeight
       ];
 }
