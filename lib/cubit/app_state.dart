@@ -1,3 +1,4 @@
+import 'package:bloc_getit_practice/models/genres.dart';
 import 'package:equatable/equatable.dart';
 
 import '../models/movie_rm.dart';
@@ -7,6 +8,8 @@ class AppState extends Equatable {
   final bool hasError;
   final List<PostModel> postList;
   final List<MovieRM> movieList;
+  final List<GenresRM> genreList;
+
   final int page;
   final int counter;
   final bool isLoading;
@@ -24,6 +27,7 @@ class AppState extends Equatable {
       {required this.page,
       required this.hasError,
       required this.postList,
+      required this.genreList,
       required this.movieList,
       required this.counter,
       required this.isLoading,
@@ -41,6 +45,7 @@ class AppState extends Equatable {
       {bool? hasError,
       List<PostModel>? postList,
       List<MovieRM>? movieList,
+      List<GenresRM>? genreList,
       int? counter,
       int? page,
       bool? isLoading,
@@ -54,6 +59,7 @@ class AppState extends Equatable {
       bool? actiorTabSelected,
       double? movieDetailBottomSheetHeight}) {
     return AppState(
+        genreList: genreList ?? this.genreList,
         movieDetailBottomSheetHeight:
             movieDetailBottomSheetHeight ?? this.movieDetailBottomSheetHeight,
         movieList: movieList ?? this.movieList,
@@ -88,6 +94,7 @@ class AppState extends Equatable {
         bannerPage,
         movieItem,
         actiorTabSelected,
-        movieDetailBottomSheetHeight
+        movieDetailBottomSheetHeight,
+        genreList
       ];
 }

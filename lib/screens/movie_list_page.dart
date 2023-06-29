@@ -86,7 +86,7 @@ class MovieListPage extends HookWidget {
                       ),
                       movieBannerWidget(context, size, state),
                       latestMoviesWidget(state, context),
-                      topRatedWidget(state)
+                      genreListWidget(state)
                     ],
                   ),
                 ),
@@ -123,7 +123,7 @@ class MovieListPage extends HookWidget {
     );
   }
 
-  Widget topRatedWidget(AppState state) {
+  Widget genreListWidget(AppState state) {
     return Column(
       children: [
         Container(
@@ -132,7 +132,7 @@ class MovieListPage extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppConstants.topRated,
+                AppConstants.Genres,
                 style: AppTheme.getTextTheme(null)
                     .bodyLarge!
                     .copyWith(color: Colors.white),
@@ -170,32 +170,14 @@ class MovieListPage extends HookWidget {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(left: 12, bottom: 4),
-                        width: 220,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              state.movieList[index].title!,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTheme.getTextTheme(null)
-                                  .bodyMedium!
-                                  .copyWith(color: Colors.white),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              state.movieList[index].year!,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTheme.getTextTheme(null)
-                                  .bodySmall!
-                                  .copyWith(color: Colors.grey, fontSize: 15),
-                            )
-                          ],
+                        margin: const EdgeInsets.only(bottom: 16, left: 12),
+                        child: Text(
+                          state.genreList[index].name ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.getTextTheme(null)
+                              .bodyLarge!
+                              .copyWith(color: Colors.white),
                         ),
                       ),
                     ],
@@ -204,10 +186,10 @@ class MovieListPage extends HookWidget {
               },
               separatorBuilder: (context, index) {
                 return Container(
-                  width: 12,
+                  width: 15,
                 );
               },
-              itemCount: 10),
+              itemCount: state.genreList.length),
         )
       ],
     );

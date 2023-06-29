@@ -17,6 +17,8 @@ class MainPage extends StatelessWidget {
               child: TextButton(
                 onPressed: () async {
                   await context.read<AppCubit>().fetchMovieApi();
+                  await context.read<AppCubit>().getGenreList();
+
                   context.push('/movieList');
                 },
                 child: const Text(

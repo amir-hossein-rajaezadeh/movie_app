@@ -32,6 +32,7 @@ class AppCubit extends Cubit<AppState> {
               hasError: false,
               postList: [],
               movieList: [],
+              genreList: [],
               page: 0,
               bannerPage: 0,
               actiorTabSelected: true,
@@ -98,6 +99,24 @@ class AppCubit extends Cubit<AppState> {
       emit(
         state.copyWith(
             movieList: movieListServer.movie, isLoading: false, page: 0),
+      );
+    } catch (e) {
+      print('Error is $e');
+    }
+  }
+
+  Future<void> getGenreList() async {
+    emit(
+      state.copyWith(isLoading: true),
+    );
+    try {
+      final genreList = await client.getGenresList();
+
+      emit(
+        state.copyWith(
+          genreList: genreList,
+          isLoading: false,
+        ),
       );
     } catch (e) {
       print('Error is $e');
