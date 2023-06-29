@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../models/movie_rm.dart';
 import '../service/rest_client.dart';
+import '../utils/app_constants.dart';
 import 'app_state.dart';
 
 final dio = Dio();
@@ -310,6 +311,24 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+  Future<void> getGenreMovieById(int id) async {
+    emit(
+      state.copyWith(isLoading: true),
+    );
+    try {
+      print('dfdf${AppConstants.genres}1/${AppConstants.movies}');
+
+      final genreMoviesServer = await client.getMovieListByGenreId(id);
+
+      emit(state.copyWith(movieList: []));
+      emit(
+        state.copyWith(movieList: genreMoviesServer.movie, isLoading: false),
+      );
+    } catch (e) {
+      print('Error is $e');
+    }
+  }
+
   Timer? _debounce;
 
   Timer? getdebounce() => _debounce;
@@ -330,6 +349,14 @@ class AppCubit extends Cubit<AppState> {
           },
         );
       },
+    );
+  }
+
+  void onGenreItemClicked(BuildContext context, int genreId, int index) async {
+    context.read<AppCubit>().getGenreMovieById(genreId);
+    context.push(
+      '/genreListPage',
+      extra: state.genreList[index].name,
     );
   }
 

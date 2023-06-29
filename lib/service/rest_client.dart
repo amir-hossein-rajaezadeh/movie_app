@@ -1,3 +1,4 @@
+import 'package:bloc_getit_practice/models/genre_list_rm.dart';
 import 'package:bloc_getit_practice/models/movie_model.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:retrofit/retrofit.dart';
@@ -22,8 +23,11 @@ abstract class MovieClient {
   @GET('${AppConstants.movies}/{id}')
   Future<MovieRM> getMovieDetail(@Path("id") id);
 
+  @GET('${AppConstants.genres}{id}/${AppConstants.movies}')
+  Future<MovieModel> getMovieListByGenreId(@Path("id") id);
+
   @GET(AppConstants.genres)
-  Future <List<GenresRM>> getGenresList();
+  Future<List<GenresRM>> getGenresList();
 
   // @MultiPart()
   // Future<double> uploadDocument(

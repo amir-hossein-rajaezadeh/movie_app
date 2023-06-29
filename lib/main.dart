@@ -4,6 +4,7 @@ import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:bloc_getit_practice/screens/add_movie_page.dart';
 import 'package:bloc_getit_practice/screens/all_movies_page.dart';
 import 'package:bloc_getit_practice/screens/counter_page.dart';
+import 'package:bloc_getit_practice/screens/genre_list_page.dart';
 import 'package:bloc_getit_practice/screens/main_page.dart';
 import 'package:bloc_getit_practice/screens/movie_detail_page.dart';
 import 'package:bloc_getit_practice/screens/movie_list_page.dart';
@@ -53,6 +54,15 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           MovieRM selectedMovieItem = state.extra as MovieRM;
           return MovieDetailPage(selectedMovieItem: selectedMovieItem);
+        },
+      ),
+      GoRoute(
+        path: '/genreListPage',
+        builder: (context, state) {
+          String genreName = state.extra as String;
+          return GenreListPage(
+            genreName: genreName,
+          );
         },
       )
     ],

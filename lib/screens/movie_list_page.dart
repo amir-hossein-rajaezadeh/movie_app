@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
+import 'package:bloc_getit_practice/models/genres.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -155,32 +156,40 @@ class MovieListPage extends HookWidget {
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
+                GenresRM genreItem = state.genreList[index];
                 return Container(
                   margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
-                  child: Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          state.movieList[index].poster!,
-                          width: 250,
-                          height: 150,
-                          fit: BoxFit.cover,
+                  child: InkWell(
+                    onTap: () {
+                      context
+                          .read<AppCubit>()
+                          .onGenreItemClicked(context, genreItem.id!, index);
+                    },
+                    child: Stack(
+                      alignment: Alignment.bottomLeft,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            state.movieList[index].poster!,
+                            width: 250,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 16, left: 12),
-                        child: Text(
-                          state.genreList[index].name ?? '',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTheme.getTextTheme(null)
-                              .bodyLarge!
-                              .copyWith(color: Colors.white),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 16, left: 12),
+                          child: Text(
+                            state.genreList[index].name ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.getTextTheme(null)
+                                .bodyLarge!
+                                .copyWith(color: Colors.white),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
