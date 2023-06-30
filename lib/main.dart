@@ -47,7 +47,13 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: "/allMoviesPage",
-        builder: (context, state) => const AllMoviesPage(),
+        builder: (context, state) {
+          String genreName = state.extra as String;
+
+          return AllMoviesPage(
+            genreName: genreName,
+          );
+        },
       ),
       GoRoute(
         path: '/movieDetailPage',

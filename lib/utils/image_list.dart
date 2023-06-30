@@ -1,9 +1,32 @@
-  List<String> imageList = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzQgSdFuHJ945PFdA7p9x4cuUk68yOKplXxGMIykVWyg&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkfHZo_GbrljtSQF_3GqWGftCwpu00YalPPmlkCWUCjg&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_r3sdooFY0bG16Gsd5SMpq7cbH_ENghqR33xpnb6DYg&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHcoKRflfqUsMuTyMR2kUYnlP5W6FQR6wr7kt24fct&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmamySsm9sUBboQc7hZhms_VSWoxAqFe-YSe-7zsAT&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC9a3rKRzFpA7DTNyseyZ4Hr6FJoyOq9752O3g6dWVpw&s',
-    'https://upload.wikimedia.org/wikipedia/commons/1/1f/Dwayne_Johnson_2014_%28cropped%29.jpg'
-  ];
+List<String> actorImageList = [
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzQgSdFuHJ945PFdA7p9x4cuUk68yOKplXxGMIykVWyg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkfHZo_GbrljtSQF_3GqWGftCwpu00YalPPmlkCWUCjg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_r3sdooFY0bG16Gsd5SMpq7cbH_ENghqR33xpnb6DYg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHcoKRflfqUsMuTyMR2kUYnlP5W6FQR6wr7kt24fct&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmamySsm9sUBboQc7hZhms_VSWoxAqFe-YSe-7zsAT&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC9a3rKRzFpA7DTNyseyZ4Hr6FJoyOq9752O3g6dWVpw&s',
+  'https://upload.wikimedia.org/wikipedia/commons/1/1f/Dwayne_Johnson_2014_%28cropped%29.jpg'
+];
+List<String> genreList = [
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q9xYHDJgbbrSD0HmOKs4TWrwDw_kd6QAOWa7_uyoF8qL39gw7M1v8jdg5Tx6Yr8ZMkk&usqp=CAU',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgLdcJGIpcpAuzEvCI64F-1pg5a4kmh_VN0cYfQH5ZojBmP7bUinN9NuFENU8I3mhNNV4&usqp=CAU',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuuQ0ceNA3Xljezpb5BhgpwKuJ_HggBgTFeV13tThnapaQ0I3uBbycPGQGkfZ7Mv2QKVU&usqp=CAU',
+  'https://amandakassner.com/wp-content/uploads/2019/11/jason-wong-355373-unsplash_0_0.jpg',
+  'https://celadonbooks.com/wp-content/uploads/2020/03/Historical-Fiction-1024x596.jpg',
+  'https://unitingartists.org/wp-content/uploads/2020/06/Adventure-Genre.jpg',
+  'https://qph.cf2.quoracdn.net/main-qimg-d81a610868cb5c84fd1ff26ff644fcb3-pjlq',
+  'https://vigiato.net/wp-content/uploads/2022/01/photo_%DB%B2%DB%B0%DB%B2%DB%B1-%DB%B0%DB%B3-%DB%B0%DB%B2_%DB%B2%DB%B1-%DB%B2%DB%B5-%DB%B4%DB%B6-1024x768.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT96rvNKrYF3J-yEJTk-4EV8bDhaWA3mPbp_w&usqp=CAU',
+  'https://www.dictionary.com/e/wp-content/uploads/2022/09/20220913_something_sci_fi_1000x7001.jpg',
+  'https://images.ctfassets.net/3s5io6mnxfqz/5yaU9R8CfN7H3IFwlpjINO/41882ddd6ce99df47e11434a03ee6271/AdobeStock_138391201.jpeg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiE5udjz0czwKKN31U8LGj3b26WY1XvYbpAVN0R17fcewLlc50XmqiUWpD1sp48DAzxdM&usqp=CAU',
+  'https://10000hacks.com/wp-content/uploads/2023/04/pexels-ketut-subiyanto-4545943-1536x1032.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyljM2orVSOeAd3RM3SX_lv_W2JgPnrBsXNBVZQCoO&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrUIvaiux1yhBu80suNw6kQ1EnS6EwT6hjZW4nPYEk&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA0IuN3haAjghN5T1IkCwNSHq_ipMgzs3YfBdOukmf&s',
+  'https://w0.peakpx.com/wallpaper/248/385/HD-wallpaper-dark-ghost-horor-art-gothic-art-artwork-ghosts-art.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_F2loux78qAo5IUN7wBxX6JW7QuhRExzdQqWnxcy&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj0-b_iVVFh56ajDRy6yavwlh0Kl3kPV45yvdb5w3fmCPqJ-O4ZJ1w2hKs7rKKKp01UEA&usqp=CAU',
+  'https://www.ensembleschools.com/ricks-music/wp-content/uploads/sites/21/2021/11/instruments-in-store.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnx_LZDmSZeViPGlCSUwC5QXSEppI3-gE0Qg&usqp=CAU',
+];

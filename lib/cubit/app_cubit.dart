@@ -353,11 +353,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void onGenreItemClicked(BuildContext context, int genreId, int index) async {
-    context.read<AppCubit>().getGenreMovieById(genreId);
-    context.push(
-      '/genreListPage',
-      extra: state.genreList[index].name,
-    );
+    
   }
 
   void onActorTapClicked() {

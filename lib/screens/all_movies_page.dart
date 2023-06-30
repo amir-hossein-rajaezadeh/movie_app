@@ -1,4 +1,3 @@
-import 'package:bloc_getit_practice/models/movie_rm.dart';
 import 'package:bloc_getit_practice/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +9,9 @@ import '../cubit/app_state.dart';
 import 'components/app_bar.dart';
 
 class AllMoviesPage extends StatefulHookWidget {
-  const AllMoviesPage({super.key});
+  const AllMoviesPage({super.key, required this.genreName});
 
+  final String genreName;
   @override
   State<AllMoviesPage> createState() => _AllMoviesPageState();
 }
@@ -52,14 +52,15 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
         ),
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
-             return Column(
+            return Column(
               children: [
                 if (state.movieList.isNotEmpty)
                   AppBarWidget(
                       size: size,
                       searchTextFieldController: searchTextFieldController,
-                      haveSearchTextField: true),
-                movieListWidget(    size, state),
+                      haveSearchTextField: widget.genreName.isEmpty,
+                      selectedGenreName: widget.genreName),
+                movieListWidget(size, state),
               ],
             );
           },
@@ -68,7 +69,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
     );
   }
 
-  Widget movieListWidget(  Size size, AppState state) {
+  Widget movieListWidget(Size size, AppState state) {
     return Expanded(
       child: Stack(
         children: [

@@ -377,7 +377,7 @@ class MovieDetailPage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               child: Image.network(
-                                                imageList[index],
+                                                actorImageList[index],
                                                 fit: BoxFit.cover,
                                                 height: 100,
                                               ),
@@ -441,7 +441,7 @@ class MovieDetailPage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               child: Image.network(
-                                                imageList[index],
+                                                actorImageList[index],
                                                 fit: BoxFit.cover,
                                                 height: 100,
                                               ),

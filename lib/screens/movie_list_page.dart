@@ -72,7 +72,7 @@ class MovieListPage extends HookWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    context.push('/allMoviesPage');
+                                    context.push('/allMoviesPage', extra: '');
                                   },
                                   child: const Icon(
                                     CupertinoIcons.search,
@@ -87,7 +87,7 @@ class MovieListPage extends HookWidget {
                       ),
                       movieBannerWidget(context, size, state),
                       latestMoviesWidget(state, context),
-                      genreListWidget(state)
+                      genreListWidget(state, context)
                     ],
                   ),
                 ),
@@ -124,7 +124,7 @@ class MovieListPage extends HookWidget {
     );
   }
 
-  Widget genreListWidget(AppState state) {
+  Widget genreListWidget(AppState state, BuildContext context) {
     return Column(
       children: [
         Container(
@@ -139,7 +139,9 @@ class MovieListPage extends HookWidget {
                     .copyWith(color: Colors.white),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push('/genreListPage', extra: '');
+                },
                 child: Text(
                   AppConstants.seeAll,
                   style: AppTheme.getTextTheme(null).bodyMedium!,
@@ -161,9 +163,9 @@ class MovieListPage extends HookWidget {
                   margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
                   child: InkWell(
                     onTap: () {
-                      context
-                          .read<AppCubit>()
-                          .onGenreItemClicked(context, genreItem.id!, index);
+                      context.read<AppCubit>().getGenreMovieById(genreItem.id!);
+                      context.push('/allMoviesPage',
+                          extra: state.genreList[index].name);
                     },
                     child: Stack(
                       alignment: Alignment.bottomLeft,
@@ -354,7 +356,7 @@ class MovieListPage extends HookWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  context.push('/allMoviesPage');
+                  context.push('/allMoviesPage', extra: '');
                 },
                 child: Text(
                   AppConstants.seeAll,
