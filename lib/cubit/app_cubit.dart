@@ -135,8 +135,11 @@ class AppCubit extends Cubit<AppState> {
     try {
       /* Need to add Movie model in State */
       if (movieByGenre) {
-        getGenreMovieById(
-          genreId,
+        final genreMoviesServer =
+            await client.getMovieListByGenreId(genreId, state.page);
+        movieListByGenre.addAll(genreMoviesServer.movie?.toList() ?? []);
+        emit(
+          state.copyWith(movieListByGenre: movieListByGenre, isLoading: false),
         );
       } else {
         final movieListServer =
@@ -160,7 +163,7 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      final movieListServer = await client.getMovieList(0, searchValue);
+      final movieListServer = await client.getMovieList(1, searchValue);
 
       emit(
         state.copyWith(movieList: movieListServer.movie, isLoading: false),
@@ -320,22 +323,19 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> getGenreMovieById(int id) async {
     emit(
-      state.copyWith(isLoading: true),
+      state.copyWith(isLoading: true, movieListByGenre: [], page: 1),
     );
-    movieList.clear();
+    movieListByGenre.clear();
     try {
       print('dfdf${AppConstants.genres}1/${AppConstants.movies}');
 
       final genreMoviesServer =
           await client.getMovieListByGenreId(id, state.page);
-      movieListByGenre.addAll(genreMoviesServer.movie?.toList() ?? []);
+      movieListByGenre = (genreMoviesServer.movie?.toList() ?? []);
       print('value is ${genreMoviesServer.movie![0].title} ');
 
       emit(
-        state.copyWith(
-            movieListByGenre: movieListByGenre,
-            movieList: [],
-            isLoading: false),
+        state.copyWith(movieListByGenre: movieListByGenre, isLoading: false),
       );
     } catch (e) {
       print('Error is $e');

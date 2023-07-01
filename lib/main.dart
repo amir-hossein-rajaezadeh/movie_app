@@ -59,8 +59,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/movieDetailPage',
         builder: (context, state) {
-          MovieRM selectedMovieItem = state.extra as MovieRM;
-          return MovieDetailPage(selectedMovieItem: selectedMovieItem);
+          return const MovieDetailPage();
         },
       ),
       GoRoute(

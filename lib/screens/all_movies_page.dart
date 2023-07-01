@@ -96,11 +96,13 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
               return Container(
                 margin: const EdgeInsets.only(left: 15),
                 child: InkWell(
-                  onTap: () {
-                    context.push('/movieDetailPage',
-                        extra: movieByGenreIsEmpty
-                            ? state.movieList[index]
-                            : state.movieListByGenre[index]);
+                  onTap: () async {
+                    await context
+                        .read<AppCubit>()
+                        .getMovieDetailById(state.movieList[index].id!);
+                    context.push(
+                      '/movieDetailPage',
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

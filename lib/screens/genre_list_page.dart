@@ -57,6 +57,7 @@ class GenreListPage extends StatelessWidget {
                             margin: const EdgeInsets.only(left: 15),
                             child: InkWell(
                               onTap: () async {
+                                
                                 await context
                                     .read<AppCubit>()
                                     .getGenreMovieById(

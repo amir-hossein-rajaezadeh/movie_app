@@ -15,9 +15,7 @@ import '../utils/colors.dart';
 import '../utils/image_list.dart';
 
 class MovieDetailPage extends StatelessWidget {
-  MovieRM? selectedMovieItem;
-
-  MovieDetailPage({super.key, required this.selectedMovieItem});
+  const MovieDetailPage({super.key});
 
   @override
   Widget build(BuildContext buildContext) {
@@ -353,133 +351,134 @@ class MovieDetailPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              if (state.actiorTabSelected)
-                                Container(
-                                  margin: const EdgeInsets.only(top: 10),
-                                  height: 150,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      final actorName = AppExtensions('')
+                              if (state.movieItem!.actors!.isNotEmpty)
+                                if (state.actiorTabSelected)
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    height: 150,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        final actorName = AppExtensions('')
+                                            .devideActorsIntoList(state
+                                                .movieItem!.actors!)[index];
+
+                                        return Container(
+                                          margin: EdgeInsets.only(
+                                              left: index == 0 ? 20 : 0),
+                                          width: 100,
+                                          height: 60,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  actorImageList[index],
+                                                  fit: BoxFit.cover,
+                                                  height: 100,
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Text(
+                                                  actorName,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.center,
+                                                  style: AppTheme.getTextTheme(
+                                                          null)
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      itemCount: AppExtensions('')
                                           .devideActorsIntoList(
-                                              state.movieItem!.actors!)[index];
+                                              state.movieItem?.actors ?? '')
+                                          .length,
+                                      separatorBuilder: (context, index) {
+                                        return Container(
+                                          width: 10,
+                                        );
+                                      },
+                                    ),
+                                  )
+                                else
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    height: 150,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        String writerName = AppExtensions('')
+                                            .devideWritersIntoList(
+                                                state.movieItem?.writer ??
+                                                    '')[index];
 
-                                      return Container(
-                                        margin: EdgeInsets.only(
-                                            left: index == 0 ? 20 : 0),
-                                        width: 100,
-                                        height: 60,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: Image.network(
-                                                actorImageList[index],
-                                                fit: BoxFit.cover,
-                                                height: 100,
+                                        return Container(
+                                          margin: EdgeInsets.only(
+                                              left: index == 0 ? 20 : 0),
+                                          width: 100,
+                                          height: 60,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  actorImageList[index],
+                                                  fit: BoxFit.cover,
+                                                  height: 100,
+                                                ),
                                               ),
-                                            ),
-                                            Container(
-                                              margin:
-                                                  const EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                actorName,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    AppTheme.getTextTheme(null)
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Text(
+                                                  writerName,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.center,
+                                                  style: AppTheme.getTextTheme(
+                                                          null)
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    itemCount: AppExtensions('')
-                                        .devideActorsIntoList(
-                                            state.movieItem?.actors ?? '')
-                                        .length,
-                                    separatorBuilder: (context, index) {
-                                      return Container(
-                                        width: 10,
-                                      );
-                                    },
-                                  ),
-                                )
-                              else
-                                Container(
-                                  margin: const EdgeInsets.only(top: 10),
-                                  height: 150,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      String writerName = AppExtensions('')
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      itemCount: AppExtensions('')
                                           .devideWritersIntoList(
-                                              state.movieItem?.writer ??
-                                                  '')[index];
-
-                                      return Container(
-                                        margin: EdgeInsets.only(
-                                            left: index == 0 ? 20 : 0),
-                                        width: 100,
-                                        height: 60,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: Image.network(
-                                                actorImageList[index],
-                                                fit: BoxFit.cover,
-                                                height: 100,
-                                              ),
-                                            ),
-                                            Container(
-                                              margin:
-                                                  const EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                writerName,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    AppTheme.getTextTheme(null)
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    itemCount: AppExtensions('')
-                                        .devideWritersIntoList(
-                                            state.movieItem?.writer ?? '')
-                                        .length,
-                                    separatorBuilder: (context, index) {
-                                      return Container(
-                                        width: 10,
-                                      );
-                                    },
+                                              state.movieItem?.writer ?? '')
+                                          .length,
+                                      separatorBuilder: (context, index) {
+                                        return Container(
+                                          width: 10,
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
                               if (state.movieDetailBottomSheetHeight ==
                                   size.height * .85)
                                 SizedBox(
