@@ -10,9 +10,10 @@ import '../cubit/app_state.dart';
 import 'components/app_bar.dart';
 
 class AllMoviesPage extends StatefulHookWidget {
-  const AllMoviesPage(
-      {super.key, required this.genreRM, required this.movieByGenre});
-  final bool movieByGenre;
+  const AllMoviesPage({
+    super.key,
+    required this.genreRM,
+  });
   final GenresRM genreRM;
   @override
   State<AllMoviesPage> createState() => _AllMoviesPageState();
@@ -40,7 +41,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
         if (scrollController.position.pixels != 0) {
           print('reach end of the list');
           context.read<AppCubit>().updatePage(searchTextFieldController.text,
-              widget.movieByGenre, widget.genreRM.id!);
+              widget.genreRM.name!.isNotEmpty, widget.genreRM.id ?? -1);
         }
       }
     });
@@ -57,7 +58,8 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
           builder: (context, state) {
             return Column(
               children: [
-                if (state.movieList.isNotEmpty)
+                if (state.movieList.isNotEmpty ||
+                    state.movieListByGenre.isNotEmpty)
                   AppBarWidget(
                       size: size,
                       searchTextFieldController: searchTextFieldController,
@@ -73,13 +75,16 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
   }
 
   Widget movieListWidget(Size size, AppState state) {
+    final bool movieByGenreIsEmpty = state.movieListByGenre.isEmpty;
     return Expanded(
       child: Stack(
         children: [
           ListView.separated(
             shrinkWrap: true,
             controller: scrollController,
-            itemCount: state.movieList.length,
+            itemCount: movieByGenreIsEmpty
+                ? state.movieList.length
+                : state.movieListByGenre.length,
             separatorBuilder: (context, index) {
               return Container(
                 margin: const EdgeInsets.symmetric(vertical: 3),
@@ -88,12 +93,14 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
               );
             },
             itemBuilder: (context, index) {
-              final movieItem = state.movieList[index];
               return Container(
                 margin: const EdgeInsets.only(left: 15),
                 child: InkWell(
                   onTap: () {
-                    context.push('/movieDetailPage', extra: movieItem);
+                    context.push('/movieDetailPage',
+                        extra: movieByGenreIsEmpty
+                            ? state.movieList[index]
+                            : state.movieListByGenre[index]);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +111,9 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              movieItem.title ?? '',
+                              movieByGenreIsEmpty
+                                  ? state.movieList[index].title ?? ''
+                                  : state.movieListByGenre[index].title ?? '',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: AppTheme.getTextTheme(null)
@@ -115,7 +124,9 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                               height: 15,
                             ),
                             Text(
-                              movieItem.country!,
+                              movieByGenreIsEmpty
+                                  ? state.movieList[index].country ?? ''
+                                  : state.movieListByGenre[index].country ?? '',
                               overflow: TextOverflow.ellipsis,
                               style: AppTheme.getTextTheme(null)
                                   .bodyMedium!
@@ -138,10 +149,18 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                                   );
                                 },
                                 scrollDirection: Axis.horizontal,
-                                itemCount: movieItem.genres?.length ?? 0,
-                                itemBuilder: (context, index) {
+                                itemCount: movieByGenreIsEmpty
+                                    ? state.movieList[index].genres?.length ?? 0
+                                    : state.movieListByGenre[index].genres
+                                            ?.length ??
+                                        0,
+                                itemBuilder: (context, genreIndex) {
                                   return Text(
-                                    movieItem.genres?[index] ?? "",
+                                    movieByGenreIsEmpty
+                                        ? state.movieList[index]
+                                            .genres![genreIndex]
+                                        : state.movieListByGenre[index]
+                                            .genres![genreIndex],
                                     style: AppTheme.getTextTheme(null)
                                         .bodyMedium!
                                         .copyWith(color: Colors.white),
@@ -160,7 +179,10 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
-                                state.movieList[index].poster!,
+                                movieByGenreIsEmpty
+                                    ? state.movieList[index].poster ?? ''
+                                    : state.movieListByGenre[index].poster ??
+                                        '',
                                 width: size.width * .15,
                                 height: 80,
                                 fit: BoxFit.cover,
@@ -169,7 +191,10 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                             const SizedBox(
                               height: 6,
                             ),
-                            Text(movieItem.year!,
+                            Text(
+                                movieByGenreIsEmpty
+                                    ? state.movieList[index].year ?? ''
+                                    : state.movieListByGenre[index].year ?? '',
                                 style: AppTheme.getTextTheme(null)
                                     .titleMedium!
                                     .copyWith(color: Colors.white)),

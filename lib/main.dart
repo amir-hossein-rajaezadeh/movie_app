@@ -53,7 +53,6 @@ class MyApp extends StatelessWidget {
           // bool movieByGenre = state.extra as bool;
           return AllMoviesPage(
             genreRM: genreRM,
-            movieByGenre: true,
           );
         },
       ),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:bloc_getit_practice/models/genres.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
+import 'package:bloc_getit_practice/utils/image_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +73,10 @@ class MovieListPage extends HookWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    context.push('/allMoviesPage', extra: '');
+                                    context.push(
+                                      '/allMoviesPage',
+                                      extra: GenresRM(name: ''),
+                                    );
                                   },
                                   child: const Icon(
                                     CupertinoIcons.search,
@@ -158,39 +162,43 @@ class MovieListPage extends HookWidget {
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                GenresRM genreItem = state.genreList[index];
-                return Container(
-                  margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
-                  child: InkWell(
-                    onTap: () {
-                      context.read<AppCubit>().getGenreMovieById(genreItem.id!);
-                      context.push('/allMoviesPage',
-                          extra: state.genreList[index].name);
-                    },
-                    child: Stack(
-                      alignment: Alignment.bottomLeft,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            state.movieList[index].poster!,
-                            width: 250,
-                            height: 150,
-                            fit: BoxFit.cover,
+                return BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                    margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
+                    child: InkWell(
+                      onTap: () {
+                        context
+                            .read<AppCubit>()
+                            .getGenreMovieById(state.genreList[index].id!);
+                        context.push('/allMoviesPage',
+                            extra: state.genreList[index].name);
+                      },
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              genreList[index],
+                              width: 250,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 16, left: 12),
-                          child: Text(
-                            state.genreList[index].name ?? '',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTheme.getTextTheme(null)
-                                .bodyLarge!
-                                .copyWith(color: Colors.white),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 16, left: 12),
+                            child: Text(
+                              state.genreList[index].name ?? '',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTheme.getTextTheme(null)
+                                  .bodyLarge!
+                                  .copyWith(color: Colors.white),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -200,7 +208,7 @@ class MovieListPage extends HookWidget {
                   width: 15,
                 );
               },
-              itemCount: state.genreList.length),
+              itemCount: 5),
         )
       ],
     );
@@ -215,7 +223,8 @@ class MovieListPage extends HookWidget {
           height: 200,
           child: PageView.builder(
             controller: pageController,
-            itemCount: state.movieList.length,
+            itemCount:
+                state.movieList.length > 10 ? 10 : state.movieList.length,
             physics: const BouncingScrollPhysics(),
             onPageChanged: context.read<AppCubit>().onPageViewChange,
             scrollDirection: Axis.horizontal,
@@ -356,7 +365,7 @@ class MovieListPage extends HookWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  context.push('/allMoviesPage', extra: '');
+                  context.push('/allMoviesPage', extra: GenresRM(name: ''));
                 },
                 child: Text(
                   AppConstants.seeAll,
@@ -432,7 +441,7 @@ class MovieListPage extends HookWidget {
                   width: 12,
                 );
               },
-              itemCount: 10),
+              itemCount: 5),
         )
       ],
     );

@@ -8,8 +8,8 @@ class AppState extends Equatable {
   final bool hasError;
   final List<PostModel> postList;
   final List<MovieRM> movieList;
+  final List<MovieRM> movieListByGenre;
   final List<GenresRM> genreList;
-
   final int page;
   final int counter;
   final bool isLoading;
@@ -32,6 +32,7 @@ class AppState extends Equatable {
       required this.counter,
       required this.isLoading,
       required this.text,
+      required this.movieListByGenre,
       this.selectedCountryName,
       this.selectedMovieDate,
       this.selectedImage,
@@ -45,6 +46,7 @@ class AppState extends Equatable {
       {bool? hasError,
       List<PostModel>? postList,
       List<MovieRM>? movieList,
+      List<MovieRM>? movieListByGenre,
       List<GenresRM>? genreList,
       int? counter,
       int? page,
@@ -60,6 +62,7 @@ class AppState extends Equatable {
       double? movieDetailBottomSheetHeight}) {
     return AppState(
         genreList: genreList ?? this.genreList,
+        movieListByGenre: movieListByGenre ?? this.movieListByGenre,
         movieDetailBottomSheetHeight:
             movieDetailBottomSheetHeight ?? this.movieDetailBottomSheetHeight,
         movieList: movieList ?? this.movieList,
@@ -95,6 +98,7 @@ class AppState extends Equatable {
         movieItem,
         actiorTabSelected,
         movieDetailBottomSheetHeight,
-        genreList
+        genreList,
+        movieListByGenre
       ];
 }

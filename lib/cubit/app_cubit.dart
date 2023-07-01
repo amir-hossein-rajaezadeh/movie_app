@@ -23,6 +23,7 @@ double selectedBannerItemHeight = 100;
 
 class AppCubit extends Cubit<AppState> {
   List<MovieRM> movieList = [];
+  List<MovieRM> movieListByGenre = [];
 
   AppCubit(this.apiRepository)
       : super(
@@ -37,7 +38,8 @@ class AppCubit extends Cubit<AppState> {
               page: 0,
               bannerPage: 0,
               actiorTabSelected: true,
-              movieDetailBottomSheetHeight: 470),
+              movieDetailBottomSheetHeight: 470,
+              movieListByGenre: []),
         );
 
   onPageViewChange(int page) {
@@ -136,16 +138,19 @@ class AppCubit extends Cubit<AppState> {
         getGenreMovieById(
           genreId,
         );
+      } else {
+        final movieListServer =
+            await client.getMovieList(state.page, searchValue);
+
+        if (movieListServer.metadata!.pageCount! >
+            int.parse(movieListServer.metadata?.currentPage ?? '0')) {
+          movieList.addAll(movieListServer.movie?.toList() ?? []);
+
+          emit(
+            state.copyWith(movieList: movieList, isLoading: false),
+          );
+        }
       }
-
-      final movieListServer =
-          await client.getMovieList(state.page, searchValue);
-
-      movieList.addAll(movieListServer.movie?.toList() ?? []);
-
-      emit(
-        state.copyWith(movieList: movieList, isLoading: false),
-      );
     } catch (e) {
       print('Error is $e');
     }
@@ -315,7 +320,7 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> getGenreMovieById(int id) async {
     emit(
-      state.copyWith(isLoading: true, movieList: []),
+      state.copyWith(isLoading: true),
     );
     movieList.clear();
     try {
@@ -323,10 +328,14 @@ class AppCubit extends Cubit<AppState> {
 
       final genreMoviesServer =
           await client.getMovieListByGenreId(id, state.page);
-      movieList.addAll(genreMoviesServer.movie?.toList() ?? []);
+      movieListByGenre.addAll(genreMoviesServer.movie?.toList() ?? []);
+      print('value is ${genreMoviesServer.movie![0].title} ');
 
       emit(
-        state.copyWith(movieList: movieList, isLoading: false),
+        state.copyWith(
+            movieListByGenre: movieListByGenre,
+            movieList: [],
+            isLoading: false),
       );
     } catch (e) {
       print('Error is $e');
