@@ -96,9 +96,12 @@ class _MovieClient implements MovieClient {
   }
 
   @override
-  Future<MovieModel> getMovieListByGenreId(id) async {
+  Future<MovieModel> getMovieListByGenreId(
+    id,
+    page,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio

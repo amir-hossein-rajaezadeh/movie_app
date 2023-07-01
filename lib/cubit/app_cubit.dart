@@ -124,26 +124,28 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  Future<void> updatePage(String searchValue) async {
-    emit(state.copyWith(page: state.page + 1, isLoading: true));
+  Future<void> updatePage(
+      String searchValue, bool movieByGenre, int genreId) async {
+    emit(
+      state.copyWith(page: state.page + 1, isLoading: true),
+    );
 
     try {
       /* Need to add Movie model in State */
+      if (movieByGenre) {
+        getGenreMovieById(
+          genreId,
+        );
+      }
+
       final movieListServer =
           await client.getMovieList(state.page, searchValue);
 
-      if (movieListServer.metadata!.pageCount! >
-          int.parse(movieListServer.metadata?.currentPage ?? '0')) {
-        movieList.addAll(movieListServer.movie?.toList() ?? []);
+      movieList.addAll(movieListServer.movie?.toList() ?? []);
 
-        emit(
-          state.copyWith(movieList: movieList, isLoading: false),
-        );
-      } else {
-        emit(
-          state.copyWith(isLoading: false),
-        );
-      }
+      emit(
+        state.copyWith(movieList: movieList, isLoading: false),
+      );
     } catch (e) {
       print('Error is $e');
     }
@@ -313,16 +315,18 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> getGenreMovieById(int id) async {
     emit(
-      state.copyWith(isLoading: true),
+      state.copyWith(isLoading: true, movieList: []),
     );
+    movieList.clear();
     try {
       print('dfdf${AppConstants.genres}1/${AppConstants.movies}');
 
-      final genreMoviesServer = await client.getMovieListByGenreId(id);
+      final genreMoviesServer =
+          await client.getMovieListByGenreId(id, state.page);
+      movieList.addAll(genreMoviesServer.movie?.toList() ?? []);
 
-      emit(state.copyWith(movieList: []));
       emit(
-        state.copyWith(movieList: genreMoviesServer.movie, isLoading: false),
+        state.copyWith(movieList: movieList, isLoading: false),
       );
     } catch (e) {
       print('Error is $e');
@@ -352,9 +356,7 @@ class AppCubit extends Cubit<AppState> {
     );
   }
 
-  void onGenreItemClicked(BuildContext context, int genreId, int index) async {
-    
-  }
+  void onGenreItemClicked(BuildContext context, int genreId, int index) async {}
 
   void onActorTapClicked() {
     if (_debounce?.isActive ?? false) _debounce?.cancel();

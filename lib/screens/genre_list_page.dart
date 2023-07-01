@@ -3,6 +3,7 @@ import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:bloc_getit_practice/utils/image_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../cubit/app_state.dart';
 import '../utils/app_theme.dart';
@@ -52,11 +53,19 @@ class GenreListPage extends StatelessWidget {
                           );
                         },
                         itemBuilder: (context, index) {
-                          final movieItem = state.genreList[index];
                           return Container(
                             margin: const EdgeInsets.only(left: 15),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                await context
+                                    .read<AppCubit>()
+                                    .getGenreMovieById(
+                                        state.genreList[index].id!);
+                                context.push(
+                                  '/allMoviesPage',
+                                  extra: state.genreList[index],
+                                );
+                              },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -68,7 +77,7 @@ class GenreListPage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          movieItem.name ?? '',
+                                          state.genreList[index].name ?? '',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: AppTheme.getTextTheme(null)

@@ -1,4 +1,5 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
+import 'package:bloc_getit_practice/models/genres.dart';
 import 'package:bloc_getit_practice/models/movie_rm.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:bloc_getit_practice/screens/add_movie_page.dart';
@@ -48,10 +49,11 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: "/allMoviesPage",
         builder: (context, state) {
-          String genreName = state.extra as String;
-
+          GenresRM genreRM = state.extra as GenresRM;
+          // bool movieByGenre = state.extra as bool;
           return AllMoviesPage(
-            genreName: genreName,
+            genreRM: genreRM,
+            movieByGenre: true,
           );
         },
       ),

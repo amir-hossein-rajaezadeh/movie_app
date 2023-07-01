@@ -1,3 +1,4 @@
+import 'package:bloc_getit_practice/models/genres.dart';
 import 'package:bloc_getit_practice/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +10,10 @@ import '../cubit/app_state.dart';
 import 'components/app_bar.dart';
 
 class AllMoviesPage extends StatefulHookWidget {
-  const AllMoviesPage({super.key, required this.genreName});
-
-  final String genreName;
+  const AllMoviesPage(
+      {super.key, required this.genreRM, required this.movieByGenre});
+  final bool movieByGenre;
+  final GenresRM genreRM;
   @override
   State<AllMoviesPage> createState() => _AllMoviesPageState();
 }
@@ -37,7 +39,8 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
           print('reach end of the list');
-          context.read<AppCubit>().updatePage(searchTextFieldController.text);
+          context.read<AppCubit>().updatePage(searchTextFieldController.text,
+              widget.movieByGenre, widget.genreRM.id!);
         }
       }
     });
@@ -58,8 +61,8 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                   AppBarWidget(
                       size: size,
                       searchTextFieldController: searchTextFieldController,
-                      haveSearchTextField: widget.genreName.isEmpty,
-                      selectedGenreName: widget.genreName),
+                      haveSearchTextField: widget.genreRM.name!.isEmpty,
+                      selectedGenreName: widget.genreRM.name),
                 movieListWidget(size, state),
               ],
             );
@@ -89,7 +92,9 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
               return Container(
                 margin: const EdgeInsets.only(left: 15),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    context.push('/movieDetailPage', extra: movieItem);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

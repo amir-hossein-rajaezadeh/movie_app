@@ -16,7 +16,7 @@ List<String> genreList = [
   'https://unitingartists.org/wp-content/uploads/2020/06/Adventure-Genre.jpg',
   'https://qph.cf2.quoracdn.net/main-qimg-d81a610868cb5c84fd1ff26ff644fcb3-pjlq',
   'https://vigiato.net/wp-content/uploads/2022/01/photo_%DB%B2%DB%B0%DB%B2%DB%B1-%DB%B0%DB%B3-%DB%B0%DB%B2_%DB%B2%DB%B1-%DB%B2%DB%B5-%DB%B4%DB%B6-1024x768.jpg',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT96rvNKrYF3J-yEJTk-4EV8bDhaWA3mPbp_w&usqp=CAU',
+  'https://https://images.saymedia-content.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTkzNjY1OTg5Mjc4MjQ2MzM5/what-is-a-comedy-detailed-analysis-explanation.png',
   'https://www.dictionary.com/e/wp-content/uploads/2022/09/20220913_something_sci_fi_1000x7001.jpg',
   'https://images.ctfassets.net/3s5io6mnxfqz/5yaU9R8CfN7H3IFwlpjINO/41882ddd6ce99df47e11434a03ee6271/AdobeStock_138391201.jpeg',
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiE5udjz0czwKKN31U8LGj3b26WY1XvYbpAVN0R17fcewLlc50XmqiUWpD1sp48DAzxdM&usqp=CAU',

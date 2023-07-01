@@ -24,7 +24,10 @@ abstract class MovieClient {
   Future<MovieRM> getMovieDetail(@Path("id") id);
 
   @GET('${AppConstants.genres}{id}/${AppConstants.movies}')
-  Future<MovieModel> getMovieListByGenreId(@Path("id") id);
+  Future<MovieModel> getMovieListByGenreId(
+    @Path("id") id,
+    @Query('page') int page,
+  );
 
   @GET(AppConstants.genres)
   Future<List<GenresRM>> getGenresList();
