@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../cubit/app_state.dart';
 import '../utils/app_theme.dart';
+import '../utils/colors.dart';
 import 'components/app_bar.dart';
 
 class GenreListPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class GenreListPage extends StatelessWidget {
     });
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFF1d1c1c),
+        backgroundColor:greyBackground,
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             final size = MediaQuery.of(context).size;
@@ -57,11 +58,11 @@ class GenreListPage extends StatelessWidget {
                             margin: const EdgeInsets.only(left: 15),
                             child: InkWell(
                               onTap: () async {
-                                
                                 await context
                                     .read<AppCubit>()
                                     .getGenreMovieById(
                                         state.genreList[index].id!);
+                                // ignore: use_build_context_synchronously
                                 context.push(
                                   '/allMoviesPage',
                                   extra: state.genreList[index],

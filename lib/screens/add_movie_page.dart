@@ -11,6 +11,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../cubit/app_state.dart';
+import '../utils/app_theme.dart';
+import '../utils/colors.dart';
 
 class AddMoviePage extends HookWidget {
   const AddMoviePage({super.key});
@@ -21,6 +23,7 @@ class AddMoviePage extends HookWidget {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: greyBackground,
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             return Stack(
@@ -38,8 +41,28 @@ class AddMoviePage extends HookWidget {
                               controller: movieName,
                               decoration: InputDecoration(
                                 labelText: 'Movie name',
+                                labelStyle: AppTheme.getTextTheme(null)
+                                    .bodyMedium!
+                                    .copyWith(color: Colors.white),
+                                disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
                                 ),
                               ),
                             ),
@@ -51,6 +74,9 @@ class AddMoviePage extends HookWidget {
                               controller: movieDirector,
                               decoration: InputDecoration(
                                 labelText: 'Director name',
+                                labelStyle: AppTheme.getTextTheme(null)
+                                    .bodyMedium!
+                                    .copyWith(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -63,9 +89,12 @@ class AddMoviePage extends HookWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                Text(
                                   'Country:',
-                                  style: TextStyle(fontSize: 19),
+                                  style: AppTheme.getTextTheme(null)
+                                      .bodyMedium!
+                                      .copyWith(
+                                          fontSize: 19, color: Colors.white),
                                 ),
                                 TextButton(
                                     onPressed: () {
@@ -86,9 +115,12 @@ class AddMoviePage extends HookWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                Text(
                                   'Date:',
-                                  style: TextStyle(fontSize: 19),
+                                  style: AppTheme.getTextTheme(null)
+                                      .bodySmall!
+                                      .copyWith(
+                                          fontSize: 19, color: Colors.white),
                                 ),
                                 TextButton(
                                     onPressed: () {
@@ -107,9 +139,12 @@ class AddMoviePage extends HookWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                Text(
                                   'Movie Image:',
-                                  style: TextStyle(fontSize: 19),
+                                  style: AppTheme.getTextTheme(null)
+                                      .bodySmall!
+                                      .copyWith(
+                                          fontSize: 19, color: Colors.white),
                                 ),
                                 TextButton(
                                     onPressed: () {
@@ -138,9 +173,12 @@ class AddMoviePage extends HookWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                Text(
                                   'Movie rate:',
-                                  style: TextStyle(fontSize: 19),
+                                  style: AppTheme.getTextTheme(null)
+                                      .bodySmall!
+                                      .copyWith(
+                                          fontSize: 19, color: Colors.white),
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(right: 10),
