@@ -50,20 +50,21 @@ class _MovieClient implements MovieClient {
   }
 
   @override
-  Future<MovieRM> postNewMovie(body) async {
+  Future<MovieRM> postNewMovie(param) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = body;
+    final _data = param;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<MovieRM>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'multipart/form-data',
     )
             .compose(
               _dio.options,
-              'movies/',
+              'movies/multi/',
               queryParameters: queryParameters,
               data: _data,
             )

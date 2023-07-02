@@ -1,4 +1,3 @@
-import 'package:bloc_getit_practice/models/genre_list_rm.dart';
 import 'package:bloc_getit_practice/models/movie_model.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:retrofit/retrofit.dart';
@@ -17,8 +16,9 @@ abstract class MovieClient {
   Future<MovieModel> getMovieList(
       @Query('page') int page, @Query('q') String searchValue);
 
-  @POST(AppConstants.movies)
-  Future<MovieRM> postNewMovie(@Body() FormData body);
+  @MultiPart()
+  @POST('${AppConstants.movies}multi/')
+  Future<MovieRM> postNewMovie(@Body() FormData param);
 
   @GET('${AppConstants.movies}/{id}')
   Future<MovieRM> getMovieDetail(@Path("id") id);

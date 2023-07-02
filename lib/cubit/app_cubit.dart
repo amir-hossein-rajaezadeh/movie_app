@@ -262,8 +262,9 @@ class AppCubit extends Cubit<AppState> {
         isLoading: true,
       ),
     );
-    print(
-        'title is $movieName  country is ${state.selectedCountryName!.split(' ')[1]},  year is ${state.selectedMovieDate}');
+    // print(
+    //     'title is $movieName  country is ${state.selectedCountryName!.split(' ')[1]},  year is ${state.selectedMovieDate}');
+
     FormData formData = FormData.fromMap({
       "title": movieName,
       'imdb_id': 'tt0232500',
@@ -271,22 +272,12 @@ class AppCubit extends Cubit<AppState> {
       'country': state.selectedCountryName!.split(' ')[1],
       'imdb_rating': state.movieRate,
       'year': state.selectedMovieDate!.split("-")[0],
-      // if (state.selectedImage != '')
-      //   "poster": await MultipartFile.fromFile(
-      //     state.selectedImage!,
-      //     filename: state.selectedImage!,
-      //   ),
+      if (state.selectedImage != '')
+        "poster": await MultipartFile.fromFile(
+          state.selectedImage!,
+          filename: state.selectedImage!,
+        ),
     });
-
-    Map<String, dynamic> param = {};
-    // param = {
-    //   "title": movieName,
-    //   'imdb_id': 'tt0232500',
-    //   'director': movieDirector,
-    //   'country': state.selectedCountryName!.split(' ')[1],
-    //   'imdb_rating': state.movieRate.toString(),
-    //   'year': state.selectedMovieDate!.split("-")[0],
-    // };
 
     try {
       await client.postNewMovie(formData);

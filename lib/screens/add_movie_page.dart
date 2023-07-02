@@ -211,22 +211,22 @@ class AddMoviePage extends HookWidget {
                         ],
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        context.read<AppCubit>().addMovie(
-                            movieName.text, movieDirector.text, context);
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        margin: const EdgeInsets.only(
-                            bottom: 30, right: 20, left: 20),
-                        child: const Center(
-                          child: Text(
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      margin: const EdgeInsets.only(
+                          bottom: 30, right: 20, left: 20),
+                      child: Center(
+                        child: InkWell(
+                          onTap: () {
+                            context.read<AppCubit>().addMovie(
+                                movieName.text, movieDirector.text, context);
+                          },
+                          child: const Text(
                             'Submit',
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
