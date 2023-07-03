@@ -8,17 +8,17 @@ import '../../utils/app_theme.dart';
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget(
       {super.key,
-      required this.size,
       this.searchTextFieldController,
       this.selectedGenreName,
       required this.haveSearchTextField});
 
-  final Size size;
   final TextEditingController? searchTextFieldController;
   final bool haveSearchTextField;
   final String? selectedGenreName;
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
       margin: const EdgeInsets.only(right: 20, left: 10, bottom: 10),
       width: size.width,

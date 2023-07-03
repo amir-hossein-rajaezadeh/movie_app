@@ -73,9 +73,9 @@ class MovieListPage extends HookWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
+                                    context.read<AppCubit>().clearSearchList();
                                     context.push(
-                                      '/allMoviesPage',
-                                      extra: GenresRM(name: ''),
+                                      '/searchListPage',
                                     );
                                   },
                                   child: const Icon(
@@ -137,7 +137,7 @@ class MovieListPage extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppConstants.Genres,
+                AppConstants.genresText,
                 style: AppTheme.getTextTheme(null)
                     .bodyLarge!
                     .copyWith(color: Colors.white),

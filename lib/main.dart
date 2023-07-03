@@ -1,6 +1,5 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:bloc_getit_practice/models/genres.dart';
-import 'package:bloc_getit_practice/models/movie_rm.dart';
 import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:bloc_getit_practice/screens/add_movie_page.dart';
 import 'package:bloc_getit_practice/screens/all_movies_page.dart';
@@ -10,6 +9,7 @@ import 'package:bloc_getit_practice/screens/main_page.dart';
 import 'package:bloc_getit_practice/screens/movie_detail_page.dart';
 import 'package:bloc_getit_practice/screens/movie_list_page.dart';
 import 'package:bloc_getit_practice/screens/post_list_page.dart';
+import 'package:bloc_getit_practice/screens/search_list_page.dart';
 import 'package:bloc_getit_practice/service/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,6 +69,12 @@ class MyApp extends StatelessWidget {
           return GenreListPage(
             genreName: genreName,
           );
+        },
+      ),
+      GoRoute(
+        path: '/searchListPage',
+        builder: (context, state) {
+          return const SearchListPage();
         },
       )
     ],

@@ -10,6 +10,7 @@ class AppState extends Equatable {
   final List<MovieRM> movieList;
   final List<MovieRM> movieListByGenre;
   final List<GenresRM> genreList;
+  final List<MovieRM> searchList;
   final int page;
   final int counter;
   final bool isLoading;
@@ -26,6 +27,7 @@ class AppState extends Equatable {
   const AppState(
       {required this.page,
       required this.hasError,
+      required this.searchList,
       required this.postList,
       required this.genreList,
       required this.movieList,
@@ -44,6 +46,7 @@ class AppState extends Equatable {
 
   AppState copyWith(
       {bool? hasError,
+      List<MovieRM>? searchList,
       List<PostModel>? postList,
       List<MovieRM>? movieList,
       List<MovieRM>? movieListByGenre,
@@ -61,6 +64,7 @@ class AppState extends Equatable {
       bool? actiorTabSelected,
       double? movieDetailBottomSheetHeight}) {
     return AppState(
+        searchList: searchList ?? this.searchList,
         genreList: genreList ?? this.genreList,
         movieListByGenre: movieListByGenre ?? this.movieListByGenre,
         movieDetailBottomSheetHeight:

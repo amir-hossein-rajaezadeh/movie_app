@@ -24,6 +24,7 @@ double selectedBannerItemHeight = 100;
 class AppCubit extends Cubit<AppState> {
   List<MovieRM> movieList = [];
   List<MovieRM> movieListByGenre = [];
+  List<MovieRM> searchList = [];
 
   AppCubit(this.apiRepository)
       : super(
@@ -34,6 +35,7 @@ class AppCubit extends Cubit<AppState> {
               hasError: false,
               postList: [],
               movieList: [],
+              searchList: [],
               genreList: [],
               page: 0,
               bannerPage: 0,
@@ -145,49 +147,43 @@ class AppCubit extends Cubit<AppState> {
         final movieListServer =
             await client.getMovieList(state.page, searchValue);
 
-        if (movieListServer.metadata!.pageCount! >
-            int.parse(movieListServer.metadata?.currentPage ?? '0')) {
+        if (searchValue.isEmpty) {
           movieList.addAll(movieListServer.movie?.toList() ?? []);
 
           emit(
             state.copyWith(movieList: movieList, isLoading: false),
           );
+        } else {
+          searchList.addAll(movieListServer.movie?.toList() ?? []);
+
+          emit(
+            state.copyWith(searchList: searchList, isLoading: false),
+          );
         }
       }
+      print('movies from selected gender $movieByGenre');
     } catch (e) {
       print('Error is $e');
     }
   }
 
   Future<void> searchMovie(String searchValue) async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, page: 1));
 
     try {
-      final movieListServer = await client.getMovieList(1, searchValue);
+      final searchListFromServer =
+          await client.getMovieList(state.page, searchValue);
 
+      print('search response is ${searchListFromServer.metadata!.currentPage}');
+      searchList.clear();
+
+      searchList = searchListFromServer.movie ?? [];
       emit(
-        state.copyWith(movieList: movieListServer.movie, isLoading: false),
+        state.copyWith(searchList: searchList, isLoading: false),
       );
     } catch (e) {
       print('Error is $e');
     }
-  }
-
-  void onSearch(TextEditingController searchTextFieldController) {
-    searchTextFieldController.addListener(() async {
-      String searchValue = searchTextFieldController.value.text;
-
-      if (searchValue != searchValue) {
-        emit(state.copyWith(isLoading: true));
-        final movieListServer = await client.getMovieList(
-            state.page, searchTextFieldController.value.text);
-
-        emit(state.copyWith(
-            page: 0, movieList: movieListServer.movie, isLoading: false));
-
-        print('seatcField value is ${searchTextFieldController.value.text}');
-      }
-    });
   }
 
   Future<void> selectImage() async {
@@ -405,5 +401,14 @@ class AppCubit extends Cubit<AppState> {
         .devideHoureAndMinute(movieTimeDevidedToHoure, movieTimeInMinute);
 
     return finalMovieTimeInHourAndMinute;
+  }
+
+  void clearSearchList() {
+    searchList.clear();
+    emit(
+      state.copyWith(
+        searchList: [],
+      ),
+    );
   }
 }

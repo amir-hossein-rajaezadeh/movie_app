@@ -1,4 +1,5 @@
 import 'package:bloc_getit_practice/models/genres.dart';
+import 'package:bloc_getit_practice/screens/components/loading.dart';
 import 'package:bloc_getit_practice/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../cubit/app_cubit.dart';
 import '../cubit/app_state.dart';
+import '../utils/app_constants.dart';
 import 'components/app_bar.dart';
 
 class AllMoviesPage extends StatefulHookWidget {
@@ -35,7 +37,6 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
     final searchTextFieldController = useTextEditingController();
     final size = MediaQuery.of(context).size;
     context.read<AppCubit>().onTextChange(searchTextFieldController);
-    context.read<AppCubit>().onSearch(searchTextFieldController);
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
@@ -61,10 +62,10 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                 if (state.movieList.isNotEmpty ||
                     state.movieListByGenre.isNotEmpty)
                   AppBarWidget(
-                      size: size,
-                      searchTextFieldController: searchTextFieldController,
-                      haveSearchTextField: widget.genreRM.name!.isEmpty,
-                      selectedGenreName: widget.genreRM.name),
+                      haveSearchTextField: false,
+                      selectedGenreName: widget.genreRM.name == ''
+                          ? AppConstants.latesetMovies
+                          : widget.genreRM.name),
                 movieListWidget(size, state),
               ],
             );
@@ -210,9 +211,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
             },
           ),
           if (state.isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
-            )
+          showLoading()
         ],
       ),
     );

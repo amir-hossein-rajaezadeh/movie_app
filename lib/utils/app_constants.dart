@@ -5,7 +5,7 @@ class AppConstants {
   static const posts = 'posts/';
   static const movieBaseUrl = 'http://moviesapi.ir/api/v1/';
   static const movies = 'movies/';
-    static const genres = 'genres/';
+  static const genres = 'genres/';
 
   static var countryItem = const Text('');
   static const liveNow = 'Live now';
@@ -18,7 +18,9 @@ class AppConstants {
   static const actors = 'Actors';
   static const writer = 'Writer';
   static const photoes = 'Photes';
-  static const Genres = 'Genres';
+  static const genresText = 'Genres';
+  static const noMovieFound = 'No movie has been found!. :(';
+
   static const countryList = [
     "🇦🇫 Afghanistan",
     "🇦🇽 Åland Islands",

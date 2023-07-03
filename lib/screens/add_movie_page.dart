@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
+import 'package:bloc_getit_practice/screens/components/loading.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
@@ -235,10 +236,7 @@ class AddMoviePage extends HookWidget {
                     )
                   ],
                 ),
-                if (state.isLoading)
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  )
+                if (state.isLoading) showLoading()
               ],
             );
           },

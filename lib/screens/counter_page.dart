@@ -1,5 +1,6 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:bloc_getit_practice/cubit/app_state.dart';
+import 'package:bloc_getit_practice/screens/components/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,8 +33,7 @@ class CounterPage extends StatelessWidget {
                   ),
                 ],
               ),
-              if (state.isLoading)
-                const Center(child: CircularProgressIndicator())
+              if (state.isLoading) showLoading()
             ],
           );
         },

@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:bloc_getit_practice/cubit/app_state.dart';
-import 'package:bloc_getit_practice/models/movie_rm.dart';
 import 'package:bloc_getit_practice/utils/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,5 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
+import 'package:bloc_getit_practice/screens/components/loading.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:bloc_getit_practice/utils/image_list.dart';
 import 'package:flutter/material.dart';
@@ -28,16 +29,15 @@ class GenreListPage extends StatelessWidget {
     });
     return SafeArea(
       child: Scaffold(
-        backgroundColor:greyBackground,
+        backgroundColor: greyBackground,
         body: BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             final size = MediaQuery.of(context).size;
             return Column(
               children: [
-                AppBarWidget(
-                  size: size,
+                const AppBarWidget(
                   haveSearchTextField: false,
-                  selectedGenreName: AppConstants.Genres,
+                  selectedGenreName: AppConstants.genresText,
                 ),
                 Expanded(
                   child: Stack(
@@ -113,10 +113,7 @@ class GenreListPage extends StatelessWidget {
                           );
                         },
                       ),
-                      if (state.isLoading)
-                        const Center(
-                          child: CircularProgressIndicator(),
-                        )
+                      if (state.isLoading) showLoading()
                     ],
                   ),
                 )
