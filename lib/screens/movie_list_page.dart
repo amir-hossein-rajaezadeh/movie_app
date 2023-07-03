@@ -28,7 +28,7 @@ class MovieListPage extends HookWidget {
           builder: (context, state) {
             return Stack(
               children: [
-                bluredBackgroundWidget(state, size),
+                bluredBackgroundWidget(context, state),
                 SingleChildScrollView(
                   child: Column(
                     children: [
@@ -103,13 +103,18 @@ class MovieListPage extends HookWidget {
     );
   }
 
-  Widget bluredBackgroundWidget(AppState state, Size size) {
+  Widget bluredBackgroundWidget(BuildContext context, AppState state) {
+    Size size = MediaQuery.of(context).size;
     return Column(
       children: [
         Container(
           margin: const EdgeInsets.only(top: 4),
           child: Image.network(
-            state.movieList[state.bannerPage!].poster!,
+            context
+                    .read<AppCubit>()
+                    .genetateBannetItemes(context)[state.bannerPage!]
+                    .poster ??
+                '',
             fit: BoxFit.cover,
             height: 300,
             width: size.width,
@@ -221,16 +226,18 @@ class MovieListPage extends HookWidget {
           child: PageView.builder(
             controller: pageController,
             itemCount:
-                state.movieList.length > 10 ? 10 : state.movieList.length,
+                context.read<AppCubit>().genetateBannetItemes(context).length,
             physics: const BouncingScrollPhysics(),
             onPageChanged: context.read<AppCubit>().onPageViewChange,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, page) {
               return InkWell(
                 onTap: () async {
-                  await context
+                  context
                       .read<AppCubit>()
-                      .getMovieDetailById(state.movieList[page].id!);
+                      .genetateBannetItemes(context)[page]
+                      .id;
+
                   if (context.mounted) {
                     context.push(
                       '/movieDetailPage',
@@ -250,7 +257,11 @@ class MovieListPage extends HookWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              state.movieList[page].poster!,
+                              context
+                                      .read<AppCubit>()
+                                      .genetateBannetItemes(context)[page]
+                                      .poster ??
+                                  '',
                             ),
                             fit: BoxFit.cover,
                           ),
@@ -283,7 +294,7 @@ class MovieListPage extends HookWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (page == 0) liveNowWidget(),
-                                  movieInfoWidget(state, page)
+                                  movieInfoWidget(context, page)
                                 ],
                               ),
                             ),
@@ -298,7 +309,11 @@ class MovieListPage extends HookWidget {
                           ),
                           child: Image.network(
                             fit: BoxFit.cover,
-                            state.movieList[page].poster!,
+                            context
+                                    .read<AppCubit>()
+                                    .genetateBannetItemes(context)[page]
+                                    .poster ??
+                                '',
                             height: 200,
                           ),
                         ),
@@ -315,32 +330,34 @@ class MovieListPage extends HookWidget {
           margin: const EdgeInsets.only(top: 20, left: 22, bottom: 10),
           height: 10,
           child: ListView.separated(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  pageController.animateToPage(index,
-                      duration: const Duration(milliseconds: 600),
-                      curve: Curves.easeInOut);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: state.bannerPage == index
-                          ? blue
-                          : Colors.grey.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(100)),
-                  width: 10,
-                ),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return Container(
-                width: 5,
-              );
-            },
-            itemCount: state.movieList.length,
-          ),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    pageController.animateToPage(index,
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.easeInOut);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: state.bannerPage == index
+                            ? blue
+                            : Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(100)),
+                    width: 10,
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Container(
+                  width: 5,
+                );
+              },
+              itemCount: context
+                  .read<AppCubit>()
+                  .genetateBannetItemes(context)
+                  .length),
         )
       ],
     );
@@ -444,7 +461,7 @@ class MovieListPage extends HookWidget {
     );
   }
 
-  Widget movieInfoWidget(AppState state, int bannerItemIndex) {
+  Widget movieInfoWidget(BuildContext context, int bannerItemIndex) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -452,7 +469,11 @@ class MovieListPage extends HookWidget {
           height: 15,
         ),
         Text(
-          state.movieList[bannerItemIndex].title ?? '',
+          context
+                  .read<AppCubit>()
+                  .genetateBannetItemes(context)[bannerItemIndex]
+                  .title ??
+              '',
           textAlign: TextAlign.start,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
@@ -470,11 +491,19 @@ class MovieListPage extends HookWidget {
             separatorBuilder: (context, index) => Container(
               width: 10,
             ),
-            itemCount: state.movieList[bannerItemIndex].genres!.length,
+            itemCount: context
+                .read<AppCubit>()
+                .genetateBannetItemes(context)[bannerItemIndex]
+                .genres!
+                .length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return Text(
-                state.movieList[bannerItemIndex].genres![index],
+                context
+                        .read<AppCubit>()
+                        .genetateBannetItemes(context)[bannerItemIndex]
+                        .genres?[index] ??
+                    '',
                 style: AppTheme.getTextTheme(null)
                     .titleMedium!
                     .copyWith(color: Colors.white),

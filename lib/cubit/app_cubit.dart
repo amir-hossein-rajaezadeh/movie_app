@@ -352,7 +352,16 @@ class AppCubit extends Cubit<AppState> {
     );
   }
 
-  void onGenreItemClicked(BuildContext context, int genreId, int index) async {}
+  List<MovieRM> genetateBannetItemes(BuildContext context) {
+    return [
+      movieList[0],
+      movieList[5],
+      movieList[8],
+      movieList[1],
+      movieList[9],
+      movieList[6]
+    ];
+  }
 
   void onActorTapClicked() {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
