@@ -7,6 +7,15 @@ List<String> actorImageList = [
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC9a3rKRzFpA7DTNyseyZ4Hr6FJoyOq9752O3g6dWVpw&s',
   'https://upload.wikimedia.org/wikipedia/commons/1/1f/Dwayne_Johnson_2014_%28cropped%29.jpg'
 ];
+
+List<String> writerImageList = [
+  'https://www.digikala.com/mag/wp-content/uploads/2021/01/28.jpg',
+  'https://www.digikala.com/mag/wp-content/uploads/2021/01/27.jpg',
+  'https://www.digikala.com/mag/wp-content/uploads/2021/01/16.jpg',
+  'https://www.digikala.com/mag/wp-content/uploads/2021/01/13-2.jpg',
+  'https://www.digikala.com/mag/wp-content/uploads/2021/01/24.jpg',
+  'https://www.digikala.com/mag/wp-content/uploads/2021/01/18.jpg'
+];
 List<String> genreList = [
   'https://www.lingotalk.io/blog/wp-content/uploads/2021/03/%D9%84%D8%BA%D8%A7%D8%AA-%D9%85%D8%B1%D8%AA%D8%A8%D8%B7-%D8%A8%D8%A7-crime-840x400.jpg',
   'https://writingstudio.co.za/wp-content/uploads/2015/10/DRAMA-1-scaled.jpg',

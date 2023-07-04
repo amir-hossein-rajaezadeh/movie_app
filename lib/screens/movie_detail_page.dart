@@ -278,158 +278,9 @@ class MovieDetailPage extends StatelessWidget {
                 ),
               if (state.movieItem!.plot!.isNotEmpty)
                 actorAndWriterTabWidget(context, state),
-              if (state.actiorTabSelected &&
-                  state.movieItem!.actors!.isNotEmpty)
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  height: 150,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final actorName = AppExtensions('').devideActorsIntoList(
-                          state.movieItem!.actors!)[index];
-                      return Container(
-                        margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
-                        width: 100,
-                        height: 60,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                actorImageList[index],
-                                fit: BoxFit.cover,
-                                height: 100,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                actorName,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: AppTheme.getTextTheme(null)
-                                    .bodyMedium!
-                                    .copyWith(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: AppExtensions('')
-                        .devideActorsIntoList(state.movieItem?.actors ?? '')
-                        .length,
-                    separatorBuilder: (context, index) {
-                      return Container(
-                        width: 10,
-                      );
-                    },
-                  ),
-                )
-              else
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  height: 150,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      String writerName = AppExtensions('')
-                          .devideWritersIntoList(
-                              state.movieItem?.writer ?? '')[index];
-
-                      return Container(
-                        margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
-                        width: 100,
-                        height: 60,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                actorImageList[index],
-                                fit: BoxFit.cover,
-                                height: 100,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                writerName,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: AppTheme.getTextTheme(null)
-                                    .bodyMedium!
-                                    .copyWith(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: AppExtensions('')
-                        .devideWritersIntoList(state.movieItem?.writer ?? '')
-                        .length,
-                    separatorBuilder: (context, index) {
-                      return Container(
-                        width: 10,
-                      );
-                    },
-                  ),
-                ),
               if (state.movieDetailBottomSheetHeight == size.height * .85 &&
                   state.movieItem!.plot!.isNotEmpty)
-                SizedBox(
-                  height: 230,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 15, left: 20),
-                        child: Text(
-                          AppConstants.photoes,
-                          style: AppTheme.getTextTheme(null)
-                              .titleLarge!
-                              .copyWith(color: Colors.white),
-                        ),
-                      ),
-                      Container(
-                        height: 165,
-                        margin: const EdgeInsets.only(top: 20),
-                        child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin:
-                                    EdgeInsets.only(left: index == 0 ? 20 : 0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                      state.movieItem?.images?[index] ??noImageAvilable),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Container(
-                                width: 15,
-                              );
-                            },
-                            itemCount: state.movieItem?.images?.length ?? 0),
-                      ),
-                    ],
-                  ),
-                )
+                moviePhotosWidget(state)
             ],
           ),
         ),
@@ -437,67 +288,222 @@ class MovieDetailPage extends StatelessWidget {
     );
   }
 
-  Container actorAndWriterTabWidget(BuildContext context, AppState state) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10, left: 20),
-      child: Row(
+  SizedBox moviePhotosWidget(AppState state) {
+    return SizedBox(
+      height: 230,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          InkWell(
-            onTap: () {
-              context.read<AppCubit>().onActorTapClicked();
-            },
-            child: Column(
-              children: [
-                Text(
-                  AppConstants.actors,
-                  style: AppTheme.getTextTheme(null).bodyLarge!.copyWith(
-                      color:
-                          state.actiorTabSelected ? Colors.white : Colors.grey,
-                      fontWeight: FontWeight.w400),
-                ),
-                if (state.actiorTabSelected)
-                  Container(
-                    margin: const EdgeInsets.only(top: 5, left: 2),
-                    width: 65,
-                    height: 2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: purple),
-                  )
-              ],
+          Container(
+            margin: const EdgeInsets.only(top: 15, left: 20),
+            child: Text(
+              AppConstants.photoes,
+              style: AppTheme.getTextTheme(null)
+                  .titleLarge!
+                  .copyWith(color: Colors.white),
             ),
           ),
-          InkWell(
-            onTap: () {
-              context.read<AppCubit>().onActorTapClicked();
-            },
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    AppConstants.writer,
-                    style: AppTheme.getTextTheme(null).bodyLarge!.copyWith(
-                        color: !state.actiorTabSelected
-                            ? Colors.white
-                            : Colors.grey,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-                if (!state.actiorTabSelected)
-                  Container(
-                    margin: const EdgeInsets.only(top: 5, left: 27),
-                    width: 65,
-                    height: 2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: purple),
-                  )
-              ],
-            ),
-          )
+          Container(
+            height: 165,
+            margin: const EdgeInsets.only(top: 20),
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                          state.movieItem?.images?[index] ?? noImageAvilable),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Container(
+                    width: 15,
+                  );
+                },
+                itemCount: state.movieItem?.images?.length ?? 0),
+          ),
         ],
       ),
+    );
+  }
+
+  Column actorAndWriterTabWidget(BuildContext context, AppState state) {
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 10, left: 20),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  context.read<AppCubit>().onActorTapClicked();
+                },
+                child: Column(
+                  children: [
+                    Text(
+                      AppConstants.actors,
+                      style: AppTheme.getTextTheme(null).bodyLarge!.copyWith(
+                          color: state.actiorTabSelected
+                              ? Colors.white
+                              : Colors.grey,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    if (state.actiorTabSelected)
+                      Container(
+                        margin: const EdgeInsets.only(top: 5, left: 2),
+                        width: 65,
+                        height: 2,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: purple),
+                      )
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  context.read<AppCubit>().onActorTapClicked();
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        AppConstants.writer,
+                        style: AppTheme.getTextTheme(null).bodyLarge!.copyWith(
+                            color: !state.actiorTabSelected
+                                ? Colors.white
+                                : Colors.grey,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                    if (!state.actiorTabSelected)
+                      Container(
+                        margin: const EdgeInsets.only(top: 5, left: 27),
+                        width: 65,
+                        height: 2,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: purple),
+                      )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        if (state.actiorTabSelected && state.movieItem!.actors!.isNotEmpty)
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            height: 150,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                final actorName = AppExtensions('')
+                    .devideActorsIntoList(state.movieItem!.actors!)[index];
+                return Container(
+                  margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
+                  width: 100,
+                  height: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          actorImageList[index],
+                          fit: BoxFit.cover,
+                          height: 100,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          actorName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: AppTheme.getTextTheme(null)
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              itemCount: AppExtensions('')
+                  .devideActorsIntoList(state.movieItem?.actors ?? '')
+                  .length,
+              separatorBuilder: (context, index) {
+                return Container(
+                  width: 10,
+                );
+              },
+            ),
+          )
+        else
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            height: 150,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                String writerName = AppExtensions('').devideWritersIntoList(
+                    state.movieItem?.writer ?? '')[index];
+
+                return Container(
+                  margin: EdgeInsets.only(left: index == 0 ? 20 : 0),
+                  width: 100,
+                  height: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          writerImageList[index],
+                          fit: BoxFit.cover,
+                          height: 100,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          writerName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: AppTheme.getTextTheme(null)
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              itemCount: AppExtensions('')
+                  .devideWritersIntoList(state.movieItem?.writer ?? '')
+                  .length,
+              separatorBuilder: (context, index) {
+                return Container(
+                  width: 10,
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 }
