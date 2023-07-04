@@ -21,6 +21,14 @@ class AppConstants {
   static const genresText = 'Genres';
   static const noMovieFound = 'No movie has been found! :(';
   static const noDescriptionAvailable = 'No description available!';
+  static const country = 'Country';
+  static const select = 'Select';
+  static const submit = 'Submit';
+  static const date = 'Date';
+  static const movieImage = 'Movie Image';
+  static const movieRate = 'Movie rate';
+  static const welcomeBack = 'Welcome back,';
+  static const search = 'Search';
 
   static const countryList = [
     "🇦🇫 Afghanistan",

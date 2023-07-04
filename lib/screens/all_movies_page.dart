@@ -1,14 +1,16 @@
-import 'package:bloc_getit_practice/models/genres.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:bloc_getit_practice/models/genres_rm.dart';
 import 'package:bloc_getit_practice/screens/components/loading.dart';
 import 'package:bloc_getit_practice/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-
 import '../cubit/app_cubit.dart';
 import '../cubit/app_state.dart';
 import '../utils/app_constants.dart';
+import '../utils/image_list.dart';
 import 'components/app_bar.dart';
 
 class AllMoviesPage extends StatefulHookWidget {
@@ -40,7 +42,6 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          print('reach end of the list');
           context.read<AppCubit>().updatePage(searchTextFieldController.text,
               widget.genreRM.name!.isNotEmpty, widget.genreRM.id ?? -1);
         }
@@ -102,7 +103,6 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                         movieByGenreIsEmpty
                             ? state.movieList[index].id!
                             : state.movieListByGenre[index].id!);
-                    // ignore: use_build_context_synchronously
                     context.push(
                       '/movieDetailPage',
                     );
@@ -187,7 +187,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                                 movieByGenreIsEmpty
                                     ? state.movieList[index].poster ?? ''
                                     : state.movieListByGenre[index].poster ??
-                                        '',
+                                        noImageAvilable,
                                 width: size.width * .15,
                                 height: 80,
                                 fit: BoxFit.cover,
@@ -197,12 +197,13 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                               height: 6,
                             ),
                             Text(
-                                movieByGenreIsEmpty
-                                    ? state.movieList[index].year ?? ''
-                                    : state.movieListByGenre[index].year ?? '',
-                                style: AppTheme.getTextTheme(null)
-                                    .titleMedium!
-                                    .copyWith(color: Colors.white)),
+                              movieByGenreIsEmpty
+                                  ? state.movieList[index].year ?? ''
+                                  : state.movieListByGenre[index].year ?? '',
+                              style: AppTheme.getTextTheme(null)
+                                  .titleMedium!
+                                  .copyWith(color: Colors.white),
+                            ),
                           ],
                         ),
                       )

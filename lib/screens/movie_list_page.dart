@@ -1,7 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ui';
 
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
-import 'package:bloc_getit_practice/models/genres.dart';
+import 'package:bloc_getit_practice/models/genres_rm.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:bloc_getit_practice/utils/image_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +22,6 @@ class MovieListPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -41,7 +42,7 @@ class MovieListPage extends HookWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Welcome back,',
+                                  AppConstants.welcomeBack,
                                   style: AppTheme.getTextTheme(null)
                                       .bodyMedium!
                                       .copyWith(color: Colors.white),
@@ -114,7 +115,7 @@ class MovieListPage extends HookWidget {
                     .read<AppCubit>()
                     .genetateBannetItemes(context)[state.bannerPage!]
                     .poster ??
-                '',
+               noImageAvilable,
             fit: BoxFit.cover,
             height: 300,
             width: size.width,
@@ -233,11 +234,6 @@ class MovieListPage extends HookWidget {
             itemBuilder: (context, page) {
               return InkWell(
                 onTap: () async {
-                  // context
-                  //     .read<AppCubit>()
-                  //     .genetateBannetItemes(context)[page]
-                  //     .id;
-
                   await context
                       .read<AppCubit>()
                       .getMovieDetailById(state.movieList[page].id ?? 0);
@@ -316,7 +312,7 @@ class MovieListPage extends HookWidget {
                                     .read<AppCubit>()
                                     .genetateBannetItemes(context)[page]
                                     .poster ??
-                                '',
+                                noImageAvilable,
                             height: 200,
                           ),
                         ),
@@ -382,7 +378,10 @@ class MovieListPage extends HookWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  context.push('/allMoviesPage', extra: GenresRM(name: ''));
+                  context.push(
+                    '/allMoviesPage',
+                    extra: GenresRM(name: ''),
+                  );
                 },
                 child: Text(
                   AppConstants.seeAll,
@@ -404,8 +403,6 @@ class MovieListPage extends HookWidget {
                     await context
                         .read<AppCubit>()
                         .getMovieDetailById(state.movieList[index].id ?? 0);
-
-                    // ignore: use_build_context_synchronously
                     context.push(
                       '/movieDetailPage',
                       extra: state.movieList[index],
@@ -419,7 +416,7 @@ class MovieListPage extends HookWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.network(
-                            state.movieList[index].poster ?? '',
+                            state.movieList[index].poster ?? noImageAvilable,
                             width: 90,
                             height: 120,
                             fit: BoxFit.cover,

@@ -1,7 +1,7 @@
+import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../cubit/app_cubit.dart';
 import '../../utils/app_theme.dart';
 import 'outline_border.dart';
@@ -19,7 +19,6 @@ class AppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return Container(
       margin: const EdgeInsets.only(right: 20, left: 10, bottom: 10),
       width: size.width,
@@ -54,7 +53,7 @@ class AppBarWidget extends StatelessWidget {
                       .applyDefaults(
                           AppTheme.getInputDecorationTheme(Brightness.dark))
                       .copyWith(
-                          labelText: 'Search',
+                          labelText: AppConstants.search,
                           suffixIcon: InkWell(
                             onTap: () {
                               String searchValue =
@@ -75,16 +74,17 @@ class AppBarWidget extends StatelessWidget {
             )
           else
             Expanded(
-                child: Container(
-              margin: const EdgeInsets.only(left: 10, top: 7),
-              child: Text(
-                selectedGenreName!,
-                textAlign: TextAlign.left,
-                style: AppTheme.getTextTheme(null)
-                    .bodyLarge!
-                    .copyWith(color: Colors.white),
+              child: Container(
+                margin: const EdgeInsets.only(left: 10, top: 7),
+                child: Text(
+                  selectedGenreName!,
+                  textAlign: TextAlign.left,
+                  style: AppTheme.getTextTheme(null)
+                      .bodyLarge!
+                      .copyWith(color: Colors.white),
+                ),
               ),
-            ))
+            )
         ],
       ),
     );

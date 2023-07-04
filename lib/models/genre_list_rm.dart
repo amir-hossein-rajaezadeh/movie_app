@@ -1,7 +1,7 @@
 
 import 'package:bloc_getit_practice/models/movie_rm.dart';
 
-import 'movie_model.dart';
+import 'movie_model_rm.dart';
 
 class GenreListRM {
   List<MovieRM>? movie;

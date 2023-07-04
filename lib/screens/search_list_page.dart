@@ -1,12 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-
 import '../cubit/app_cubit.dart';
 import '../cubit/app_state.dart';
 import '../utils/app_theme.dart';
+import '../utils/image_list.dart';
 import 'components/app_bar.dart';
 import 'components/loading.dart';
 
@@ -18,12 +20,10 @@ class SearchListPage extends HookWidget {
     final searchTextFieldController = useTextEditingController();
     final ScrollController scrollController = ScrollController();
     final size = MediaQuery.of(context).size;
-
     context.read<AppCubit>().onTextChange(searchTextFieldController);
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          print('reach end of the list');
           context
               .read<AppCubit>()
               .updatePage(searchTextFieldController.text, false, -1);
@@ -65,7 +65,6 @@ class SearchListPage extends HookWidget {
                                           .read<AppCubit>()
                                           .getMovieDetailById(
                                               state.searchList[index].id!);
-                                      // ignore: use_build_context_synchronously
                                       context.push(
                                         '/movieDetailPage',
                                       );
@@ -164,7 +163,7 @@ class SearchListPage extends HookWidget {
                                                 child: Image.network(
                                                   state.searchList[index]
                                                           .poster ??
-                                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png',
+                                                      noImageAvilable,
                                                   width: size.width * .15,
                                                   height: 80,
                                                   fit: BoxFit.cover,

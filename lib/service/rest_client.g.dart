@@ -21,7 +21,7 @@ class _MovieClient implements MovieClient {
   String? baseUrl;
 
   @override
-  Future<MovieModel> getMovieList(
+  Future<MovieModelRM> getMovieList(
     page,
     searchValue,
   ) async {
@@ -31,9 +31,9 @@ class _MovieClient implements MovieClient {
       r'q': searchValue,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<MovieModel>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<MovieModelRM>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _MovieClient implements MovieClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = MovieModel.fromJson(_result.data!);
+    final value = MovieModelRM.fromJson(_result.data!);
     return value;
   }
 
@@ -78,7 +78,7 @@ class _MovieClient implements MovieClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<MovieRM>(Options(
       method: 'GET',
@@ -97,16 +97,16 @@ class _MovieClient implements MovieClient {
   }
 
   @override
-  Future<MovieModel> getMovieListByGenreId(
+  Future<MovieModelRM> getMovieListByGenreId(
     id,
     page,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<MovieModel>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<MovieModelRM>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -118,7 +118,7 @@ class _MovieClient implements MovieClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = MovieModel.fromJson(_result.data!);
+    final value = MovieModelRM.fromJson(_result.data!);
     return value;
   }
 
@@ -127,7 +127,7 @@ class _MovieClient implements MovieClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<GenresRM>>(Options(
       method: 'GET',

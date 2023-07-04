@@ -1,25 +1,19 @@
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
-import 'package:bloc_getit_practice/models/genres.dart';
-import 'package:bloc_getit_practice/repository/api_repository.dart';
+import 'package:bloc_getit_practice/models/genres_rm.dart';
 import 'package:bloc_getit_practice/screens/add_movie_page.dart';
 import 'package:bloc_getit_practice/screens/all_movies_page.dart';
-import 'package:bloc_getit_practice/screens/counter_page.dart';
 import 'package:bloc_getit_practice/screens/genre_list_page.dart';
 import 'package:bloc_getit_practice/screens/main_page.dart';
 import 'package:bloc_getit_practice/screens/movie_detail_page.dart';
 import 'package:bloc_getit_practice/screens/movie_list_page.dart';
-import 'package:bloc_getit_practice/screens/post_list_page.dart';
 import 'package:bloc_getit_practice/screens/search_list_page.dart';
-import 'package:bloc_getit_practice/service/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(
-    MyApp(
-      apiService: ApiService(),
-    ),
+    MyApp(),
   );
 }
 
@@ -32,25 +26,16 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: "/addMovie",
-        builder: (context, state) =>   AddMoviePage(),
+        builder: (context, state) => const AddMoviePage(),
       ),
       GoRoute(
         path: "/movieList",
         builder: (context, state) => MovieListPage(),
       ),
       GoRoute(
-        path: "/postList",
-        builder: (context, state) => const PostListPage(),
-      ),
-      GoRoute(
-        path: "/counter",
-        builder: (context, state) => const CounterPage(),
-      ),
-      GoRoute(
         path: "/allMoviesPage",
         builder: (context, state) {
           GenresRM genreRM = state.extra as GenresRM;
-          // bool movieByGenre = state.extra as bool;
           return AllMoviesPage(
             genreRM: genreRM,
           );
@@ -79,14 +64,11 @@ class MyApp extends StatelessWidget {
       )
     ],
   );
-  MyApp({required this.apiService, super.key});
-  final ApiService apiService;
+  MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit(
-        ApiRepository(apiService),
-      ),
+      create: (context) => AppCubit(),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

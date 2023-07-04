@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:bloc_getit_practice/models/post_model.dart';
-import 'package:bloc_getit_practice/repository/api_repository.dart';
 import 'package:bloc_getit_practice/utils/extensions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +8,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../models/movie_rm.dart';
 import '../service/rest_client.dart';
 import '../utils/app_constants.dart';
@@ -26,14 +22,13 @@ class AppCubit extends Cubit<AppState> {
   List<MovieRM> movieListByGenre = [];
   List<MovieRM> searchList = [];
 
-  AppCubit(this.apiRepository)
+  AppCubit()
       : super(
           const AppState(
               counter: 0,
               isLoading: false,
               text: '',
               hasError: false,
-              postList: [],
               movieList: [],
               searchList: [],
               genreList: [],
@@ -70,27 +65,6 @@ class AppCubit extends Cubit<AppState> {
       emit(
         state.copyWith(counter: number, isLoading: false),
       );
-    }
-  }
-
-  void changeText() {
-    emit(
-      state.copyWith(text: "Hello, How is it going?!"),
-    );
-  }
-
-  final ApiRepository apiRepository;
-  Future<void> fetchPostApi() async {
-    emit(
-      state.copyWith(isLoading: true),
-    );
-    try {
-      final List<PostModel> postList = await apiRepository.getPostList();
-      emit(
-        state.copyWith(postList: postList, isLoading: false),
-      );
-    } catch (e) {
-      print('Error is $e');
     }
   }
 

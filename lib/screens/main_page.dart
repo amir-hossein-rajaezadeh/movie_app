@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bloc_getit_practice/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +20,6 @@ class MainPage extends StatelessWidget {
                 onPressed: () async {
                   await context.read<AppCubit>().fetchMovieApi();
                   await context.read<AppCubit>().getGenreList();
-
                   context.push('/movieList');
                 },
                 child: const Text(
@@ -41,20 +42,6 @@ class MainPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  context.push('/counter');
-                },
-                child: const Text(
-                  'Go to counter page',
-                  style: TextStyle(fontSize: 22),
-                ),
-              ),
-            )
           ],
         ),
       ),

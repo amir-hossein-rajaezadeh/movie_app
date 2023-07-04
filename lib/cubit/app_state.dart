@@ -1,12 +1,9 @@
-import 'package:bloc_getit_practice/models/genres.dart';
+import 'package:bloc_getit_practice/models/genres_rm.dart';
 import 'package:equatable/equatable.dart';
-
 import '../models/movie_rm.dart';
-import '../models/post_model.dart';
 
 class AppState extends Equatable {
   final bool hasError;
-  final List<PostModel> postList;
   final List<MovieRM> movieList;
   final List<MovieRM> movieListByGenre;
   final List<GenresRM> genreList;
@@ -30,7 +27,6 @@ class AppState extends Equatable {
       required this.noSearchedItemFound,
       required this.hasError,
       required this.searchList,
-      required this.postList,
       required this.genreList,
       required this.movieList,
       required this.counter,
@@ -49,7 +45,6 @@ class AppState extends Equatable {
   AppState copyWith(
       {bool? hasError,
       List<MovieRM>? searchList,
-      List<PostModel>? postList,
       List<MovieRM>? movieList,
       List<MovieRM>? movieListByGenre,
       List<GenresRM>? genreList,
@@ -74,7 +69,6 @@ class AppState extends Equatable {
         movieDetailBottomSheetHeight:
             movieDetailBottomSheetHeight ?? this.movieDetailBottomSheetHeight,
         movieList: movieList ?? this.movieList,
-        postList: postList ?? this.postList,
         hasError: hasError ?? this.hasError,
         page: page ?? this.page,
         counter: counter ?? this.counter,
@@ -95,7 +89,6 @@ class AppState extends Equatable {
         counter,
         isLoading,
         text,
-        postList,
         hasError,
         movieList,
         page,

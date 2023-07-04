@@ -1,9 +1,9 @@
-import 'package:bloc_getit_practice/models/movie_model.dart';
+import 'package:bloc_getit_practice/models/movie_model_rm.dart';
 import 'package:bloc_getit_practice/utils/app_constants.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
-import '../models/genres.dart';
+import '../models/genres_rm.dart';
 import '../models/movie_rm.dart';
 
 part 'rest_client.g.dart';
@@ -13,7 +13,7 @@ abstract class MovieClient {
   factory MovieClient(Dio dio, {String baseUrl}) = _MovieClient;
 
   @GET(AppConstants.movies)
-  Future<MovieModel> getMovieList(
+  Future<MovieModelRM> getMovieList(
       @Query('page') int page, @Query('q') String searchValue);
 
   @MultiPart()
@@ -24,7 +24,7 @@ abstract class MovieClient {
   Future<MovieRM> getMovieDetail(@Path("id") id);
 
   @GET('${AppConstants.genres}{id}/${AppConstants.movies}')
-  Future<MovieModel> getMovieListByGenreId(
+  Future<MovieModelRM> getMovieListByGenreId(
     @Path("id") id,
     @Query('page') int page,
   );

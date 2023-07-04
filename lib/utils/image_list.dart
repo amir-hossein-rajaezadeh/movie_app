@@ -30,3 +30,5 @@ List<String> genreList = [
   'https://beatestan.com/wp-content/uploads/genres-musi.jpg',
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnx_LZDmSZeViPGlCSUwC5QXSEppI3-gE0Qg&usqp=CAU',
 ];
+String noImageAvilable =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png';
