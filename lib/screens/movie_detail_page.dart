@@ -51,7 +51,7 @@ class MovieDetailPage extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: Image.network(
-                              state.movieItem!.poster ?? "",
+                              state.movieItem?.poster ?? "",
                               fit: BoxFit.fill,
                               width: size.width,
                             ),
@@ -142,25 +142,25 @@ class MovieDetailPage extends StatelessWidget {
                                 margin: const EdgeInsets.only(left: 20, top: 8),
                                 child: Row(
                                   children: [
-                                    Text(
-                                      context
-                                          .read<AppCubit>()
-                                          .movieTimeInHoure(),
-                                      style: AppTheme.getTextTheme(null)
-                                          .bodyMedium!
-                                          .copyWith(color: Colors.grey),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      width: 5,
-                                      height: 5,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   context
+                                    //       .read<AppCubit>()
+                                    //       .movieTimeInHoure(),
+                                    //   style: AppTheme.getTextTheme(null)
+                                    //       .bodyMedium!
+                                    //       .copyWith(color: Colors.grey),
+                                    // ),
+                                    // Container(
+                                    //   margin: const EdgeInsets.symmetric(
+                                    //       horizontal: 10),
+                                    //   width: 5,
+                                    //   height: 5,
+                                    //   decoration: BoxDecoration(
+                                    //     color: Colors.white,
+                                    //     borderRadius:
+                                    //         BorderRadius.circular(100),
+                                    //   ),
+                                    // ),
                                     Container(
                                       margin: const EdgeInsets.only(right: 10),
                                       height: 18,
@@ -260,7 +260,7 @@ class MovieDetailPage extends StatelessWidget {
                                 margin: const EdgeInsets.only(
                                     top: 22, right: 12, left: 12),
                                 child: Text(
-                                  state.movieItem?.plot ?? '',
+                                  state.movieItem!.plot!,
                                   maxLines: 5,
                                   overflow: TextOverflow.ellipsis,
                                   style: AppTheme.getTextTheme(null)
@@ -268,88 +268,102 @@ class MovieDetailPage extends StatelessWidget {
                                       .copyWith(color: Colors.grey),
                                 ),
                               ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: 10, left: 20),
-                                child: Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        context
-                                            .read<AppCubit>()
-                                            .onActorTapClicked();
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            AppConstants.actors,
-                                            style: AppTheme.getTextTheme(null)
-                                                .bodyLarge!
-                                                .copyWith(
-                                                    color:
-                                                        state.actiorTabSelected
-                                                            ? Colors.white
-                                                            : Colors.grey,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                          ),
-                                          if (state.actiorTabSelected)
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  top: 5, left: 2),
-                                              width: 65,
-                                              height: 2,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  color: purple),
-                                            )
-                                        ],
-                                      ),
+                              if (state.movieItem!.plot!.isEmpty)
+                                Container(
+                                  margin: const EdgeInsets.only(top: 40),
+                                  child: Center(
+                                    child: Text(
+                                      AppConstants.noDescriptionAvailable,
+                                      style: AppTheme.getTextTheme(null)
+                                          .titleLarge!
+                                          .copyWith(color: Colors.white),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        context
-                                            .read<AppCubit>()
-                                            .onActorTapClicked();
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 20),
-                                            child: Text(
-                                              AppConstants.writer,
+                                  ),
+                                ),
+                              if (state.movieItem!.plot!.isNotEmpty)
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(top: 10, left: 20),
+                                  child: Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          context
+                                              .read<AppCubit>()
+                                              .onActorTapClicked();
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              AppConstants.actors,
                                               style: AppTheme.getTextTheme(null)
                                                   .bodyLarge!
                                                   .copyWith(
-                                                      color: !state
+                                                      color: state
                                                               .actiorTabSelected
                                                           ? Colors.white
                                                           : Colors.grey,
                                                       fontWeight:
                                                           FontWeight.w400),
                                             ),
-                                          ),
-                                          if (!state.actiorTabSelected)
+                                            if (state.actiorTabSelected)
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 5, left: 2),
+                                                width: 65,
+                                                height: 2,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    color: purple),
+                                              )
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          context
+                                              .read<AppCubit>()
+                                              .onActorTapClicked();
+                                        },
+                                        child: Column(
+                                          children: [
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  top: 5, left: 27),
-                                              width: 65,
-                                              height: 2,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  color: purple),
-                                            )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                                  left: 20),
+                                              child: Text(
+                                                AppConstants.writer,
+                                                style: AppTheme.getTextTheme(
+                                                        null)
+                                                    .bodyLarge!
+                                                    .copyWith(
+                                                        color: !state
+                                                                .actiorTabSelected
+                                                            ? Colors.white
+                                                            : Colors.grey,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                              ),
+                                            ),
+                                            if (!state.actiorTabSelected)
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 5, left: 27),
+                                                width: 65,
+                                                height: 2,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    color: purple),
+                                              )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
                               if (state.movieItem!.actors!.isNotEmpty)
                                 if (state.actiorTabSelected)
                                   Container(
@@ -479,7 +493,8 @@ class MovieDetailPage extends StatelessWidget {
                                     ),
                                   ),
                               if (state.movieDetailBottomSheetHeight ==
-                                  size.height * .85)
+                                      size.height * .85 &&
+                                  state.movieItem!.plot!.isNotEmpty)
                                 SizedBox(
                                   height: 230,
                                   child: Column(

@@ -14,6 +14,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../cubit/app_state.dart';
 import '../utils/app_theme.dart';
 import '../utils/colors.dart';
+import 'components/outline_border.dart';
 
 class AddMoviePage extends HookWidget {
   const AddMoviePage({super.key});
@@ -40,31 +41,18 @@ class AddMoviePage extends HookWidget {
                                 top: 40, right: 20, left: 20),
                             child: TextField(
                               controller: movieName,
+                              style: AppTheme.getTextTheme(null)
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white),
                               decoration: InputDecoration(
                                 labelText: 'Movie name',
                                 labelStyle: AppTheme.getTextTheme(null)
                                     .bodyMedium!
                                     .copyWith(color: Colors.white),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
-                                ),
+                                disabledBorder: outlinedBorder(),
+                                enabledBorder: outlinedBorder(),
+                                border: outlinedBorder(),
+                                focusedBorder: outlinedBorder(),
                               ),
                             ),
                           ),
@@ -73,14 +61,18 @@ class AddMoviePage extends HookWidget {
                                 top: 20, right: 20, left: 20),
                             child: TextField(
                               controller: movieDirector,
+                              style: AppTheme.getTextTheme(null)
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white),
                               decoration: InputDecoration(
                                 labelText: 'Director name',
                                 labelStyle: AppTheme.getTextTheme(null)
                                     .bodyMedium!
                                     .copyWith(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
+                                disabledBorder: outlinedBorder(),
+                                enabledBorder: outlinedBorder(),
+                                border: outlinedBorder(),
+                                focusedBorder: outlinedBorder(),
                               ),
                             ),
                           ),
@@ -201,8 +193,6 @@ class AddMoviePage extends HookWidget {
                                       context
                                           .read<AppCubit>()
                                           .setMovieRate(rating.toInt());
-
-                                      print(rating);
                                     },
                                   ),
                                 ),
@@ -221,15 +211,18 @@ class AddMoviePage extends HookWidget {
                       ),
                       margin: const EdgeInsets.only(
                           bottom: 30, right: 20, left: 20),
-                      child: Center(
-                        child: InkWell(
-                          onTap: () {
-                            context.read<AppCubit>().addMovie(
-                                movieName.text, movieDirector.text, context);
-                          },
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      child: InkWell(
+                        onTap: () {
+                          context.read<AppCubit>().addMovie(
+                              movieName.text, movieDirector.text, context);
+                        },
+                        child: Container(
+                          child: const Center(
+                            child: Text(
+                              'Submit',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),

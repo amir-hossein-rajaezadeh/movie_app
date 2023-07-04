@@ -98,9 +98,11 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                 margin: const EdgeInsets.only(left: 15),
                 child: InkWell(
                   onTap: () async {
-                    await context
-                        .read<AppCubit>()
-                        .getMovieDetailById(state.movieList[index].id!);
+                    await context.read<AppCubit>().getMovieDetailById(
+                        movieByGenreIsEmpty
+                            ? state.movieList[index].id!
+                            : state.movieListByGenre[index].id!);
+                    // ignore: use_build_context_synchronously
                     context.push(
                       '/movieDetailPage',
                     );
@@ -210,8 +212,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
               );
             },
           ),
-          if (state.isLoading)
-          showLoading()
+          if (state.isLoading) showLoading()
         ],
       ),
     );

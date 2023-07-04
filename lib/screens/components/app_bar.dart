@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../cubit/app_cubit.dart';
 import '../../utils/app_theme.dart';
+import 'outline_border.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget(
@@ -63,23 +64,11 @@ class AppBarWidget extends StatelessWidget {
                             },
                             child: const Icon(Icons.search),
                           ),
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Colors.white),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Colors.white),
-                          ),
                           contentPadding: const EdgeInsets.only(left: 8),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Colors.white),
-                          ),
+                          disabledBorder: outlinedBorder(),
+                          enabledBorder: outlinedBorder(),
+                          border: outlinedBorder(),
+                          focusedBorder: outlinedBorder(),
                           suffixIconColor: Colors.white),
                 ),
               ),

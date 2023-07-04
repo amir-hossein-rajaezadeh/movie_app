@@ -41,7 +41,8 @@ class AppCubit extends Cubit<AppState> {
               bannerPage: 0,
               actiorTabSelected: true,
               movieDetailBottomSheetHeight: 470,
-              movieListByGenre: []),
+              movieListByGenre: [],
+              noSearchedItemFound: false),
         );
 
   onPageViewChange(int page) {
@@ -174,12 +175,14 @@ class AppCubit extends Cubit<AppState> {
       final searchListFromServer =
           await client.getMovieList(state.page, searchValue);
 
-      print('search response is ${searchListFromServer.metadata!.currentPage}');
       searchList.clear();
 
       searchList = searchListFromServer.movie ?? [];
       emit(
-        state.copyWith(searchList: searchList, isLoading: false),
+        state.copyWith(
+            searchList: searchList,
+            isLoading: false,
+            noSearchedItemFound: searchListFromServer.movie?.isEmpty),
       );
     } catch (e) {
       print('Error is $e');
@@ -253,45 +256,62 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> addMovie(
       String movieName, String movieDirector, BuildContext context) async {
-    emit(
-      state.copyWith(
-        isLoading: true,
-      ),
-    );
-    // print(
-    //     'title is $movieName  country is ${state.selectedCountryName!.split(' ')[1]},  year is ${state.selectedMovieDate}');
-
-    FormData formData = FormData.fromMap({
-      "title": movieName,
-      'imdb_id': 'tt0232500',
-      'director': movieDirector,
-      'country': state.selectedCountryName!.split(' ')[1],
-      'imdb_rating': state.movieRate,
-      'year': state.selectedMovieDate!.split("-")[0],
-      if (state.selectedImage != '')
-        "poster": await MultipartFile.fromFile(
-          state.selectedImage!,
-          filename: state.selectedImage!,
-        ),
-    });
-
-    try {
-      await client.postNewMovie(formData);
-
-      context.pop();
+    textFieldErrorHandeling(movieName, movieDirector);
+    if (movieName.isNotEmpty && movieDirector.isNotEmpty) {
       emit(
         state.copyWith(
-          isLoading: false,
+          isLoading: true,
         ),
       );
-    } catch (e) {
-      print(e);
-      emit(
-        state.copyWith(
-          isLoading: false,
-        ),
-      );
+      try {
+        FormData formData = FormData.fromMap({
+          "title": movieName,
+          'imdb_id': 'tt0232500',
+          'director': movieDirector,
+          'country': state.selectedCountryName!.split(' ')[1],
+          'imdb_rating': state.movieRate,
+          'year': state.selectedMovieDate!.split("-")[0],
+          if (state.selectedImage != '')
+            "poster": await MultipartFile.fromFile(
+              state.selectedImage!,
+              filename: state.selectedImage!,
+            ),
+        });
+        await client.postNewMovie(formData);
+        // ignore: use_build_context_synchronously
+        context.pop();
+        emit(
+          state.copyWith(
+            isLoading: false,
+          ),
+        );
+      } catch (e) {
+        print('error is $e');
+        emit(
+          state.copyWith(
+            hasError: true,
+            isLoading: false,
+          ),
+        );
+      }
     }
+  }
+
+  List<int> textFieldErrorHandeling(
+    String movieName,
+    String movieDirector,
+  ) {
+    List<int> statusList = [];
+    if (movieName.isEmpty && movieDirector.isEmpty) {
+      statusList = [0, 0];
+    } else if (movieName.isEmpty && movieDirector.isNotEmpty) {
+      statusList = [0, 1];
+    } else if (movieName.isNotEmpty && movieDirector.isEmpty) {
+      statusList = [1, 0];
+    } else if (movieName.isNotEmpty && movieDirector.isNotEmpty) {
+      statusList = [1, 1];
+    }
+    return statusList;
   }
 
   Future<void> getMovieDetailById(int id) async {
@@ -329,13 +349,13 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  Timer? _debounce;
+  Timer? debounce;
 
-  Timer? getdebounce() => _debounce;
+  Timer? getdebounce() => debounce;
 
   onSearchTextChanged(String searchValue) {
-    if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 700), () {
+    if (debounce?.isActive ?? false) debounce?.cancel();
+    debounce = Timer(const Duration(milliseconds: 700), () {
       searchValue.isEmpty ? fetchMovieApi() : searchMovie(searchValue);
     });
   }
@@ -355,17 +375,17 @@ class AppCubit extends Cubit<AppState> {
   List<MovieRM> genetateBannetItemes(BuildContext context) {
     return [
       movieList[0],
-      movieList[5],
+      movieList[4],
       movieList[8],
       movieList[1],
       movieList[9],
-      movieList[6]
+      movieList[5]
     ];
   }
 
   void onActorTapClicked() {
-    if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () {
+    if (debounce?.isActive ?? false) debounce?.cancel();
+    debounce = Timer(const Duration(milliseconds: 200), () {
       emit(
         state.copyWith(
             actiorTabSelected: state.actiorTabSelected ? false : true),
@@ -415,9 +435,7 @@ class AppCubit extends Cubit<AppState> {
   void clearSearchList() {
     searchList.clear();
     emit(
-      state.copyWith(
-        searchList: [],
-      ),
+      state.copyWith(searchList: [], noSearchedItemFound: false),
     );
   }
 }

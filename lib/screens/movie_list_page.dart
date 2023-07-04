@@ -233,11 +233,14 @@ class MovieListPage extends HookWidget {
             itemBuilder: (context, page) {
               return InkWell(
                 onTap: () async {
-                  context
-                      .read<AppCubit>()
-                      .genetateBannetItemes(context)[page]
-                      .id;
+                  // context
+                  //     .read<AppCubit>()
+                  //     .genetateBannetItemes(context)[page]
+                  //     .id;
 
+                  await context
+                      .read<AppCubit>()
+                      .getMovieDetailById(state.movieList[page].id ?? 0);
                   if (context.mounted) {
                     context.push(
                       '/movieDetailPage',

@@ -19,7 +19,8 @@ class AppConstants {
   static const writer = 'Writer';
   static const photoes = 'Photes';
   static const genresText = 'Genres';
-  static const noMovieFound = 'No movie has been found!. :(';
+  static const noMovieFound = 'No movie has been found! :(';
+  static const noDescriptionAvailable = 'No description available!';
 
   static const countryList = [
     "🇦🇫 Afghanistan",

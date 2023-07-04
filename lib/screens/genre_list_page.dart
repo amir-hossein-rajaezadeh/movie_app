@@ -99,6 +99,7 @@ class GenreListPage extends StatelessWidget {
                                               BorderRadius.circular(12),
                                           child: Image.network(
                                             genreList[index],
+                                            
                                             width: size.width * .5,
                                             height: 80,
                                             fit: BoxFit.cover,

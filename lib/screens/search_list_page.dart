@@ -43,8 +43,7 @@ class SearchListPage extends HookWidget {
                         searchTextFieldController: searchTextFieldController,
                         haveSearchTextField: true),
                     Expanded(
-                      child: state.searchList.isNotEmpty &&
-                              searchTextFieldController.text.isNotEmpty
+                      child: !state.noSearchedItemFound
                           ? ListView.separated(
                               shrinkWrap: true,
                               controller: scrollController,
@@ -66,6 +65,7 @@ class SearchListPage extends HookWidget {
                                           .read<AppCubit>()
                                           .getMovieDetailById(
                                               state.searchList[index].id!);
+                                      // ignore: use_build_context_synchronously
                                       context.push(
                                         '/movieDetailPage',
                                       );
@@ -164,7 +164,7 @@ class SearchListPage extends HookWidget {
                                                 child: Image.network(
                                                   state.searchList[index]
                                                           .poster ??
-                                                      '',
+                                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png',
                                                   width: size.width * .15,
                                                   height: 80,
                                                   fit: BoxFit.cover,

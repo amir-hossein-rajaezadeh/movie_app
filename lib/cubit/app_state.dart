@@ -15,6 +15,7 @@ class AppState extends Equatable {
   final int counter;
   final bool isLoading;
   final String text;
+  final bool noSearchedItemFound;
   final String? selectedCountryName;
   final String? selectedMovieDate;
   final String? selectedImage;
@@ -26,6 +27,7 @@ class AppState extends Equatable {
   final MovieRM? movieItem;
   const AppState(
       {required this.page,
+      required this.noSearchedItemFound,
       required this.hasError,
       required this.searchList,
       required this.postList,
@@ -54,6 +56,7 @@ class AppState extends Equatable {
       int? counter,
       int? page,
       bool? isLoading,
+      bool? noSearchedItemFound,
       String? text,
       String? selectedCountryName,
       String? selectedMovieTime,
@@ -64,6 +67,7 @@ class AppState extends Equatable {
       bool? actiorTabSelected,
       double? movieDetailBottomSheetHeight}) {
     return AppState(
+        noSearchedItemFound: noSearchedItemFound ?? this.noSearchedItemFound,
         searchList: searchList ?? this.searchList,
         genreList: genreList ?? this.genreList,
         movieListByGenre: movieListByGenre ?? this.movieListByGenre,
@@ -87,6 +91,7 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props => [
+        noSearchedItemFound,
         counter,
         isLoading,
         text,

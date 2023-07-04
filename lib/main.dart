@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: "/addMovie",
-        builder: (context, state) => const AddMoviePage(),
+        builder: (context, state) =>   AddMoviePage(),
       ),
       GoRoute(
         path: "/movieList",
