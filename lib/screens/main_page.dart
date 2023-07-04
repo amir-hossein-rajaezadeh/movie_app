@@ -28,20 +28,6 @@ class MainPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  context.push('/postList');
-                },
-                child: const Text(
-                  'Go to post list page',
-                  style: TextStyle(fontSize: 22),
-                ),
-              ),
-            ),
           ],
         ),
       ),
