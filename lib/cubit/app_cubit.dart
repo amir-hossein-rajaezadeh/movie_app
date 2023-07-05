@@ -290,7 +290,7 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> getMovieDetailById(int id) async {
     emit(
-      state.copyWith(isLoading: true),
+      state.copyWith(isLoading: true, movieDetailBottomSheetHeight: 470),
     );
     try {
       final movieItemServer = await client.getMovieDetail(id);

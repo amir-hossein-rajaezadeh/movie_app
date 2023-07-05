@@ -279,7 +279,8 @@ class MovieDetailPage extends StatelessWidget {
               if (state.movieItem!.plot!.isNotEmpty)
                 actorAndWriterTabWidget(context, state),
               if (state.movieDetailBottomSheetHeight == size.height * .85 &&
-                  state.movieItem!.plot!.isNotEmpty)
+                  state.movieItem!.plot!.isNotEmpty &&
+                  state.movieItem!.images!.isNotEmpty)
                 moviePhotosWidget(state)
             ],
           ),
