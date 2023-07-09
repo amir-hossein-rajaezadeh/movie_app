@@ -266,8 +266,7 @@ class AddMoviePage extends HookWidget {
       backgroundColor: grey,
       items: countryTextWidgetList,
       dismissable: true,
-      title: 'Choose movier country',
-      bottomPickerTheme: BottomPickerTheme.morningSalad,
+      title: AppConstants.chooseMovieCountry,
       onSubmit: (index) {
         context
             .read<AppCubit>()
@@ -284,8 +283,10 @@ class AddMoviePage extends HookWidget {
         fontSize: 20,
       ),
       displayButtonIcon: true,
-      displayCloseIcon: false,
+      displayCloseIcon: true,
+      closeIconColor: Colors.white,
       displaySubmitButton: true,
+      bottomPickerTheme: BottomPickerTheme.blue,
     ).show(context);
   }
 
@@ -316,6 +317,8 @@ class AddMoviePage extends HookWidget {
             );
       },
       maxDateTime: DateTime.now(),
+      displayCloseIcon: true,
+      closeIconColor: Colors.white,
       minDateTime: DateTime(1895),
       bottomPickerTheme: BottomPickerTheme.blue,
     ).show(context);

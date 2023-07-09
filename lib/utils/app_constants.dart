@@ -29,7 +29,8 @@ class AppConstants {
   static const movieRate = 'Movie rate';
   static const welcomeBack = 'Welcome back,';
   static const search = 'Search';
-  static const chooseMovieDate = 'Choose movie date:';
+  static const chooseMovieDate = 'Choose movie date';
+  static const chooseMovieCountry = 'Choose movie country';
 
   static const countryList = [
     "🇦🇫 Afghanistan",
