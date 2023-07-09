@@ -2,10 +2,10 @@
 
 import 'dart:ui';
 
-import 'package:bloc_getit_practice/cubit/app_cubit.dart';
-import 'package:bloc_getit_practice/models/genres_rm.dart';
-import 'package:bloc_getit_practice/utils/app_constants.dart';
-import 'package:bloc_getit_practice/utils/image_list.dart';
+import 'package:movie_app/cubit/app_cubit.dart';
+import 'package:movie_app/models/genres_rm.dart';
+import 'package:movie_app/utils/app_constants.dart';
+import 'package:movie_app/utils/image_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +115,7 @@ class MovieListPage extends HookWidget {
                     .read<AppCubit>()
                     .genetateBannetItemes(context)[state.bannerPage!]
                     .poster ??
-               noImageAvilable,
+                noImageAvilable,
             fit: BoxFit.cover,
             height: 300,
             width: size.width,
@@ -234,9 +234,8 @@ class MovieListPage extends HookWidget {
             itemBuilder: (context, page) {
               return InkWell(
                 onTap: () async {
-                  await context
-                      .read<AppCubit>()
-                      .getMovieDetailById(state.movieList[page].id ?? 0);
+                  await context.read<AppCubit>().getMovieDetailById(
+                      state.movieList[page].id ?? 0, context);
                   if (context.mounted) {
                     context.push(
                       '/movieDetailPage',
@@ -400,9 +399,8 @@ class MovieListPage extends HookWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () async {
-                    await context
-                        .read<AppCubit>()
-                        .getMovieDetailById(state.movieList[index].id ?? 0);
+                    await context.read<AppCubit>().getMovieDetailById(
+                        state.movieList[index].id ?? 0, context);
                     context.push(
                       '/movieDetailPage',
                       extra: state.movieList[index],

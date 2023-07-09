@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:bloc_getit_practice/cubit/app_cubit.dart';
-import 'package:bloc_getit_practice/screens/components/loading.dart';
-import 'package:bloc_getit_practice/utils/app_constants.dart';
-import 'package:bloc_getit_practice/utils/image_list.dart';
+import 'package:movie_app/cubit/app_cubit.dart';
+import 'package:movie_app/screens/components/loading.dart';
+import 'package:movie_app/utils/app_constants.dart';
+import 'package:movie_app/utils/image_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -60,7 +60,7 @@ class GenreListPage extends StatelessWidget {
                                     .read<AppCubit>()
                                     .getGenreMovieById(
                                         state.genreList[index].id!);
-                                 context.push(
+                                context.push(
                                   '/allMoviesPage',
                                   extra: state.genreList[index],
                                 );

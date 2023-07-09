@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:bloc_getit_practice/utils/extensions.dart';
+import 'package:movie_app/utils/extensions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +25,6 @@ class AppCubit extends Cubit<AppState> {
   AppCubit()
       : super(
           const AppState(
-              counter: 0,
               isLoading: false,
               text: '',
               hasError: false,
@@ -35,7 +34,6 @@ class AppCubit extends Cubit<AppState> {
               page: 0,
               bannerPage: 0,
               actiorTabSelected: true,
-              movieDetailBottomSheetHeight: 470,
               movieListByGenre: [],
               noSearchedItemFound: false),
         );
@@ -47,26 +45,6 @@ class AppCubit extends Cubit<AppState> {
   }
 
   double getSelectedBannerHeight() => selectedBannerItemHeight;
-
-  Future<void> increaseNumber(bool isIncreasing) async {
-    emit(
-      state.copyWith(isLoading: true),
-    );
-    await Future.delayed(
-      const Duration(seconds: 2),
-    );
-    if (isIncreasing) {
-      final int number = state.counter + 1;
-      emit(
-        state.copyWith(counter: number, isLoading: false),
-      );
-    } else {
-      final int number = state.counter - 1;
-      emit(
-        state.copyWith(counter: number, isLoading: false),
-      );
-    }
-  }
 
   Future<void> fetchMovieApi() async {
     emit(
@@ -120,7 +98,8 @@ class AppCubit extends Cubit<AppState> {
         );
       } else {
         final movieListServer =
-            await client.getMovieList(state.page, searchValue);
+            await client.getMovieList(state.page + 1, searchValue);
+        print('page is ${state.page}');
 
         if (searchValue.isEmpty) {
           movieList.addAll(movieListServer.movie?.toList() ?? []);
@@ -288,9 +267,11 @@ class AppCubit extends Cubit<AppState> {
     return statusList;
   }
 
-  Future<void> getMovieDetailById(int id) async {
+  Future<void> getMovieDetailById(int id, BuildContext context) async {
+    final size = MediaQuery.of(context).size;
     emit(
-      state.copyWith(isLoading: true, movieDetailBottomSheetHeight: 470),
+      state.copyWith(
+          isLoading: true, movieDetailBottomSheetHeight: size.height * .57),
     );
     try {
       final movieItemServer = await client.getMovieDetail(id);
@@ -369,9 +350,10 @@ class AppCubit extends Cubit<AppState> {
 
   void changeBottomSheetHeight(double deviceHeight) {
     emit(state.copyWith(
-        movieDetailBottomSheetHeight: state.movieDetailBottomSheetHeight == 470
-            ? deviceHeight * .85
-            : 470));
+        movieDetailBottomSheetHeight:
+            state.movieDetailBottomSheetHeight == deviceHeight * .57
+                ? deviceHeight * .85
+                : deviceHeight * .57));
   }
 
   int returnYear() {

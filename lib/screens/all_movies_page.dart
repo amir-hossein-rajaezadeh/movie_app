@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:bloc_getit_practice/models/genres_rm.dart';
-import 'package:bloc_getit_practice/screens/components/loading.dart';
-import 'package:bloc_getit_practice/utils/app_theme.dart';
+import 'package:movie_app/models/genres_rm.dart';
+import 'package:movie_app/screens/components/loading.dart';
+import 'package:movie_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -102,7 +102,8 @@ class _AllMoviesPageState extends State<AllMoviesPage> {
                     await context.read<AppCubit>().getMovieDetailById(
                         movieByGenreIsEmpty
                             ? state.movieList[index].id!
-                            : state.movieListByGenre[index].id!);
+                            : state.movieListByGenre[index].id!,
+                        context);
                     context.push(
                       '/movieDetailPage',
                     );

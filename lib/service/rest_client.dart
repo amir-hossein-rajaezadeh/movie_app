@@ -1,5 +1,5 @@
-import 'package:bloc_getit_practice/models/movie_model_rm.dart';
-import 'package:bloc_getit_practice/utils/app_constants.dart';
+import 'package:movie_app/models/movie_model_rm.dart';
+import 'package:movie_app/utils/app_constants.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 

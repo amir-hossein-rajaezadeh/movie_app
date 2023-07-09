@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:bloc_getit_practice/cubit/app_cubit.dart';
-import 'package:bloc_getit_practice/screens/components/loading.dart';
-import 'package:bloc_getit_practice/utils/app_constants.dart';
+import 'package:movie_app/cubit/app_cubit.dart';
+import 'package:movie_app/screens/components/loading.dart';
+import 'package:movie_app/utils/app_constants.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,6 +70,9 @@ class AddMoviePage extends HookWidget {
                     countryPicker(
                       context,
                     );
+                    FocusScope.of(context).requestFocus(
+                      FocusNode(),
+                    );
                   },
                   child: Text(
                     state.selectedCountryName ?? AppConstants.select,
@@ -92,6 +95,9 @@ class AddMoviePage extends HookWidget {
               TextButton(
                   onPressed: () {
                     movieDatePicker(context);
+                    FocusScope.of(context).requestFocus(
+                      FocusNode(),
+                    );
                   },
                   child: Text(
                     state.selectedMovieDate ?? AppConstants.select,
@@ -114,6 +120,9 @@ class AddMoviePage extends HookWidget {
               TextButton(
                 onPressed: () {
                   context.read<AppCubit>().selectImage();
+                  FocusScope.of(context).requestFocus(
+                    FocusNode(),
+                  );
                 },
                 child: state.selectedImage != null
                     ? ClipRRect(
@@ -252,9 +261,9 @@ class AddMoviePage extends HookWidget {
     for (var element in AppConstants.countryList) {
       countryTextWidgetList.add(Text(element));
     }
-
     BottomPicker(
       height: 250,
+      backgroundColor: grey,
       items: countryTextWidgetList,
       dismissable: true,
       title: 'Choose movier country',
@@ -264,13 +273,13 @@ class AddMoviePage extends HookWidget {
             .read<AppCubit>()
             .setSelectedCountryName(index, AppConstants.countryList);
       },
-      titleStyle: const TextStyle(
+      titleStyle: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 20,
-        color: Color(0xFF50A7C2),
+        color: Colors.white.withOpacity(0.5),
       ),
       pickerTextStyle: const TextStyle(
-        color: Colors.blue,
+        color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 20,
       ),
@@ -283,18 +292,19 @@ class AddMoviePage extends HookWidget {
   void movieDatePicker(BuildContext context) {
     BottomPicker.date(
       height: 250,
-      title: 'Set Movie Date',
+      title: AppConstants.chooseMovieDate,
+      backgroundColor: grey,
       dismissable: true,
       dateOrder: DatePickerDateOrder.dmy,
       pickerTextStyle: const TextStyle(
-        color: Colors.blue,
+        color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 18,
       ),
-      titleStyle: const TextStyle(
+      titleStyle: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 20,
-        color: Colors.blue,
+        color: Colors.white.withOpacity(0.5),
       ),
       initialDateTime: DateTime(
           context.read<AppCubit>().returnYear(),

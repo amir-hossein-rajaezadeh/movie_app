@@ -1,6 +1,6 @@
 {
-    "name": "bloc_getit_practice",
-    "short_name": "bloc_getit_practice",
+    "name": "movie_app",
+    "short_name": "movie_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

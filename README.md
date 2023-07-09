@@ -1,4 +1,4 @@
-# bloc_getit_practice
+# movie_app
 
 A new Flutter project.
 

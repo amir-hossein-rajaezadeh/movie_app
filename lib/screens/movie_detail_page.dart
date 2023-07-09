@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:bloc_getit_practice/cubit/app_cubit.dart';
-import 'package:bloc_getit_practice/cubit/app_state.dart';
-import 'package:bloc_getit_practice/utils/extensions.dart';
+import 'package:movie_app/cubit/app_cubit.dart';
+import 'package:movie_app/cubit/app_state.dart';
+import 'package:movie_app/utils/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +38,7 @@ class MovieDetailPage extends StatelessWidget {
                       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                       child: SizedBox(
                         width: size.width,
-                        height: 270,
+                        height: size.height * .3,
                       ),
                     ),
                     Container(
@@ -110,180 +110,187 @@ class MovieDetailPage extends StatelessWidget {
             // Up Swipe
           }
         },
-        child: AnimatedContainer(
-          height: state.movieDetailBottomSheetHeight,
-          alignment: Alignment.bottomCenter,
-          margin: const EdgeInsets.only(top: 20),
-          width: size.width,
-          decoration: const BoxDecoration(
-            color: greyBackground,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-          ),
-          duration: const Duration(milliseconds: 400),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  width: 50,
-                  height: 4,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.white),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              height: state.movieDetailBottomSheetHeight,
+              alignment: Alignment.bottomCenter,
+              margin: const EdgeInsets.only(top: 20),
+              width: size.width,
+              decoration: const BoxDecoration(
+                color: greyBackground,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 20, left: 20),
-                child: Text(
-                  state.movieItem!.title ?? "",
-                  style: AppTheme.getTextTheme(null)
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 20, top: 8),
-                child: Row(
-                  children: [
-                    Text(
-                      state.movieItem!.plot!.isNotEmpty
-                          ? context.read<AppCubit>().movieTimeInHoure()
-                          : '',
-                      style: AppTheme.getTextTheme(null)
-                          .bodyMedium!
-                          .copyWith(color: Colors.grey),
-                    ),
-                    if (state.movieItem!.plot!.isNotEmpty)
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        width: 5,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
+              duration: const Duration(milliseconds: 300),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      width: 50,
+                      height: 4,
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          right: state.movieItem!.plot!.isNotEmpty ? 10 : 0),
-                      height: 18,
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            margin: const EdgeInsets.symmetric(horizontal: 4),
-                            width: 2,
-                          );
-                        },
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: state.movieItem!.genres!.length,
-                        itemBuilder: (context, index) {
-                          return Text(
-                            state.movieItem!.genres![index],
-                            style: AppTheme.getTextTheme(null)
-                                .bodyMedium!
-                                .copyWith(color: Colors.grey),
-                          );
-                        },
-                      ),
+                          color: Colors.white),
                     ),
-                    Text(
-                      state.movieItem!.year.toString(),
-                      style: AppTheme.getTextTheme(null)
-                          .bodyMedium!
-                          .copyWith(color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 18),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 12, right: 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 6),
-                            child: const Icon(
-                              CupertinoIcons.arrow_down_to_line_alt,
-                              size: 25,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 4),
-                            child: Text(
-                              AppConstants.download,
-                              style: AppTheme.getTextTheme(null)
-                                  .bodySmall!
-                                  .copyWith(color: Colors.white),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 44,
-                        margin: const EdgeInsets.only(right: 20),
-                        decoration: BoxDecoration(
-                          color: purple,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Center(
-                          child: Text(
-                            AppConstants.playNow,
-                            style: AppTheme.getTextTheme(null)
-                                .bodyLarge!
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 22, right: 12, left: 12),
-                child: Text(
-                  state.movieItem!.plot!,
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.getTextTheme(null)
-                      .bodyMedium!
-                      .copyWith(color: Colors.grey),
-                ),
-              ),
-              if (state.movieItem!.plot!.isEmpty)
-                Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  child: Center(
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20, left: 20),
                     child: Text(
-                      AppConstants.noDescriptionAvailable,
+                      state.movieItem!.title ?? "",
                       style: AppTheme.getTextTheme(null)
                           .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
                   ),
-                ),
-              if (state.movieItem!.plot!.isNotEmpty)
-                actorAndWriterTabWidget(context, state),
-              if (state.movieDetailBottomSheetHeight == size.height * .85 &&
-                  state.movieItem!.plot!.isNotEmpty &&
-                  state.movieItem!.images!.isNotEmpty)
-                moviePhotosWidget(state)
-            ],
-          ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, top: 8),
+                    child: Row(
+                      children: [
+                        Text(
+                          state.movieItem!.plot!.isNotEmpty
+                              ? context.read<AppCubit>().movieTimeInHoure()
+                              : '',
+                          style: AppTheme.getTextTheme(null)
+                              .bodyMedium!
+                              .copyWith(color: Colors.grey),
+                        ),
+                        if (state.movieItem!.plot!.isNotEmpty)
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              right:
+                                  state.movieItem!.plot!.isNotEmpty ? 10 : 0),
+                          height: 18,
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                width: 2,
+                              );
+                            },
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: state.movieItem!.genres!.length,
+                            itemBuilder: (context, index) {
+                              return Text(
+                                state.movieItem!.genres![index],
+                                style: AppTheme.getTextTheme(null)
+                                    .bodyMedium!
+                                    .copyWith(color: Colors.grey),
+                              );
+                            },
+                          ),
+                        ),
+                        Text(
+                          state.movieItem!.year.toString(),
+                          style: AppTheme.getTextTheme(null)
+                              .bodyMedium!
+                              .copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 18),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 12, right: 10),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 6),
+                                child: const Icon(
+                                  CupertinoIcons.arrow_down_to_line_alt,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  AppConstants.download,
+                                  style: AppTheme.getTextTheme(null)
+                                      .bodySmall!
+                                      .copyWith(color: Colors.white),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 44,
+                            margin: const EdgeInsets.only(right: 20),
+                            decoration: BoxDecoration(
+                              color: purple,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Center(
+                              child: Text(
+                                AppConstants.playNow,
+                                style: AppTheme.getTextTheme(null)
+                                    .bodyLarge!
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 22, right: 12, left: 12),
+                    child: Text(
+                      state.movieItem!.plot!,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.getTextTheme(null)
+                          .bodyMedium!
+                          .copyWith(color: Colors.grey),
+                    ),
+                  ),
+                  if (state.movieItem!.plot!.isEmpty)
+                    Container(
+                      margin: const EdgeInsets.only(top: 40),
+                      child: Center(
+                        child: Text(
+                          AppConstants.noDescriptionAvailable,
+                          style: AppTheme.getTextTheme(null)
+                              .titleLarge!
+                              .copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  if (state.movieItem!.plot!.isNotEmpty)
+                    actorAndWriterTabWidget(context, state),
+                  if (state.movieDetailBottomSheetHeight == size.height * .85 &&
+                      state.movieItem!.plot!.isNotEmpty &&
+                      state.movieItem!.images!.isNotEmpty)
+                    moviePhotosWidget(state)
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

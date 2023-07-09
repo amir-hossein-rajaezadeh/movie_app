@@ -1,4 +1,4 @@
-import 'package:bloc_getit_practice/models/genres_rm.dart';
+import 'package:movie_app/models/genres_rm.dart';
 import 'package:equatable/equatable.dart';
 import '../models/movie_rm.dart';
 
@@ -9,7 +9,6 @@ class AppState extends Equatable {
   final List<GenresRM> genreList;
   final List<MovieRM> searchList;
   final int page;
-  final int counter;
   final bool isLoading;
   final String text;
   final bool noSearchedItemFound;
@@ -29,7 +28,6 @@ class AppState extends Equatable {
       required this.searchList,
       required this.genreList,
       required this.movieList,
-      required this.counter,
       required this.isLoading,
       required this.text,
       required this.movieListByGenre,
@@ -48,7 +46,6 @@ class AppState extends Equatable {
       List<MovieRM>? movieList,
       List<MovieRM>? movieListByGenre,
       List<GenresRM>? genreList,
-      int? counter,
       int? page,
       bool? isLoading,
       bool? noSearchedItemFound,
@@ -71,7 +68,6 @@ class AppState extends Equatable {
         movieList: movieList ?? this.movieList,
         hasError: hasError ?? this.hasError,
         page: page ?? this.page,
-        counter: counter ?? this.counter,
         isLoading: isLoading ?? this.isLoading,
         text: text ?? this.text,
         selectedCountryName: selectedCountryName ?? this.selectedCountryName,
@@ -86,7 +82,6 @@ class AppState extends Equatable {
   @override
   List<Object?> get props => [
         noSearchedItemFound,
-        counter,
         isLoading,
         text,
         hasError,

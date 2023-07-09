@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bloc_getit_practice">
+    package="com.example.movie_app">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="bloc_getit_practice"
+        android:label="movie_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 <activity
