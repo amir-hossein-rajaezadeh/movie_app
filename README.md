@@ -11,7 +11,7 @@ http://moviesapi.ir/
 
 
 
-The Design of the project is a dribbble shot(some additional pages have been designed by myself because those pages like genre list or latest movies or movie photos weren't on that dribble shot).
+The Design of the project is a dribbble shot(some additional pages have been designed by myself because those pages like genre list or latest movies or movie photos weren't on that dribble shot) with a little bit of change that has been done by me.
 
 
 The design link is:
