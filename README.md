@@ -22,12 +22,12 @@ And last but not least, on the movie detail page you see 2 tabs(Actors and write
 
 
 Images:
-![Main page](/home/amirhosein/VisualStudioProjects/movie_app/doc/images/image1.png)
-![Movie detail page](/home/amirhosein/VisualStudioProjects/movie_app/doc/images/image2.png)
-![Movie detail page with movie photos](/home/amirhosein/VisualStudioProjects/movie_app/doc/images/image3.png)
-![Movie list in a genre page](/home/amirhosein/VisualStudioProjects/movie_app/doc/images/image4.png)
-![Genre list page](/home/amirhosein/VisualStudioProjects/movie_app/doc/images/image5.png)
-![Movie search page](/home/amirhosein/VisualStudioProjects/movie_app/doc/images/image6.png)
+![Main page](doc/images/image1.png)
+![Movie detail page](doc/images/image2.png)
+![Movie detail page with movie photos](doc/images/image3.png)
+![Movie list in a genre page](doc/images/image4.png)
+![Genre list page](doc/images/image5.png)
+![Movie search page](doc/images/image6.png)
  
 
 Hope you like it 🤗
