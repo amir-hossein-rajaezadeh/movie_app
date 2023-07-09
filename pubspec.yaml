@@ -1,4 +1,4 @@
-name: bloc_getit_practice
+name: movie_app
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -45,10 +45,16 @@ dependencies:
   image_cropper: ^4.0.1
   bottom_picker: ^2.0.4
   flutter_rating_bar: ^4.0.1
-   
+  retrofit: '>=4.0.0 <5.0.0'
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+  retrofit_generator: '>=5.0.0 <6.0.0'
+  build_runner: '>=2.3.0 <4.0.0' 
+  json_serializable: any
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

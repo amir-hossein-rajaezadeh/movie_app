@@ -1,4 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:movie_app/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class MainPage extends StatelessWidget {
@@ -13,7 +17,9 @@ class MainPage extends StatelessWidget {
           children: [
             Center(
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await context.read<AppCubit>().fetchMovieApi();
+                  await context.read<AppCubit>().getGenreList();
                   context.push('/movieList');
                 },
                 child: const Text(
@@ -22,34 +28,6 @@ class MainPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  context.push('/postList');
-                },
-                child: const Text(
-                  'Go to post list page',
-                  style: TextStyle(fontSize: 22),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  context.push('/counter');
-                },
-                child: const Text(
-                  'Go to counter page',
-                  style: TextStyle(fontSize: 22),
-                ),
-              ),
-            )
           ],
         ),
       ),

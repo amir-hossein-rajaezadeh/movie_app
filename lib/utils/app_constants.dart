@@ -4,8 +4,34 @@ class AppConstants {
   static const postBaseUrl = 'https://jsonplaceholder.typicode.com/';
   static const posts = 'posts/';
   static const movieBaseUrl = 'http://moviesapi.ir/api/v1/';
-  static const movies = 'movies';
+  static const movies = 'movies/';
+  static const genres = 'genres/';
+
   static var countryItem = const Text('');
+  static const liveNow = 'Live now';
+  static const watchNow = 'Watch now';
+  static const seeAll = 'See all';
+  static const latesetMovies = 'Lateset movies';
+  static const topRated = 'Top rated';
+  static const playNow = 'Play now';
+  static const download = 'Download';
+  static const actors = 'Actors';
+  static const writer = 'Writer';
+  static const photoes = 'Photes';
+  static const genresText = 'Genres';
+  static const noMovieFound = 'No movie has been found! :(';
+  static const noDescriptionAvailable = 'No description available!';
+  static const country = 'Country';
+  static const select = 'Select';
+  static const submit = 'Submit';
+  static const date = 'Date';
+  static const movieImage = 'Movie Image';
+  static const movieRate = 'Movie rate';
+  static const welcomeBack = 'Welcome back,';
+  static const search = 'Search';
+  static const chooseMovieDate = 'Choose movie date';
+  static const chooseMovieCountry = 'Choose movie country';
+
   static const countryList = [
     "🇦🇫 Afghanistan",
     "🇦🇽 Åland Islands",
