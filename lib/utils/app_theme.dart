@@ -15,7 +15,6 @@ class AppTheme {
   static const Color primary = Color(0xff176D60);
   static const Color primaryAccent = Color(0xff51A195);
   static const Color lightPrimary = Color.fromARGB(130, 23, 109, 96);
-
   static const Color darkSecondaryColor = Color(0xff9E9E9E);
   static const Color primary50 = Color(0xffe9d9ec);
   static const Color secondary600 = Color(0xff426cd4);
