@@ -17,7 +17,7 @@ The Design of the project is a dribbble shot(some additional pages have been des
 The design link is:
 https://dribbble.com/shots/20285249-Movie-App-Exploration/attachments/15347450?mode=media
 
-And last but not least, on the movie detail page you see 2 tabs(Actors and writers) that has a list of actors and writers, those actor and writer images are not real, and the list of images that placed in utils/image_list.dart file.
+And last but not least, on the movie detail page you see 2 tabs(actors and writers) that has a list of actors and writers, those actor and writer images are not real, and the list of images that placed in utils/image_list.dart file are random images.
 
 ## Images:  
 
